@@ -5,3 +5,19 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+require 'faker'
+
+puts "seeding users..."
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+User.create(name: Faker::Name.first_name)
+puts "Done seeding users!"
+
