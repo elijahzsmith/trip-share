@@ -1,12 +1,12 @@
 require 'faker'
 
 puts "seeding users..."
-    elijah = User.create(name: "Elijah")
-    jacob = User.create(name: "Jacob")
-    mark = User.create(name: "Mark")
-    elizabeth = User.create(name: "Elizabeth")
-    rahaf = User.create(name: "Rahaf")
-    u6 = User.create(name: Faker::Name.first_name)
+    elijah = User.create(name: "Elijah", password: "123")
+    jacob = User.create(name: "Jacob", password: "123")
+    mark = User.create(name: "Mark", password: "123")
+    elizabeth = User.create(name: "Elizabeth", password: "123")
+    rahaf = User.create(name: "Rahaf", password: "123")
+    u6 = User.create(name: Faker::Name.first_name, password: "123")
 puts "Done seeding users!"
 
 puts "seeding follows..."

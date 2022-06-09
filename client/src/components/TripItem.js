@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
-function FavItem() {
+function FavItem({ trip }) {
   const [iconState, setIconState] = useState(null);
   //   const id = fav.id;
 

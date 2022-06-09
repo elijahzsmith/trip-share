@@ -5,7 +5,7 @@ import Row from "react-bootstrap/esm/Row";
 import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
 
-function Login() {
+function Login({ setCurrUser }) {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
@@ -14,7 +14,7 @@ function Login() {
   const history = useHistory();
 
   const user = {
-    username: usernameInput,
+    name: usernameInput,
     password: passwordInput,
   };
 
@@ -32,7 +32,7 @@ function Login() {
     fetch("/login", configObjPOST).then((res) => {
       if (res.ok) {
         res.json().then((user) => {
-          //   setUser(user);
+          setCurrUser(user);
           //   setIsAuthenticated(true);
           setError([]);
           history.push("/");
