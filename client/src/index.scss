@@ -1,0 +1,21 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css");
+
+$primary: #37927a;
+$secondary: #ef9d9e;
+$warning: #7d3636;
+$success: #05bdfa;
+$btn-close-color: white;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "warning": $warning,
+  "success": $success,
+  //   "yellow": #fad02c,
+  //   "green": #81b622,,
+);
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "~bootstrap/scss/bootstrap";

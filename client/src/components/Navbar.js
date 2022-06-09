@@ -42,7 +42,7 @@ function NavBar() {
   //     }
   //   }
   return (
-    <Navbar bg="dark" variant="dark" expand="md" sticky="top">
+    <Navbar bg="primary" variant="dark" expand="md" sticky="top">
       <Container>
         <Navbar.Brand href="/" className="fs-2">
           TripShare

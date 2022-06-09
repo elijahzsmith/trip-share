@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
+  resources :favorites
+  resources :trips
   resources :follows
   resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  get '/authorized_user', to: 'users#show'
+
+  post '/signup', to: 'users#create'
+
+  post '/login', to: 'sessions#login'
+  delete '/logout', to: 'sessions#logout'
 
   # Defines the root path route ("/")
   # root "articles#index"

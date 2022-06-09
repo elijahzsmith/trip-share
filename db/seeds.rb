@@ -1,23 +1,48 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
 require 'faker'
 
 puts "seeding users..."
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
-User.create(name: Faker::Name.first_name)
+    elijah = User.create(name: "Elijah")
+    jacob = User.create(name: "Jacob")
+    mark = User.create(name: "Mark")
+    elizabeth = User.create(name: "Elizabeth")
+    rahaf = User.create(name: "Rahaf")
+    u6 = User.create(name: Faker::Name.first_name)
 puts "Done seeding users!"
+
+puts "seeding follows..."
+    f1 = Follow.create(follower_id: elijah.id, followee_id: jacob.id)
+    f2 = Follow.create(follower_id: elijah.id, followee_id: mark.id)
+    f3 = Follow.create(follower_id: rahaf.id, followee_id: mark.id)
+    f4 = Follow.create(follower_id: elizabeth.id, followee_id: elijah.id)
+    f5 = Follow.create(follower_id: u6.id, followee_id: elijah.id)
+    f6 = Follow.create(follower_id: mark.id, followee_id: elijah.id)
+puts "Done seeding follows!"
+
+puts "seeding trips..."
+    t1 = Trip.create(user_id: elijah.id)
+    t2 = Trip.create(user_id: elijah.id)
+    t3 = Trip.create(user_id: elijah.id)
+    t4 = Trip.create(user_id: jacob.id)
+    t5 = Trip.create(user_id: mark.id)
+    t6 = Trip.create(user_id: mark.id)
+    t7 = Trip.create(user_id: elijah.id)
+    t8 = Trip.create(user_id: rahaf.id)
+    t9 = Trip.create(user_id: elizabeth.id)
+    t10 = Trip.create(user_id: u6.id)
+    t11 = Trip.create(user_id: elizabeth.id)
+puts "Done seeding trips!"
+
+puts "seeding favorites..."
+    Favorite.create(user_id: elijah.id, trip_id: t1.id)
+    Favorite.create(user_id: elijah.id, trip_id: t2.id)
+    Favorite.create(user_id: rahaf.id, trip_id: t2.id)
+    Favorite.create(user_id: jacob.id, trip_id: t1.id)
+    Favorite.create(user_id: mark.id, trip_id: t6.id)
+    Favorite.create(user_id: mark.id, trip_id: t9.id)
+    Favorite.create(user_id: jacob.id, trip_id: t11.id)
+    Favorite.create(user_id: rahaf.id, trip_id: t1.id)
+    Favorite.create(user_id: elizabeth.id, trip_id: t1.id)
+    Favorite.create(user_id: u6.id, trip_id: t10.id)
+    Favorite.create(user_id: elizabeth.id, trip_id: t2.id)
+puts "Done seeding favorites!"
 

@@ -11,11 +11,6 @@ function About() {
           <strong>The</strong> Travel Network
         </h4>
         <hr></hr>
-        <p>TripShare is an online donation based raffle platform. </p>
-        <p>
-          Users can post about a trip, sharing them with their network of
-          friends.
-        </p>
       </Container>
     </Container>
   );

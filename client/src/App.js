@@ -8,10 +8,14 @@ import { useSelector, useDispatch } from "react-redux";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
+import Favorites from "./pages/Favorites";
 import EditProfileForm from "./pages/EditProfileForm";
 import About from "./pages/About";
+import "./index.scss";
 import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
+import MyTrips from "./pages/MyTrips";
+import Following from "./pages/Following";
 import PostTripForm from "./pages/PostTripForm";
 import TripDetails from "./pages/TripDetails";
 
@@ -54,6 +58,15 @@ function App() {
         </Route>
         <Route exact path="/posttrip">
           <PostTripForm />
+        </Route>
+        <Route exact path="/following">
+          <Following />
+        </Route>
+        <Route exact path="/mytrips">
+          <MyTrips />
+        </Route>
+        <Route exact path="/favorites">
+          <Favorites />
         </Route>
         <Route exact path="/details/:id">
           <TripDetails />
