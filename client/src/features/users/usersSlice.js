@@ -3,8 +3,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const setUser = createAsyncThunk("users/handleLogin", () => {
   return fetch("/authorized_user").then((res) => {
     if (res.ok) {
-      console.log("hi");
-      res.json().then((user) => user);
+      res.json().then((user) => {
+        console.log("In setUser: ", user);
+        return user;
+      });
     } else {
       res.json().then((err) => console.log(err));
     }
