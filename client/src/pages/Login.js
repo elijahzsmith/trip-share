@@ -1,46 +1,30 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
+import { handleLogin } from "../features/users/usersSlice";
 
-function Login({ setCurrUser }) {
+function Login() {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
   const [error, setError] = useState([]);
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const user = {
     name: usernameInput,
     password: passwordInput,
   };
 
-  const configObjPOST = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(user),
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("/login", configObjPOST).then((res) => {
-      if (res.ok) {
-        res.json().then((user) => {
-          setCurrUser(user);
-          //   setIsAuthenticated(true);
-          setError([]);
-          history.push("/");
-        });
-      } else {
-        res.json().then((json) => setError(json.error));
-      }
-    });
+    dispatch(handleLogin(user));
+    history.push("/");
   };
 
   return (

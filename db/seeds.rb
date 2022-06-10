@@ -45,4 +45,3 @@ puts "seeding favorites..."
     Favorite.create(user_id: u6.id, trip_id: t10.id)
     Favorite.create(user_id: elizabeth.id, trip_id: t2.id)
 puts "Done seeding favorites!"
-

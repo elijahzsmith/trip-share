@@ -2,18 +2,22 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/esm/Container";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 function Profile() {
   const history = useHistory();
 
-  //   const { name, age, username } = user;
+  const currUser = useSelector((state) => state.users.entities);
+  console.log(currUser);
+
+  const { name } = currUser;
 
   return (
     <Container fluid>
       <Container className="mx-auto mt-5">
         <h1>Account Details</h1>
         <hr></hr>
-        <h2>Name: "name"</h2>
+        <h2>Name: {name}</h2>
         <h3>Username: "username"</h3>
         <h6>Age: "age"</h6>
         <Button className="me-2" onClick={() => history.push("/editprofile")}>

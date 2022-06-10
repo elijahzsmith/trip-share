@@ -27,28 +27,11 @@ function App() {
     name: "",
     password: "",
   });
-  const users = useSelector((state) => state.users);
+  // const users = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
 
   const history = useHistory();
-
-  // useEffect(() => {
-  //   fetch("/authorized_user").then((res) => {
-  //     if (res.ok) {
-  //       res
-  //         .json()
-  //         .then((user) => {
-  //           setCurrUser(user);
-  //         })
-  //         .then(() => history.push("/"));
-  //     } else {
-  //       res.json().then((json) => setError(json.error));
-  //     }
-  //   });
-  // }, []);
-
-  console.log("users: ", users);
 
   return (
     <div className="App">
