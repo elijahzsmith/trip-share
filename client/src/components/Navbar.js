@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -7,13 +8,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { handleLogout } from "../features/users/usersSlice";
 
 function NavBar() {
+  const history = useHistory();
   const currUser = useSelector((state) => state.users.entities);
   const dispatch = useDispatch();
 
   const dispatchLogout = () => {
     dispatch(handleLogout());
+    history.push("/login");
   };
-  console.log(currUser);
+  console.log("current user (Navbar auth): ", currUser);
 
   return (
     <div>

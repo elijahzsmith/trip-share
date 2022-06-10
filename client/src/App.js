@@ -1,10 +1,8 @@
 import React from "react";
-// import UserInput from "./features/users/UserInput.js";
-// import Users from "./features/users/Users.js";
-import { useState, useEffect } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
-// import { fetchUsers } from "./features/users/usersSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { Switch, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "./features/users/usersSlice";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
@@ -20,18 +18,15 @@ import PostTripForm from "./pages/PostTripForm";
 import TripDetails from "./pages/TripDetails";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [currUser, setCurrUser] = useState(null);
-  const [error, setError] = useState([]);
-  const [loginInput, setLoginInput] = useState({
-    name: "",
-    password: "",
-  });
-  // const users = useSelector((state) => state.users);
-
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.users.entities);
 
-  const history = useHistory();
+  useEffect(() => {
+    dispatch(setUser());
+    console.log("hello");
+  }, []);
+
+  console.log(user);
 
   return (
     <div className="App">
@@ -41,7 +36,7 @@ function App() {
           <Home />
         </Route>
         <Route exact path="/login">
-          <Login setCurrUser={setCurrUser} />
+          <Login />
         </Route>
         <Route exact path="/signup">
           <Signup />
@@ -76,3 +71,20 @@ function App() {
 }
 
 export default App;
+
+{
+  /* <Navbar />
+<Routes>
+  <Route exact path="/" element={<Home />} />
+  <Route exact path="/login" element={<Login />} />
+  <Route exact path="/signup" element={<Signup />} />
+  <Route exact path="/profile" element={<Profile />} />
+  <Route exact path="/editprofile" element={<EditProfileForm />} />
+  <Route exact path="/posttrip" element={<PostTripForm />} />
+  <Route exact path="/following" element={<Following />} />
+  <Route exact path="/mytrips" element={<MyTrips />} />
+  <Route exact path="/favorites" element={<Favorites />} />
+  <Route exact path="/details/:id" element={<TripDetails />} />
+  <Route exact path="/about" element={<About />} />
+</Routes> */
+}

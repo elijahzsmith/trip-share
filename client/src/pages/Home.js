@@ -5,10 +5,9 @@ import { fetchTrips } from "../features/trips/tripsSlice";
 
 function Home() {
   const trips = useSelector((state) => {
-    console.log(state);
     return state.trips.entities;
   });
-  console.log("trips from useSelector: ", trips);
+  console.log("trips from useSelector (Home): ", trips);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,7 +15,6 @@ function Home() {
   }, []);
 
   const renderTrips = trips.map((trip) => {
-    console.log("trip in map (Home): ", trip);
     return <TripItem key={trip.id} trip={trip} />;
   });
 

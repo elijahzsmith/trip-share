@@ -53,7 +53,7 @@ function FavItem({ trip }) {
                   //   onClick={() => handleRemoveFavorite(id)}
                 >
                   {" "}
-                  Exit Raffle{" "}
+                  favorite{" "}
                 </Button>
               </Col>
             </Row>
