@@ -8,9 +8,6 @@ import { handleAuth } from "../features/users/usersSlice";
 function Profile() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(handleAuth());
-  }, []);
   const history = useHistory();
 
   const currUser = useSelector((state) => state.users.entities);
@@ -35,6 +32,9 @@ function Profile() {
         </Button>
         <Button className="me-2" onClick={() => history.push("/following")}>
           Following
+        </Button>
+        <Button className="me-2" onClick={() => history.push("/followers")}>
+          Followers
         </Button>
       </Container>
     </Container>

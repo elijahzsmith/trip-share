@@ -6,6 +6,10 @@ export const fetchTrips = createAsyncThunk("trips/fetchTrips", () => {
     .then((trips) => trips);
 });
 
+export const deleteTrip = createAsyncThunk("trips/deleteTrip", (id) => {
+  return fetch(`/trips/${id}`, { method: "DELETE" });
+});
+
 const tripsSlice = createSlice({
   name: "trips",
   initialState: {

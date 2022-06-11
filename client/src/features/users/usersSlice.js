@@ -1,14 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const setUser = createAsyncThunk("users/handleLogin", () => {
+export const setUser = createAsyncThunk("users/setUser", () => {
   return fetch("/authorized_user").then((res) => {
     if (res.ok) {
-      res.json().then((user) => {
-        console.log("In setUser: ", user);
-        return user;
-      });
-    } else {
-      res.json().then((err) => console.log(err));
+      return res.json().then((user) => user);
     }
   });
 });
@@ -24,12 +19,36 @@ export const createSignup = createAsyncThunk("users/createSignup", (user) => {
   }).then((res) => {
     if (res.ok) {
       console.log("signup response: ", res);
-      res.json().then((user) => user);
+      return res.json().then((user) => user);
     } else {
-      res.json().then((err) => console.log(err));
+      return res.json().then((err) => console.log(err));
     }
   });
 });
+
+export const handleUpdate = createAsyncThunk(
+  "users/handleUpdate",
+  (formData) => {
+    return fetch(`/users/${formData.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+    }).then((res) => {
+      if (res.ok) {
+        console.log("update response: ", res);
+        return res.json().then((user) => {
+          console.log(user);
+          return user;
+        });
+      } else {
+        return res.json().then((err) => console.log(err));
+      }
+    });
+  }
+);
 
 export const fetchLogin = createAsyncThunk("users/fetchLogin", (user) => {
   return fetch("/login", {
@@ -39,25 +58,15 @@ export const fetchLogin = createAsyncThunk("users/fetchLogin", (user) => {
       Accept: "application/json",
     },
     body: JSON.stringify(user),
-  }).then((res) => {
-    if (res.ok) {
-      res.json().then((user) => {
-        console.log("user from login response: ", user);
-        return user;
-      });
-    } else {
-      res.json().then((err) => console.log(err));
-    }
-  });
+  }) // add if res.ok
+    .then((res) => res.json())
+    .then((user) => user);
 });
 
-export const createLogout = createAsyncThunk("users/handleLogout", (user) => {
-  return fetch("/logout", { method: "DELETE" }).then((r) => {
-    if (r.ok) {
-      console.log("logout response: ", r);
-      return r;
-    } else {
-      r.json().then((err) => console.log(err));
+export const createLogout = createAsyncThunk("users/handleLogout", () => {
+  return fetch("/logout", { method: "DELETE" }).then((res) => {
+    if (res.ok) {
+      return res.headers;
     }
   });
 });
@@ -65,17 +74,16 @@ export const createLogout = createAsyncThunk("users/handleLogout", (user) => {
 const usersSlice = createSlice({
   name: "users",
   initialState: {
-    entities: {},
+    entities: [],
     status: "idle",
+    authorized: false,
   },
   reducers: {
     handleSignup(state, action) {
       state.entities = action.payload;
     },
     handleLogin(state, action) {
-      console.log(action.payload);
-      state.entities ||= action.payload;
-      console.log(state.entities);
+      state.entities.push(action.payload);
     },
     handleAuth(state, action) {
       state.entities = action.payload;
@@ -91,6 +99,7 @@ const usersSlice = createSlice({
     [fetchLogin.fulfilled](state, action) {
       state.entities = action.payload;
       state.status = "idle";
+      state.authorized = true;
     },
     [createSignup.pending](state) {
       state.status = "loading";
@@ -98,11 +107,21 @@ const usersSlice = createSlice({
     [createSignup.fulfilled](state, action) {
       state.entities = action.payload;
       state.status = "idle";
+      state.authorized = true;
     },
     [createLogout.pending](state) {
       state.status = "loading";
     },
     [createLogout.fulfilled](state, action) {
+      state.entities = action.payload;
+      state.status = "idle";
+      state.authorized = false;
+    },
+    [handleUpdate.pending](state) {
+      state.status = "loading";
+    },
+    [handleUpdate.fulfilled](state, action) {
+      console.log(action.payload);
       state.entities = action.payload;
       state.status = "idle";
     },
@@ -112,6 +131,11 @@ const usersSlice = createSlice({
     [setUser.fulfilled](state, action) {
       state.entities = action.payload;
       state.status = "idle";
+      if (action.payload) {
+        state.authorized = true;
+      } else {
+        state.authorized = false;
+      }
     },
   },
 });

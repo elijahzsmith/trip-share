@@ -3,13 +3,20 @@ import { useHistory } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import { useDispatch } from "react-redux";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { deleteTrip } from "../features/trips/tripsSlice";
 
-function MyTripCard() {
-  //   const { id, image_url, what_it_is } = listing;
+function MyTripCard({ trip }) {
+  const { id } = trip;
+  const dispatch = useDispatch();
 
   const history = useHistory();
+
+  const handleDelete = (id) => {
+    dispatch(deleteTrip(id));
+  };
 
   return (
     <Col>
@@ -31,14 +38,11 @@ function MyTripCard() {
                   //   onClick={() => handleYourCardClick(id, listing)}
                 >
                   {" "}
-                  Edit Listing{" "}
+                  Edit Post{" "}
                 </Button>
               </Col>
               <Col className="d-flex justify-content-center">
-                <Button
-                  variant="warning"
-                  // onClick={() => handleDelete(id)}
-                >
+                <Button variant="warning" onClick={() => handleDelete(id)}>
                   {" "}
                   Delete Trip Post{" "}
                 </Button>

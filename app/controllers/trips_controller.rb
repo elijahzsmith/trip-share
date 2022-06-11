@@ -1,5 +1,5 @@
 class TripsController < ApplicationController
-    # before_action :authorize_user, only: [:create, :update, :destroy]
+    before_action :authorize_user, only: [:create, :update, :destroy]
 
     def index
         render json: Trip.all, status: :ok

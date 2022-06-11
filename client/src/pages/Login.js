@@ -5,7 +5,7 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
-import { handleLogin } from "../features/users/usersSlice";
+import { fetchLogin } from "../features/users/usersSlice";
 
 function Login() {
   const [usernameInput, setUsernameInput] = useState("");
@@ -23,7 +23,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(handleLogin(user));
+    dispatch(fetchLogin(user));
     history.push("/");
   };
 
@@ -45,6 +45,7 @@ function Login() {
                 placeholder="Username"
                 onChange={(e) => setUsernameInput(e.target.value)}
                 value={usernameInput}
+                name="name"
               />
             </Form.Group>
 
@@ -55,6 +56,7 @@ function Login() {
                 placeholder="Password"
                 onChange={(e) => setPasswordInput(e.target.value)}
                 value={passwordInput}
+                name="password"
               />
             </Form.Group>
             <Row className="d-flex justify-content-center mb-2">

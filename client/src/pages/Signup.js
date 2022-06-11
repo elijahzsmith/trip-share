@@ -1,44 +1,28 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
+import { createSignup } from "../features/users/usersSlice";
 
 function Signup() {
   const [error, setError] = useState([]);
   const [signUpData, setSignUpData] = useState({
     name: "",
-    age: "",
-    username: "",
-    email: "",
     password: "",
   });
 
   const history = useHistory();
-
-  const configObjPOST = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(signUpData),
-  };
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("/signup", configObjPOST).then((res) => {
-      if (res.ok) {
-        res.json().then((user) => {
-          //   setUser(user);
-          //   setIsAuthenticated(true);
-          setError([]);
-          history.push("/");
-        });
-      } else {
-        res.json().then((json) => setError(json.error));
-      }
+    dispatch(createSignup(signUpData));
+    setSignUpData({
+      name: "",
+      password: "",
     });
   };
 
@@ -69,39 +53,6 @@ function Signup() {
                 onChange={handleChange}
                 // value={usernameInput}
                 name="name"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Age</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Age..."
-                onChange={handleChange}
-                value={signUpData.age}
-                name="age"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Username..."
-                onChange={handleChange}
-                value={signUpData.username}
-                name="username"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Email"
-                onChange={handleChange}
-                value={signUpData.email}
-                name="email"
               />
             </Form.Group>
 

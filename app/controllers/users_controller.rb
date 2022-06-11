@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
      # Authorization
-    # before_action :authorize_user, except: [:create]
+    before_action :authorize_user, except: [:create, :index]
 
     def index
         render json: User.all, status: :ok

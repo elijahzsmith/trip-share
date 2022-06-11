@@ -1,22 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import { useSelector, useDispatch } from "react-redux";
-import { handleLogout } from "../features/users/usersSlice";
+import { createLogout } from "../features/users/usersSlice";
 
 function NavBar() {
   const history = useHistory();
-  const currUser = useSelector((state) => state.users.entities);
+  const currUser = useSelector((state) => state.users.authorized);
   const dispatch = useDispatch();
 
   const dispatchLogout = () => {
-    dispatch(handleLogout());
-    history.push("/login");
+    dispatch(createLogout());
+    // history.push("/login");
   };
-  console.log("current user (Navbar auth): ", currUser);
+  // console.log("current user (Navbar auth): ", currUser);
 
   return (
     <div>
@@ -32,7 +32,9 @@ function NavBar() {
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/profile">My Profile</Nav.Link>
                 <Nav.Link href="/mytrips">My Trips</Nav.Link>
+                <Nav.Link href="/posttrip">Post a Trip</Nav.Link>
                 <Nav.Link href="/favorites">My Favorites</Nav.Link>
+                <Nav.Link href="/login">Login/Signup</Nav.Link>
                 <NavDropdown title="More" id="basic-nav-dropdown">
                   <NavDropdown.Item href="/profile">
                     Account Details

@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
+import { handleUpdate } from "../features/users/usersSlice";
 
 function EditProfileForm() {
-  const [formData, setFormData] = useState({
-    // name: user.name,
-    // username: user.username,
-    // age: user.age,
-  });
-
+  const user = useSelector((state) => state.users.entities);
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  //   const { name, username, age } = user;
+  const [formData, setFormData] = useState({
+    id: user.id,
+    name: user.name,
+  });
 
   const handleChange = (e) => {
     const key = e.target.name;
@@ -24,23 +25,10 @@ function EditProfileForm() {
     });
   };
 
-  const configObjPATCH = {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(formData),
-  };
-
   const handleEditProfile = (e) => {
     e.preventDefault();
-    // fetch(`/users/${user.id}`, configObjPATCH)
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     // setUser(data)
-    //     history.push('/profile')
-    //   })
+    dispatch(handleUpdate(formData));
+    history.push("/profile");
   };
 
   return (
@@ -60,28 +48,6 @@ function EditProfileForm() {
                 onChange={handleChange}
                 value={formData.name}
                 name="name"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Username</Form.Label>
-              <Form.Control
-                type="text"
-                // placeholder={username}
-                onChange={handleChange}
-                value={formData.username}
-                name="username"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Age</Form.Label>
-              <Form.Control
-                type="number"
-                // placeholder={age}
-                onChange={handleChange}
-                value={formData.age}
-                name="age"
               />
             </Form.Group>
 

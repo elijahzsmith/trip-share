@@ -5,68 +5,26 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
+import { useSelector } from "react-redux";
 
 function PostListingForm() {
   const [errors, setErrors] = useState([]);
+  const user = useSelector((state) => state.users.entities);
 
   const history = useHistory();
 
   const [formData, setFormData] = useState({
-    location: "",
-    image_url: "",
-    what_it_is: "",
-    category: "",
-    description: "",
-    month: "",
-    day: "",
-    year: "",
-    time: "",
-    // user_id: user.id,
+    // location: "",
+    // image_url: "",
+    // description: "",
+    user_id: user.id,
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const configObjPOST = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      location: formData.location,
-      image_url: formData.image_url,
-      what_it_is: formData.what_it_is,
-      category: formData.category,
-      description: formData.description,
-      end_time: `${formData.year}-${formData.month}-${formData.day}T${formData.time}:00`,
-      //   user_id: user.id,
-    }),
-  };
-
   const handleAddListing = (e) => {
     e.preventDefault();
-    fetch("/listings", configObjPOST).then((res) => {
-      if (res.ok) {
-        res.json().then((newListing) => {
-          setFormData({
-            location: "",
-            image_url: "",
-            what_it_is: "",
-            category: "",
-            description: "",
-            end_time: "",
-            // user_id: user.id,
-          });
-          //   handleCreateTimer(newListing.id);
-          alert("Post Successful");
-          history.push("/yourdonations");
-        });
-      } else {
-        res.json().then((err) => setErrors(err.errors));
-      }
-    });
   };
 
   return (
@@ -96,28 +54,6 @@ function PostListingForm() {
                 name="image_url"
                 placeholder="Image Url..."
                 value={formData.image_url}
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>What it is</Form.Label>
-              <Form.Control
-                type="text"
-                name="what_it_is"
-                placeholder="What it is..."
-                value={formData.what_it_is}
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="text"
-                name="category"
-                placeholder="Category..."
-                value={formData.category}
                 onChange={(e) => handleChange(e)}
               />
             </Form.Group>
@@ -173,19 +109,6 @@ function PostListingForm() {
                     onChange={(e) => handleChange(e)}
                   >
                     {/* {renderYears()} */}
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-
-              <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label>Time</Form.Label>
-                  <Form.Select
-                    name="time"
-                    value={formData.time}
-                    onChange={(e) => handleChange(e)}
-                  >
-                    {/* {renderTimes()} */}
                   </Form.Select>
                 </Form.Group>
               </Col>

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/esm/Container";
 import MyTripCard from "../components/MyTripCard";
 
 function MyTrips() {
-  const [trips, setTrips] = useState([]);
+  // const [trips, setTrips] = useState([]);
 
-  //   let trips;
+  const trips = useSelector((state) => state.users.entities.trips);
 
+  if (!trips) {
+    return <h1>"loading..."</h1>;
+  }
   const renderMyTrips = trips.map((trip) => {
-    return <MyTripCard key={trip.id} />;
+    return <MyTripCard key={trip.id} trip={trip} />;
   });
 
   return (

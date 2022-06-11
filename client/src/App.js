@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "./features/users/usersSlice";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -16,17 +16,15 @@ import MyTrips from "./pages/MyTrips";
 import Following from "./pages/Following";
 import PostTripForm from "./pages/PostTripForm";
 import TripDetails from "./pages/TripDetails";
+import Followers from "./pages/Followers";
+import OtherUserProfile from "./pages/OtherUserProfile";
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.users.entities);
 
   useEffect(() => {
     dispatch(setUser());
-    console.log("hello");
   }, []);
-
-  console.log(user);
 
   return (
     <div className="App">
@@ -53,6 +51,9 @@ function App() {
         <Route exact path="/following">
           <Following />
         </Route>
+        <Route exact path="/followers">
+          <Followers />
+        </Route>
         <Route exact path="/mytrips">
           <MyTrips />
         </Route>
@@ -61,6 +62,9 @@ function App() {
         </Route>
         <Route exact path="/details/:id">
           <TripDetails />
+        </Route>
+        <Route exact path="/profile/:id">
+          <OtherUserProfile />
         </Route>
         <Route exact path="/about">
           <About />
@@ -71,20 +75,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <Navbar />
-<Routes>
-  <Route exact path="/" element={<Home />} />
-  <Route exact path="/login" element={<Login />} />
-  <Route exact path="/signup" element={<Signup />} />
-  <Route exact path="/profile" element={<Profile />} />
-  <Route exact path="/editprofile" element={<EditProfileForm />} />
-  <Route exact path="/posttrip" element={<PostTripForm />} />
-  <Route exact path="/following" element={<Following />} />
-  <Route exact path="/mytrips" element={<MyTrips />} />
-  <Route exact path="/favorites" element={<Favorites />} />
-  <Route exact path="/details/:id" element={<TripDetails />} />
-  <Route exact path="/about" element={<About />} />
-</Routes> */
-}

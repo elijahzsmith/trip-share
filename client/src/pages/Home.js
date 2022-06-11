@@ -7,8 +7,10 @@ function Home() {
   const trips = useSelector((state) => {
     return state.trips.entities;
   });
-  console.log("trips from useSelector (Home): ", trips);
+  // console.log("trips from useSelector (Home): ", trips);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.users.entities);
+  // console.log(user);
 
   useEffect(() => {
     dispatch(fetchTrips());
