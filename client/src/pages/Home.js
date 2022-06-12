@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TripItem from "../components/TripItem";
 import { fetchTrips } from "../features/trips/tripsSlice";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/esm/Col";
 
 function Home() {
   const trips = useSelector((state) => {
@@ -21,10 +24,16 @@ function Home() {
   });
 
   return (
-    <div>
-      Home
-      {renderTrips}
-    </div>
+    <Container fluid>
+      <Row className="d-flex justify-content-end my-2">
+        <Col className="mx-auto h-100 my-2">
+          <div>
+            Home
+            {renderTrips}
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

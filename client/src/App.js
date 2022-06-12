@@ -20,6 +20,7 @@ import TripDetails from "./pages/TripDetails";
 import Followers from "./pages/Followers";
 import OtherFollowers from "./pages/OtherFollowers";
 import OtherUserProfile from "./pages/OtherUserProfile";
+import EditTripPostForm from "./pages/EditTripPostForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,6 +47,9 @@ function App() {
         </Route>
         <Route exact path="/editprofile">
           <EditProfileForm />
+        </Route>
+        <Route exact path="/edittrip/:id">
+          <EditTripPostForm />
         </Route>
         <Route exact path="/posttrip">
           <PostTripForm />

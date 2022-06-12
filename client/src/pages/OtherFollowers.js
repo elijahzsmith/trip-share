@@ -6,7 +6,7 @@ import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
 
 function OtherFollowers() {
   const history = useHistory();
-  const followers = useSelector((state) => state.otherUsers.entities.followees);
+  const followers = useSelector((state) => state.otherUsers.entities.followers);
   const user = useSelector((state) => state.otherUsers.entities);
 
   // expirement

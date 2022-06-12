@@ -6,7 +6,7 @@ import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
 
 function OtherFollowing() {
   const history = useHistory();
-  const followers = useSelector((state) => state.otherUsers.entities.followees);
+  const followees = useSelector((state) => state.otherUsers.entities.followees);
   const user = useSelector((state) => state.otherUsers.entities);
 
   // expirement
@@ -20,13 +20,13 @@ function OtherFollowing() {
 
   return (
     <div>
-      {user.name}'s Following: {followers.length}
-      {followers.map((follower) => (
+      {user.name}'s Following: {followees.length}
+      {followees.map((followee) => (
         <li
-          key={follower.id}
-          onClick={() => history.push(`/profile/${follower.id}`, follower)}
+          key={followee.id}
+          onClick={() => history.push(`/profile/${followee.id}`, followee)}
         >
-          {follower.name}
+          {followee.name}
         </li>
       ))}
     </div>

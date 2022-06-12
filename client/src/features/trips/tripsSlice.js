@@ -9,6 +9,22 @@ export const fetchTrips = createAsyncThunk("trips/fetchTrips", () => {
     });
 });
 
+export const editTrip = createAsyncThunk("trips/editTrip", (formData, id) => {
+  return fetch(`/trips/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((res) => res.json())
+    .then((trips) => {
+      console.log("edit trip response: ", trips);
+      return trips;
+    });
+});
+
 export const deleteTrip = createAsyncThunk("trips/deleteTrip", (id) => {
   return fetch(`/trips/${id}`, { method: "DELETE" });
 });
@@ -23,6 +39,9 @@ const tripsSlice = createSlice({
     tripAdded(state, action) {
       state.entities.push(action.payload);
     },
+    tripEdited(state, action) {
+      state.entities.push(action.payload);
+    },
   },
   extraReducers: {
     [fetchTrips.pending](state) {
@@ -30,6 +49,15 @@ const tripsSlice = createSlice({
     },
     [fetchTrips.fulfilled](state, action) {
       state.entities = action.payload;
+      state.status = "idle";
+    },
+    [editTrip.pending](state) {
+      state.status = "loading";
+    },
+    [editTrip.fulfilled](state, action) {
+      state.entities = action.payload;
+      console.log("edit trip fulfilled: ", action.payload);
+
       state.status = "idle";
     },
   },

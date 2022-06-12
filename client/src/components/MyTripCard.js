@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 import { deleteTrip } from "../features/trips/tripsSlice";
 
 function MyTripCard({ trip }) {
-  const { id } = trip;
+  const { id, photo_url, location } = trip;
   const dispatch = useDispatch();
 
   const history = useHistory();
@@ -22,20 +22,21 @@ function MyTripCard({ trip }) {
     <Col>
       <Card className="h-100">
         <Card.Img
-          //   src={image_url}
+          src={photo_url}
           alt="listing"
           role="button"
           className="h-75"
-          //   onClick={() => history.push(`/details/${id}`, listing)}
+          onClick={() => history.push(`/details/${id}`, trip)}
         />
         <Card.Body>
-          <Card.Title className="text-center">{/* {what_it_is} */}</Card.Title>
+          <Card.Title className="text-center">{location}</Card.Title>
           <Container className="ms-2">
             <Row>
               <Col className="d-flex justify-content-center">
                 <Button
                   variant="primary"
                   //   onClick={() => handleYourCardClick(id, listing)}
+                  onClick={() => history.push(`/edittrip/${id}`, trip)}
                 >
                   {" "}
                   Edit Post{" "}
@@ -44,7 +45,7 @@ function MyTripCard({ trip }) {
               <Col className="d-flex justify-content-center">
                 <Button variant="warning" onClick={() => handleDelete(id)}>
                   {" "}
-                  Delete Trip Post{" "}
+                  Delete Post{" "}
                 </Button>
               </Col>
             </Row>

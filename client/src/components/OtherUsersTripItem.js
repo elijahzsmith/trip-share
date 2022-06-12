@@ -4,13 +4,25 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
 import Button from "react-bootstrap/Button";
 
 function FavItem({ trip }) {
   const [iconState, setIconState] = useState(null);
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const { location, photo_url, description, user } = trip;
+  const { location, photo_url, description, user_id } = trip;
+
+  useEffect(() => {
+    dispatch(fetchOneOtherUser(user_id));
+  }, []);
+  const thisUserAuth = useSelector((state) => state.otherUsers.authenticated);
+  if (!thisUserAuth) {
+    <h1>Loading....</h1>;
+  }
+  const thisUser = useSelector((state) => state.otherUsers.entities);
 
   function renderIcon() {
     switch (iconState) {
@@ -37,7 +49,7 @@ function FavItem({ trip }) {
     <Col>
       <Card className="h-100">
         <Card.Img
-          //   src={photo_url}
+          src={photo_url}
           alt="listing"
           //   onClick={() => handleCardClick(id, fav.listing)}
           role="button"
@@ -45,9 +57,9 @@ function FavItem({ trip }) {
         />
         {/* {renderIcon()} */}
         <Card.Body>
-          {/* <Card.Title className="text-center">{location}</Card.Title> */}
-          <p onClick={() => history.push(`/profile/${user.id}`, user)}>
-            {/* {user.username} */}
+          <Card.Title className="text-center">{location}</Card.Title>
+          <p onClick={() => history.push(`/profile/${thisUser.id}`, thisUser)}>
+            {thisUser.username}
           </p>
           <Container className="ms-2">
             <Row>

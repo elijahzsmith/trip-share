@@ -21,7 +21,7 @@ function FavItem({ trip }) {
         return (
           <Card.ImgOverlay
             className="d-flex flex-column align-items-end h-75"
-            // onClick={() => handleCardClick(id, fav.listing)}
+            onClick={() => history.push(`/details/${trip.id}`, trip)}
             role="button"
           >
             <div className="mt-0 bg-white rounded p-1">

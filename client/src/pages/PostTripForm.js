@@ -31,7 +31,7 @@ function PostListingForm() {
     <Container fluid>
       <Container className="mx-auto mt-5">
         <Row className="text-center">
-          <h1>Post A Donation</h1>
+          <h1>Post A Trip</h1>
         </Row>
 
         <Row className="mb-5">
@@ -157,7 +157,7 @@ function PostListingForm() {
 
             <Row className="d-flex justify-content-center mb-2">
               <Button variant="primary" type="submit" className="w-25">
-                Post Listing
+                Post Trip
               </Button>
             </Row>
           </Form>
