@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   resources :follows
   resources :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  get '/authorized_user', to: 'users#show'
-
+  get '/authorized_user', to: 'users#authenticate'
+ 
   post '/signup', to: 'users#create'
 
   post '/login', to: 'sessions#login'

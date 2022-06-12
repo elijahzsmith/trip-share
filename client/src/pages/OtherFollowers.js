@@ -4,9 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 // expirement
 import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
 
-function Following() {
+function OtherFollowers() {
   const history = useHistory();
-  const followers = useSelector((state) => state.users.entities.followees);
+  const followers = useSelector((state) => state.otherUsers.entities.followees);
+  const user = useSelector((state) => state.otherUsers.entities);
 
   // expirement
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function Following() {
 
   return (
     <div>
-      Followers
+      {user.name} has: {followers.length} followers
       {followers.map((follower) => (
         <li
           key={follower.id}
@@ -31,4 +32,4 @@ function Following() {
     </div>
   );
 }
-export default Following;
+export default OtherFollowers;

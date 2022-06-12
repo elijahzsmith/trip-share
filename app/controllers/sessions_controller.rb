@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
     before_action :authorize_user, except: [:login, :logout]
 
     def login
-        user = User.find_by(name: params[:name])
+        user = User.find_by(username: params[:username])
 
         if user&.authenticate(params[:password])
             session[:current_user] = user.id

@@ -3,7 +3,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const fetchTrips = createAsyncThunk("trips/fetchTrips", () => {
   return fetch("/trips")
     .then((res) => res.json())
-    .then((trips) => trips);
+    .then((trips) => {
+      console.log(trips);
+      return trips;
+    });
 });
 
 export const deleteTrip = createAsyncThunk("trips/deleteTrip", (id) => {

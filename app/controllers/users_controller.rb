@@ -6,8 +6,13 @@ class UsersController < ApplicationController
         render json: User.all, status: :ok
     end
 
-    def show
+    def authenticate
         current_user = User.find_by!(id: session[:current_user]) 
+        render json: current_user, status: :ok
+    end
+
+    def show
+        current_user = User.find_by!(id: params[:id]) 
         render json: current_user, status: :ok
     end
 
@@ -36,6 +41,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-        params.permit(:id, :name, :password)
+        params.permit(:id, :name, :username, :email, :password, :age, :profile_picture)
     end
 end

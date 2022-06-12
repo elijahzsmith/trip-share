@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import FavItem from "../components/FavItem";
+import FavItem from "../components/FavItem";
+import { useSelector } from "react-redux";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/Col";
@@ -10,6 +11,16 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/esm/Button";
 
 function Favorites() {
+  // const user = useSelector((state) => state.users.entities);
+  // if (!user) {
+  //   <h1>Loading...</h1>;
+  // }
+  const favorites = useSelector((state) => state.users.entities.favorites);
+  console.log(favorites);
+
+  const renderFavorites = favorites.map((fav) => (
+    <FavItem key={fav.id} fav={fav} />
+  ));
   return (
     <Container fluid>
       <Row className="text-center mt-5">
@@ -47,7 +58,7 @@ function Favorites() {
         </Col>
       </Row>
       <Row xs={1} sm={2} md={3} lg={4}>
-        {/* {renderFavs} */}
+        {renderFavorites}
       </Row>
     </Container>
   );

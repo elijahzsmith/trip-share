@@ -6,12 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleAuth } from "../features/users/usersSlice";
 
 function Profile() {
-  const dispatch = useDispatch();
-
+  // const dispatch = useDispatch();
   const history = useHistory();
-
   const currUser = useSelector((state) => state.users.entities);
-  console.log(currUser);
+  const authorized = useSelector((state) => state.users.authorized);
+
+  if (!authorized) {
+    return <h1>Loading....</h1>;
+  }
 
   return (
     <Container fluid>
@@ -19,8 +21,8 @@ function Profile() {
         <h1>Account Details</h1>
         <hr></hr>
         <h2>Name: {currUser.name}</h2>
-        <h3>Username: "username"</h3>
-        <h6>Age: "age"</h6>
+        <h3>Username: {currUser.username}</h3>
+        <h6>Age: {currUser.age}</h6>
         <Button className="me-2" onClick={() => history.push("/editprofile")}>
           Edit Profile
         </Button>
@@ -31,10 +33,10 @@ function Profile() {
           Your Favorites
         </Button>
         <Button className="me-2" onClick={() => history.push("/following")}>
-          Following
+          Following: {currUser.followees.length}
         </Button>
         <Button className="me-2" onClick={() => history.push("/followers")}>
-          Followers
+          Followers: {currUser.followers.length}
         </Button>
       </Container>
     </Container>

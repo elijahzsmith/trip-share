@@ -14,9 +14,9 @@ function PostListingForm() {
   const history = useHistory();
 
   const [formData, setFormData] = useState({
-    // location: "",
-    // image_url: "",
-    // description: "",
+    location: "",
+    photo_url: "",
+    description: "",
     user_id: user.id,
   });
 
@@ -53,7 +53,7 @@ function PostListingForm() {
                 type="text"
                 name="image_url"
                 placeholder="Image Url..."
-                value={formData.image_url}
+                value={formData.photo_url}
                 onChange={(e) => handleChange(e)}
               />
             </Form.Group>
@@ -69,7 +69,40 @@ function PostListingForm() {
               />
             </Form.Group>
 
-            <Row>
+            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                type="text"
+                name="description"
+                placeholder="Description..."
+                value={formData.description}
+                onChange={(e) => handleChange(e)}
+              />
+            </Form.Group>
+            
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                type="text"
+                name="description"
+                placeholder="Description..."
+                value={formData.description}
+                onChange={(e) => handleChange(e)}
+              />
+            </Form.Group>
+            
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                type="text"
+                name="description"
+                placeholder="Description..."
+                value={formData.description}
+                onChange={(e) => handleChange(e)}
+              />
+            </Form.Group> */}
+
+            {/* <Row>
               <h3>Select Raffle End Time</h3>
               <Col>
                 <Form.Group className="mb-3">
@@ -78,11 +111,11 @@ function PostListingForm() {
                     name="month"
                     value={formData.month}
                     onChange={(e) => {
-                      //   setSelectedMonth(e.target.value);
+                        setSelectedMonth(e.target.value);
                       handleChange(e);
                     }}
                   >
-                    {/* {renderMonths()} */}
+                    {renderMonths()}
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -95,7 +128,7 @@ function PostListingForm() {
                     value={formData.day}
                     onChange={(e) => handleChange(e)}
                   >
-                    {/* {renderDays()} */}
+                    {renderDays()}
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -108,11 +141,11 @@ function PostListingForm() {
                     value={formData.year}
                     onChange={(e) => handleChange(e)}
                   >
-                    {/* {renderYears()} */}
+                    {renderYears()}
                   </Form.Select>
                 </Form.Group>
               </Col>
-            </Row>
+            </Row> */}
 
             {errors ? (
               <Row className="text-danger text-center mb-2">

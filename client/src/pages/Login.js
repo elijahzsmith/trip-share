@@ -11,13 +11,13 @@ function Login() {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
-  const [error, setError] = useState([]);
+  // const [error, setError] = useState([]);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
   const user = {
-    name: usernameInput,
+    username: usernameInput,
     password: passwordInput,
   };
 
@@ -65,11 +65,11 @@ function Login() {
               </Button>
             </Row>
 
-            {error ? (
+            {/* {error ? (
               <Row className="text-danger text-center">
                 <strong>{error}</strong>
               </Row>
-            ) : null}
+            ) : null} */}
           </Form>
         </Row>
 

@@ -33,7 +33,12 @@ function NavBar() {
                 <Nav.Link href="/profile">My Profile</Nav.Link>
                 <Nav.Link href="/mytrips">My Trips</Nav.Link>
                 <Nav.Link href="/posttrip">Post a Trip</Nav.Link>
-                <Nav.Link href="/favorites">My Favorites</Nav.Link>
+                <Nav.Link
+                  // href="/favorites"
+                  onClick={() => history.push("/favorites")}
+                >
+                  My Favorites
+                </Nav.Link>
                 <Nav.Link href="/login">Login/Signup</Nav.Link>
                 <NavDropdown title="More" id="basic-nav-dropdown">
                   <NavDropdown.Item href="/profile">

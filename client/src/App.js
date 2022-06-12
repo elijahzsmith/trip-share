@@ -14,9 +14,11 @@ import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
 import MyTrips from "./pages/MyTrips";
 import Following from "./pages/Following";
+import OtherFollowing from "./pages/OtherFollowing";
 import PostTripForm from "./pages/PostTripForm";
 import TripDetails from "./pages/TripDetails";
 import Followers from "./pages/Followers";
+import OtherFollowers from "./pages/OtherFollowers";
 import OtherUserProfile from "./pages/OtherUserProfile";
 
 function App() {
@@ -53,6 +55,12 @@ function App() {
         </Route>
         <Route exact path="/followers">
           <Followers />
+        </Route>
+        <Route exact path="/otherfollowers/:id">
+          <OtherFollowers />
+        </Route>
+        <Route exact path="/otherfollowing/:id">
+          <OtherFollowing />
         </Route>
         <Route exact path="/mytrips">
           <MyTrips />
