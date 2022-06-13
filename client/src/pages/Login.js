@@ -23,8 +23,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(fetchLogin(user));
-    history.push("/");
+    dispatch(fetchLogin(user, history));
   };
 
   return (

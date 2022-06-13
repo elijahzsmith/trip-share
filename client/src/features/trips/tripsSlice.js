@@ -4,13 +4,21 @@ export const fetchTrips = createAsyncThunk("trips/fetchTrips", () => {
   return fetch("/trips")
     .then((res) => res.json())
     .then((trips) => {
-      console.log(trips);
       return trips;
     });
 });
 
-export const editTrip = createAsyncThunk("trips/editTrip", (formData, id) => {
-  return fetch(`/trips/${id}`, {
+export const fetchOneTrip = createAsyncThunk("trips/fetchOneTrip", (id) => {
+  return fetch(`/trips/${id}`)
+    .then((res) => res.json())
+    .then((trip) => {
+      return trip;
+    });
+});
+
+export const editTrip = createAsyncThunk("trips/editTrip", (formData) => {
+  console.log(formData, formData.id);
+  return fetch(`/trips/${formData.id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -20,8 +28,23 @@ export const editTrip = createAsyncThunk("trips/editTrip", (formData, id) => {
   })
     .then((res) => res.json())
     .then((trips) => {
-      console.log("edit trip response: ", trips);
       return trips;
+    });
+});
+
+export const postTrip = createAsyncThunk("trips/postTrip", (formData) => {
+  console.log("formData: ", formData);
+  return fetch(`/trips`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((res) => res.json())
+    .then((trip) => {
+      return trip;
     });
 });
 
@@ -40,7 +63,7 @@ const tripsSlice = createSlice({
       state.entities.push(action.payload);
     },
     tripEdited(state, action) {
-      state.entities.push(action.payload);
+      state.entities = action.payload;
     },
   },
   extraReducers: {
@@ -56,8 +79,20 @@ const tripsSlice = createSlice({
     },
     [editTrip.fulfilled](state, action) {
       state.entities = action.payload;
-      console.log("edit trip fulfilled: ", action.payload);
-
+      state.status = "idle";
+    },
+    [fetchOneTrip.pending](state) {
+      state.status = "loading";
+    },
+    [fetchOneTrip.fulfilled](state, action) {
+      state.entities = action.payload;
+      state.status = "idle";
+    },
+    [postTrip.pending](state) {
+      state.status = "loading";
+    },
+    [postTrip.fulfilled](state, action) {
+      state.entities.push(action.payload);
       state.status = "idle";
     },
   },

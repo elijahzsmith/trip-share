@@ -15,7 +15,7 @@ export const fetchOneOtherUser = createAsyncThunk(
     return fetch(`/users/${id}`)
       .then((res) => res.json())
       .then((user) => {
-        console.log("fetchOneUser: ", user);
+        // console.log("fetchOneUser: ", user);
         return user;
       });
   }

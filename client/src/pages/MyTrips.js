@@ -5,8 +5,6 @@ import Container from "react-bootstrap/esm/Container";
 import MyTripCard from "../components/MyTripCard";
 
 function MyTrips() {
-  // const [trips, setTrips] = useState([]);
-
   const trips = useSelector((state) => state.users.entities.trips);
 
   if (!trips) {

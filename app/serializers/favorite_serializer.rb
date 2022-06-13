@@ -3,3 +3,4 @@ class FavoriteSerializer < ActiveModel::Serializer
   has_one :user
   has_one :trip
 end
+ 

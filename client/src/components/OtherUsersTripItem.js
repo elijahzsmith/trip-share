@@ -6,14 +6,21 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
+import { addFavorite } from "../features/favorites/favoritesSlice";
 import Button from "react-bootstrap/Button";
 
 function FavItem({ trip }) {
   const [iconState, setIconState] = useState(null);
+
+  const mainUser = useSelector((state) => state.users.entities);
+  const { id, location, photo_url, description, user_id, favorites } = trip;
+
+  const [favoriteData, setFavoriteData] = useState({
+    user_id: mainUser.id,
+    trip_id: trip.id,
+  });
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const { location, photo_url, description, user_id } = trip;
 
   useEffect(() => {
     dispatch(fetchOneOtherUser(user_id));
@@ -23,6 +30,14 @@ function FavItem({ trip }) {
     <h1>Loading....</h1>;
   }
   const thisUser = useSelector((state) => state.otherUsers.entities);
+
+  const handleAddFavorite = () => {
+    setFavoriteData({
+      user_id: mainUser.id,
+      trip_id: trip.id,
+    });
+    dispatch(addFavorite(favoriteData));
+  };
 
   function renderIcon() {
     switch (iconState) {
@@ -51,23 +66,21 @@ function FavItem({ trip }) {
         <Card.Img
           src={photo_url}
           alt="listing"
-          //   onClick={() => handleCardClick(id, fav.listing)}
+          onClick={() => history.push(`/details/${id}`, trip)}
           role="button"
           className="h-75"
         />
         {/* {renderIcon()} */}
-        <Card.Body>
+        <Card.Body className="text-center">
           <Card.Title className="text-center">{location}</Card.Title>
-          <p onClick={() => history.push(`/profile/${thisUser.id}`, thisUser)}>
+          <h5 onClick={() => history.push(`/profile/${thisUser.id}`, thisUser)}>
             {thisUser.username}
-          </p>
+          </h5>
+          <p>Favorites: {favorites.length}</p>
           <Container className="ms-2">
             <Row>
               <Col className="d-flex justify-content-center">
-                <Button
-                  variant="warning"
-                  //   onClick={() => handleRemoveFavorite(id)}
-                >
+                <Button variant="warning" onClick={() => handleAddFavorite()}>
                   {" "}
                   favorite{" "}
                 </Button>

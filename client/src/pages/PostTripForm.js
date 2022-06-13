@@ -5,26 +5,35 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { postTrip } from "../features/trips/tripsSlice";
 
-function PostListingForm() {
+function PostTripForm() {
   const [errors, setErrors] = useState([]);
   const user = useSelector((state) => state.users.entities);
+  const userAuth = useSelector((state) => state.users.authenticated);
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     location: "",
     photo_url: "",
     description: "",
-    user_id: user.id,
   });
 
   const handleChange = (e) => {
+    if (!userAuth) {
+      <h1>Loading...</h1>;
+    }
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleAddListing = (e) => {
+  const handleAddTrip = (e) => {
     e.preventDefault();
+    if (!userAuth) {
+      <h1>Loading...</h1>;
+    }
+    dispatch(postTrip({ ...formData, user_id: user.id }));
   };
 
   return (
@@ -35,7 +44,7 @@ function PostListingForm() {
         </Row>
 
         <Row className="mb-5">
-          <Form onSubmit={(e) => handleAddListing(e)}>
+          <Form onSubmit={(e) => handleAddTrip(e)}>
             <Form.Group className="mb-3">
               <Form.Label>Location</Form.Label>
               <Form.Control
@@ -51,14 +60,14 @@ function PostListingForm() {
               <Form.Label>Image URL</Form.Label>
               <Form.Control
                 type="text"
-                name="image_url"
+                name="photo_url"
                 placeholder="Image Url..."
                 value={formData.photo_url}
                 onChange={(e) => handleChange(e)}
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
@@ -68,84 +77,6 @@ function PostListingForm() {
                 onChange={(e) => handleChange(e)}
               />
             </Form.Group>
-
-            {/* <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                name="description"
-                placeholder="Description..."
-                value={formData.description}
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group>
-            
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                name="description"
-                placeholder="Description..."
-                value={formData.description}
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group>
-            
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                type="text"
-                name="description"
-                placeholder="Description..."
-                value={formData.description}
-                onChange={(e) => handleChange(e)}
-              />
-            </Form.Group> */}
-
-            {/* <Row>
-              <h3>Select Raffle End Time</h3>
-              <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label>Month</Form.Label>
-                  <Form.Select
-                    name="month"
-                    value={formData.month}
-                    onChange={(e) => {
-                        setSelectedMonth(e.target.value);
-                      handleChange(e);
-                    }}
-                  >
-                    {renderMonths()}
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-
-              <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label>Day</Form.Label>
-                  <Form.Select
-                    name="day"
-                    value={formData.day}
-                    onChange={(e) => handleChange(e)}
-                  >
-                    {renderDays()}
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-
-              <Col>
-                <Form.Group className="mb-3">
-                  <Form.Label>Year</Form.Label>
-                  <Form.Select
-                    name="year"
-                    value={formData.year}
-                    onChange={(e) => handleChange(e)}
-                  >
-                    {renderYears()}
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row> */}
 
             {errors ? (
               <Row className="text-danger text-center mb-2">
@@ -167,4 +98,4 @@ function PostListingForm() {
   );
 }
 
-export default PostListingForm;
+export default PostTripForm;

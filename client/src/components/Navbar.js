@@ -13,7 +13,7 @@ function NavBar() {
   const dispatch = useDispatch();
 
   const dispatchLogout = () => {
-    dispatch(createLogout());
+    dispatch(createLogout(history));
     // history.push("/login");
   };
   // console.log("current user (Navbar auth): ", currUser);

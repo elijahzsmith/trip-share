@@ -8,23 +8,29 @@ export const setUser = createAsyncThunk("users/setUser", () => {
   });
 });
 
-export const createSignup = createAsyncThunk("users/createSignup", (user) => {
-  return fetch("/signup", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(user),
-  }).then((res) => {
-    if (res.ok) {
-      console.log("signup response: ", res);
-      return res.json().then((user) => user);
-    } else {
-      return res.json().then((err) => console.log(err));
-    }
-  });
-});
+export const createSignup = createAsyncThunk(
+  "users/createSignup",
+  (user, history) => {
+    return fetch("/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(user),
+    }).then((res) => {
+      if (res.ok) {
+        console.log("signup response: ", res);
+        return res.json().then((user) => {
+          history.push("/");
+          return user;
+        });
+      } else {
+        return res.json().then((err) => console.log(err));
+      }
+    });
+  }
+);
 
 export const handleUpdate = createAsyncThunk(
   "users/handleUpdate",
@@ -50,26 +56,48 @@ export const handleUpdate = createAsyncThunk(
   }
 );
 
-export const fetchLogin = createAsyncThunk("users/fetchLogin", (user) => {
-  return fetch("/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(user),
-  }) // add if res.ok
-    .then((res) => res.json())
-    .then((user) => user);
-});
+export const fetchLogin = createAsyncThunk(
+  "users/fetchLogin",
+  (user, history) => {
+    console.log(history);
 
-export const createLogout = createAsyncThunk("users/handleLogout", () => {
-  return fetch("/logout", { method: "DELETE" }).then((res) => {
-    if (res.ok) {
-      return res.headers;
-    }
-  });
-});
+    return fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(user),
+    }) // add if res.ok
+      .then((res) => {
+        if (res.ok) {
+          return res.json().then((user) => {
+            // history.push("/");
+          });
+        } else {
+          return res.json((error) => console.log(error));
+        }
+      });
+    // .then((res) => res.json())
+    // .then((user) => {
+    //   // history.push("/");
+    //   return user;
+    // });
+  }
+);
+
+export const createLogout = createAsyncThunk(
+  "users/handleLogout",
+  (history) => {
+    console.log(history);
+    return fetch("/logout", { method: "DELETE" }).then((res) => {
+      if (res.ok) {
+        return res.headers;
+      }
+      // history.push("/login");
+    });
+  }
+);
 
 const usersSlice = createSlice({
   name: "users",
@@ -98,6 +126,7 @@ const usersSlice = createSlice({
     },
     [fetchLogin.fulfilled](state, action) {
       state.entities = action.payload;
+      console.log("hi");
       state.status = "idle";
       state.authorized = true;
     },
@@ -106,6 +135,7 @@ const usersSlice = createSlice({
     },
     [createSignup.fulfilled](state, action) {
       state.entities = action.payload;
+      console.log(action.payload);
       state.status = "idle";
       state.authorized = true;
     },

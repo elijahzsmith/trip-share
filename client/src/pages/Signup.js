@@ -11,7 +11,11 @@ function Signup() {
   const [error, setError] = useState([]);
   const [signUpData, setSignUpData] = useState({
     name: "",
+    username: "",
+    email: "",
     password: "",
+    age: "",
+    profile_picture: "",
   });
 
   const history = useHistory();
@@ -19,10 +23,14 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createSignup(signUpData));
+    dispatch(createSignup(signUpData, history));
     setSignUpData({
       name: "",
+      username: "",
+      email: "",
       password: "",
+      age: "",
+      profile_picture: "",
     });
   };
 
@@ -56,6 +64,29 @@ function Signup() {
               />
             </Form.Group>
 
+            <Form.Group className="mb-3">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Username..."
+                onChange={handleChange}
+                // value={signUpData.password}
+                name="username"
+              />
+            </Form.Group>
+            {/* IEUIOHFOIUHEOIUHE */}
+            {/* IEUIOHFOIUHEOIUHE */}
+            {/* IEUIOHFOIUHEOIUHE */}
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="email@gmail.com..."
+                onChange={handleChange}
+                // value={signUpData.password}
+                name="email"
+              />
+            </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
@@ -64,6 +95,26 @@ function Signup() {
                 onChange={handleChange}
                 value={signUpData.password}
                 name="password"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Age</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="ex. 24"
+                onChange={handleChange}
+                value={signUpData.age}
+                name="age"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Profile Picture URL</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Profile picture URL..."
+                onChange={handleChange}
+                value={signUpData.profile_picture}
+                name="profile_picture"
               />
             </Form.Group>
 

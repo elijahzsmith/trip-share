@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "./features/users/usersSlice";
 import Login from "./pages/Login";

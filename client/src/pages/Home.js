@@ -10,10 +10,8 @@ function Home() {
   const trips = useSelector((state) => {
     return state.trips.entities;
   });
-  // console.log("trips from useSelector (Home): ", trips);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.entities);
-  console.log(user);
 
   useEffect(() => {
     dispatch(fetchTrips());
@@ -29,7 +27,9 @@ function Home() {
         <Col className="mx-auto h-100 my-2">
           <div>
             Home
-            {renderTrips}
+            <Row xs={1} sm={2} md={3} lg={4}>
+              {renderTrips}
+            </Row>
           </div>
         </Col>
       </Row>

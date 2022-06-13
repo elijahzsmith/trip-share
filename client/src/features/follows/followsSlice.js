@@ -4,7 +4,7 @@ export const fetchFollows = createAsyncThunk("follows/fetchFollows", () => {
   return fetch("/follows")
     .then((res) => res.json())
     .then((follows) => {
-      console.log(follows);
+      // console.log(follows);
       return follows;
     });
 });
@@ -26,7 +26,7 @@ export const addFollow = createAsyncThunk("follows/addFollow", (followData) => {
 });
 
 export const unfollow = createAsyncThunk("follows/unfollow", (id) => {
-  return fetch(`/follows/${id}`, { method: "DELETE" });
+  return fetch(`/follows/${id}`, { method: "DELETE" }).then(() => id);
 });
 
 const followsSlice = createSlice({
@@ -53,6 +53,13 @@ const followsSlice = createSlice({
     },
     [addFollow.fulfilled](state, action) {
       state.entities.push(action.payload);
+      state.status = "idle";
+    },
+    [unfollow.pending](state) {
+      state.status = "loading";
+    },
+    [unfollow.fulfilled](state, action) {
+      state.entities.filter((follow) => action.payload !== follow.id);
       state.status = "idle";
     },
   },

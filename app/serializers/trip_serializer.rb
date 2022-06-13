@@ -1,4 +1,6 @@
 class TripSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :location, :description, :photo_url
+  attributes :id, :user_id, :location, :description, :photo_url, :favorites
   has_one :user
+  has_many :favorites
 end
+ 

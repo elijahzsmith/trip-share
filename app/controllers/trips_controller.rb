@@ -7,7 +7,7 @@ class TripsController < ApplicationController
  
     def show
         trip = find_trip
-        render json: current_trip, status: :ok
+        render json: trip, status: :ok
     end
 
     def create

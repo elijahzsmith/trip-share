@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
@@ -7,17 +7,26 @@ import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
 import { useSelector, useDispatch } from "react-redux";
 import { editTrip } from "../features/trips/tripsSlice";
+import { fetchOneTrip } from "../features/trips/tripsSlice";
 
 function EditTripPostForm() {
   const [errors, setErrors] = useState([]);
   let locate = useLocation();
   let thisTrip = locate.state;
+
   const user = useSelector((state) => state.users.entities);
 
-  const history = useHistory();
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchOneTrip(thisTrip.id));
+  }, []);
+  const thisTripState = useSelector((state) => state.trips.entities);
+  console.log(thisTripState.id, "vs", thisTrip.id);
+
+  const history = useHistory();
 
   const [formData, setFormData] = useState({
+    id: thisTrip.id,
     location: thisTrip.location,
     photo_url: thisTrip.photo_url,
     description: thisTrip.description,
@@ -27,9 +36,11 @@ function EditTripPostForm() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  console.log(thisTrip);
+
   const handleEditPost = (e) => {
     e.preventDefault();
-    // dispatch(editTrip(formData, thisTrip.id));
+    dispatch(editTrip(formData));
   };
 
   return (
