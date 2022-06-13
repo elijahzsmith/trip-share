@@ -57,7 +57,8 @@ function FavItem({ fav }) {
               <Col className="d-flex justify-content-center">
                 <Button
                   variant="warning"
-                  onClick={() => dispatch(unfavorite(fav.trip.id))}
+                  // onClick={() => console.log(fav.id)}
+                  onClick={() => dispatch(unfavorite(fav.id))}
                 >
                   {" "}
                   Remove Favorite{" "}

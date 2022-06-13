@@ -1,3 +1,4 @@
+require 'bcrypt'
 class User < ApplicationRecord
     has_secure_password
     # followed_users means a user can follow many users

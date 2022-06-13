@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import { addFavorite } from "../features/favorites/favoritesSlice";
+import { addFavorite, unfavorite } from "../features/favorites/favoritesSlice";
 import { addComment } from "../features/comments/commentsSlice";
 
 function FavItem({ trip }) {
@@ -17,10 +17,9 @@ function FavItem({ trip }) {
   const dispatch = useDispatch();
 
   const mainUser = useSelector((state) => state.users.entities);
-  const [favoriteData, setFavoriteData] = useState({
-    user_id: "",
-    trip_id: trip.id,
-  });
+  const favoritesArray = useSelector((state) => state.favorites.entities);
+  const thisUser = useSelector((state) => state.otherUsers.entities);
+
   const [commentData, setCommentData] = useState({
     content: "",
     user_id: "",
@@ -31,14 +30,14 @@ function FavItem({ trip }) {
   }
 
   const { location, photo_url, description, user, favorites, comments } = trip;
+  console.log(trip);
 
   const handleAddFavorite = () => {
-    setFavoriteData({
-      // set mainUser.id in the users slice instead??????
+    const favoriteObj = {
       user_id: mainUser.id,
       trip_id: trip.id,
-    });
-    dispatch(addFavorite(favoriteData));
+    };
+    dispatch(addFavorite(favoriteObj));
   };
 
   const handleChange = (e) => {
@@ -56,26 +55,19 @@ function FavItem({ trip }) {
     setShowForm(false);
   };
 
-  function renderIcon() {
-    switch (iconState) {
-      case "Ongoing": {
-        return (
-          <Card.ImgOverlay
-            className="d-flex flex-column align-items-end h-75"
-            onClick={() => history.push(`/details/${trip.id}`, trip)}
-            role="button"
-          >
-            <div className="mt-0 bg-white rounded p-1">
-              <i className="bi bi-hourglass-split text-yellow h3"></i>
-            </div>
-          </Card.ImgOverlay>
-        );
-      }
-      default: {
-        return null;
-      }
-    }
-  }
+  const favoritesCount = favoritesArray.filter(
+    (favorite) =>
+      favorite.trip.user_id === thisUser.id && favorite.trip.id === trip.id
+  );
+
+  const handleRemoveFavorite = () => {
+    const favoriteToRemove = favoritesCount.find(
+      (favorite) => favorite.user.id === mainUser.id
+    );
+    dispatch(unfavorite(favoriteToRemove.id));
+  };
+
+  const favoriteButton = favoritesCount.some((el) => el.trip.id === trip.id);
 
   return (
     <Col>
@@ -87,7 +79,7 @@ function FavItem({ trip }) {
           role="button"
           className="h-75"
         />
-        {renderIcon()}
+        {/* {renderIcon()} */}
         <Card.Body>
           <Card.Title className="text-center">{location}</Card.Title>
           <h6 onClick={() => history.push(`/profile/${user.id}`, user)}>
@@ -143,12 +135,29 @@ function FavItem({ trip }) {
                     >
                       comment
                     </Button>
-                    <Button
-                      variant="warning"
-                      onClick={() => handleAddFavorite()}
-                    >
-                      favorite
-                    </Button>
+                    {/* <Button
+                        variant="warning"
+                        onClick={() => handleAddFavorite()}
+                      >
+                        favorite
+                      </Button> */}
+                    {!favoriteButton ? (
+                      <Button
+                        variant="warning"
+                        onClick={() => handleAddFavorite()}
+                      >
+                        {" "}
+                        Favorite{" "}
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="warning"
+                        onClick={() => handleRemoveFavorite()}
+                      >
+                        {" "}
+                        Unfavorite{" "}
+                      </Button>
+                    )}
                   </>
                 )}
               </Col>
@@ -161,3 +170,23 @@ function FavItem({ trip }) {
 }
 
 export default FavItem;
+// function renderIcon() {
+//   switch (iconState) {
+//     case "Ongoing": {
+//       return (
+//         <Card.ImgOverlay
+//           className="d-flex flex-column align-items-end h-75"
+//           onClick={() => history.push(`/details/${trip.id}`, trip)}
+//           role="button"
+//         >
+//           <div className="mt-0 bg-white rounded p-1">
+//             <i className="bi bi-hourglass-split text-yellow h3"></i>
+//           </div>
+//         </Card.ImgOverlay>
+//       );
+//     }
+//     default: {
+//       return null;
+//     }
+//   }
+// }

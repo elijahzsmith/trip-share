@@ -1,5 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+export const fetchFavorites = createAsyncThunk(
+  "favorites/fetchFavorites",
+  () => {
+    return fetch("/favorites")
+      .then((res) => res.json())
+      .then((favorites) => {
+        return favorites;
+      });
+  }
+);
+
 export const addFavorite = createAsyncThunk(
   "favorites/addFavorite",
   (favoriteData) => {
@@ -20,7 +31,9 @@ export const addFavorite = createAsyncThunk(
 );
 
 export const unfavorite = createAsyncThunk("favorites/unfavorite", (id) => {
-  return fetch(`/favorites/${id}`, { method: "DELETE" });
+  return fetch(`/favorites/${id}`, { method: "DELETE" }).then(() => {
+    return id;
+  });
 });
 
 const favoritesSlice = createSlice({
@@ -42,11 +55,21 @@ const favoritesSlice = createSlice({
     },
   },
   extraReducers: {
+    [fetchFavorites.pending](state) {
+      state.status = "loading";
+    },
+    [fetchFavorites.fulfilled](state, action) {
+      state.entities = action.payload;
+      state.status = "idle";
+    },
     [unfavorite.pending](state) {
       state.status = "loading";
     },
-    [unfavorite.fulfilled](state) {
-      state.entities = [];
+    [unfavorite.fulfilled](state, action) {
+      console.log("fullfilled: ", action.payload);
+      state.entities = state.entities.filter(
+        (favorite) => action.payload !== favorite.id
+      );
       state.status = "idle";
     },
     [addFavorite.pending](state) {

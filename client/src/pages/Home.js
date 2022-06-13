@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+// import OtherUsersTripItem from "../components/OtherUsersTripItem";
 import TripItem from "../components/TripItem";
 import { fetchTrips } from "../features/trips/tripsSlice";
 import Container from "react-bootstrap/Container";
@@ -7,18 +8,27 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/esm/Col";
 
 function Home() {
-  const trips = useSelector((state) => {
-    return state.trips.entities;
-  });
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.entities);
-  const trip = useSelector((state) => state.trips.entities);
-  console.log("trip: ", trip);
+  // const trip = useSelector((state) => state.trips.entities);
+  // console.log("trip: ", trip);
 
   useEffect(() => {
     dispatch(fetchTrips());
   }, []);
-
+  const trips = useSelector((state) => {
+    return state.trips.entities;
+  });
+  // const trips = useSelector((state) => {
+  //   return state.trips.entities;
+  // });
+  if (!trips) {
+    <h1>Loading...</h1>;
+  }
+  console.log("trips: ", trips);
+  // const renderTrips = trips.map((trip) => {
+  //   return <OtherUsersTripItem key={trip.id} trip={trip} />;
+  // });
   const renderTrips = trips.map((trip) => {
     return <TripItem key={trip.id} trip={trip} />;
   });

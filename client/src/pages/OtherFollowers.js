@@ -13,12 +13,15 @@ function OtherFollowers() {
   if (!authorized) {
     return <h1>Loading....</h1>;
   }
+  if (!followers) {
+    return <h1>Loading....</h1>;
+  }
 
   return (
     <div>
       {user.name} has: {followers.length} followers
       {followers.map((follower) => {
-        return follower.username === mainUser.username ? (
+        return follower.username !== mainUser.username ? (
           <li
             key={follower.id}
             onClick={() => history.push(`/profile/${follower.id}`, follower)}

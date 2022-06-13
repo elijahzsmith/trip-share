@@ -6,20 +6,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
 
-function ListingDetails() {
+function TripDetails() {
   let locate = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { photo_url, location, description, user_id } = locate.state;
+  const { photo_url, location, description, user_id, comments, favorites } =
+    locate.state;
+
   useEffect(() => {
     dispatch(fetchOneOtherUser(user_id));
   }, []);
+
   const thisUserAuth = useSelector((state) => state.otherUsers.authenticated);
+
   if (!thisUserAuth) {
     <h1>Loading....</h1>;
   }
+
   const thisUser = useSelector((state) => state.otherUsers.entities);
+  console.log(favorites);
 
   return (
     <Container className="">
@@ -46,7 +52,24 @@ function ListingDetails() {
       </Row>
 
       <Row className="mt-4 mx-auto" style={{ maxWidth: 1000 }}>
+        <h2>Content:</h2>
         <p>{description}</p>
+      </Row>
+      <h2>Favorites: {favorites.length >= 1 ? favorites.length : 0}</h2>
+      {favorites
+        ? favorites.map((favorite) => (
+            <p key={favorite.id}>{favorite.user.name}</p>
+          ))
+        : null}
+      <Row className="mt-4 mx-auto" style={{ maxWidth: 1000 }}>
+        <h2>Comments: {comments.length >= 1 ? comments.length : 0}</h2>
+        <ul>
+          {comments
+            ? comments.map((comment) => (
+                <li key={comment.id}>{comment.content}</li>
+              ))
+            : null}
+        </ul>
       </Row>
       <Row className="d-flex align-items-around mx-auto mb-3">
         <Col className="my-auto text-center">
@@ -56,5 +79,5 @@ function ListingDetails() {
     </Container>
   );
 }
-
-export default ListingDetails;
+// changed from listingdetails
+export default TripDetails;

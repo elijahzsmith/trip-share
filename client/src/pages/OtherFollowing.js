@@ -17,7 +17,7 @@ function OtherFollowing() {
     <div>
       {user.name}'s Following: {followees.length}
       {followees.map((followee) => {
-        return followee.username === mainUser.username ? (
+        return followee.username !== mainUser.username ? (
           <li
             key={followee.id}
             onClick={() => history.push(`/profile/${followee.id}`, followee)}

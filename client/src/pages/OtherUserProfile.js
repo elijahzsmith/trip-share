@@ -13,7 +13,7 @@ import Button from "react-bootstrap/Button";
 
 function OtherUserProfile() {
   let locate = useLocation();
-  const { name } = locate.state;
+  // const { name } = locate.state;
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.otherUsers.entities);
@@ -58,12 +58,12 @@ function OtherUserProfile() {
       return el.follower.username === mainUser.username;
     });
   };
-
+  console.log(locate.state);
   const renderTheirTrips =
     otherUsersTrips && otherUsersTrips.length >= 1
-      ? otherUsersTrips.map((trip) => (
-          <OtherUsersTripItem key={trip.id} trip={trip} />
-        ))
+      ? otherUsersTrips
+          // locate.state.trips
+          .map((trip) => <OtherUsersTripItem key={trip.id} trip={trip} />)
       : null;
 
   const handleDelete = () => {
@@ -83,7 +83,7 @@ function OtherUserProfile() {
   return (
     <div>
       OtherUserProfile
-      <h1>{name}</h1>
+      <h1>{user.name}</h1>
       <Button onClick={() => history.push(`/otherfollowers/${user.id}`)}>
         Followers: {userFollowers.length}
       </Button>

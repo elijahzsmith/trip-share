@@ -31,21 +31,28 @@ function NavBar() {
               <Nav className="me-auto">
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/profile">My Profile</Nav.Link>
-                <Nav.Link href="/mytrips">My Trips</Nav.Link>
-                <Nav.Link href="/posttrip">Post a Trip</Nav.Link>
+                {/* <Nav.Link href="/mytrips">My Trips</Nav.Link>
+                <Nav.Link href="/posttrip">Post a Trip</Nav.Link> */}
                 <Nav.Link
                   // href="/favorites"
                   onClick={() => history.push("/favorites")}
                 >
                   My Favorites
                 </Nav.Link>
-                <Nav.Link href="/login">Login/Signup</Nav.Link>
+                {/* <Nav.Link href="/login">Login/Signup</Nav.Link> */}
                 <NavDropdown title="More" id="basic-nav-dropdown">
                   <NavDropdown.Item href="/profile">
                     Account Details
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/about">About Us</NavDropdown.Item>
+                  <NavDropdown.Item href="/mytrips">My Trips</NavDropdown.Item>
+                  <NavDropdown.Item href="/posttrip">
+                    Post a Trip
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/login">
+                    Login/Signup
+                  </NavDropdown.Item>
                   <NavDropdown.Item onClick={() => dispatchLogout()}>
                     Signout
                   </NavDropdown.Item>
