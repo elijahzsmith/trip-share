@@ -47,7 +47,7 @@ function NavBar() {
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/about">About Us</NavDropdown.Item>
                   <NavDropdown.Item onClick={() => dispatchLogout()}>
-                    Logout
+                    Signout
                   </NavDropdown.Item>
                 </NavDropdown>
               </Nav>

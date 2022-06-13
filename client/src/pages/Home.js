@@ -12,6 +12,8 @@ function Home() {
   });
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.entities);
+  const trip = useSelector((state) => state.trips.entities);
+  console.log("trip: ", trip);
 
   useEffect(() => {
     dispatch(fetchTrips());

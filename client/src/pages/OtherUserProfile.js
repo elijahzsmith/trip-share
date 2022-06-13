@@ -88,17 +88,19 @@ function OtherUserProfile() {
     <div>
       OtherUserProfile
       <h1>{name}</h1>
-      <button onClick={() => history.push(`/otherfollowers/${user.id}`)}>
+      <Button onClick={() => history.push(`/otherfollowers/${user.id}`)}>
         Followers: {user.followers.length}
-      </button>
-      <button onClick={() => history.push(`/otherfollowing/${user.id}`)}>
+      </Button>
+      <Button onClick={() => history.push(`/otherfollowing/${user.id}`)}>
         Following: {user.followees.length}
-      </button>
+      </Button>
       {
         user.username === mainUser.username ? null : (
           <>
             {followButton() ? (
-              <Button onClick={() => handleDelete()}>Unfollow</Button>
+              <Button variant="warning" onClick={() => handleDelete()}>
+                Unfollow
+              </Button>
             ) : (
               <Button onClick={() => handleAdd()}>Follow</Button>
             )}{" "}

@@ -11,6 +11,7 @@ import { addFavorite } from "../features/favorites/favoritesSlice";
 function FavItem({ trip }) {
   // console.log(trip);
   const [iconState, setIconState] = useState(null);
+  const [showForm, setShowForm] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -27,7 +28,7 @@ function FavItem({ trip }) {
   //   trip_id: trip.id,
   // });
 
-  const { location, photo_url, description, user, favorites } = trip;
+  const { location, photo_url, description, user, favorites, comments } = trip;
   // console.log(favorites);
 
   const handleAddFavorite = () => {
@@ -36,6 +37,11 @@ function FavItem({ trip }) {
       trip_id: trip.id,
     });
     dispatch(addFavorite(favoriteData));
+  };
+
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    console.log("hi");
   };
 
   function renderIcon() {
@@ -76,13 +82,33 @@ function FavItem({ trip }) {
             {mainUser.username === user.username ? null : user.username}
           </h6>
           <p>Favorites: {favorites.length}</p>
+          {showForm ? (
+            <form onSubmit={(e) => handleAddComment(e)}>
+              <input type="text" placeholder="comment..."></input>
+              <button type="submit">Post Comment</button>
+            </form>
+          ) : (
+            <p>Comments: {comments.length}</p>
+          )}
+
           <Container className="ms-2">
             <Row>
               <Col className="d-flex justify-content-center">
                 {mainUser.username === user.username ? null : (
-                  <Button variant="warning" onClick={() => handleAddFavorite()}>
-                    favorite
-                  </Button>
+                  <>
+                    <Button
+                      variant="primary"
+                      onClick={() => setShowForm((showForm) => !showForm)}
+                    >
+                      comment
+                    </Button>
+                    <Button
+                      variant="warning"
+                      onClick={() => handleAddFavorite()}
+                    >
+                      favorite
+                    </Button>
+                  </>
                 )}
               </Col>
             </Row>

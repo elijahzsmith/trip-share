@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./features/users/usersSlice";
+import { fetchComments } from "./features/comments/commentsSlice";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
@@ -27,7 +28,11 @@ function App() {
 
   useEffect(() => {
     dispatch(setUser());
+    // dispatch(fetchComments());
   }, []);
+
+  // const comments = useSelector((state) => state.comments.entities);
+  // console.log(comments);
 
   return (
     <div className="App">

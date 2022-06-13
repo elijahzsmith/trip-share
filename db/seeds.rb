@@ -68,3 +68,17 @@ puts "seeding favorites..."
     Favorite.create(user_id: u6.id, trip_id: t10.id)
     Favorite.create(user_id: elizabeth.id, trip_id: t2.id)
 puts "Done seeding favorites!"
+
+puts "seeding favorites..."
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: elijah.id, trip_id: t1.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: elijah.id, trip_id: t2.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: rahaf.id, trip_id: t2.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: jacob.id, trip_id: t1.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: mark.id, trip_id: t6.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: mark.id, trip_id: t9.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: jacob.id, trip_id: t11.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: rahaf.id, trip_id: t1.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: elizabeth.id, trip_id: t1.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: u6.id, trip_id: t10.id)
+    Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: elizabeth.id, trip_id: t2.id)
+puts "Done seeding favorites!"
