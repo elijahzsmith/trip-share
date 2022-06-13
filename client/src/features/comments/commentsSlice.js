@@ -76,7 +76,7 @@ const commentsSlice = createSlice({
     },
     [addComment.fulfilled](state, action) {
       state.entities.push(action.payload);
-      //   console.log("fulfilled: ", action.payload);
+      console.log("addComment fulfilled: ", action.payload);
       state.status = "idle";
     },
     //////////////

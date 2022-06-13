@@ -1,17 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-// expirement
-import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
+import { useSelector } from "react-redux";
 
 function Following() {
   const history = useHistory();
   const followers = useSelector((state) => state.users.entities.followees);
 
-  // expirement
-  const dispatch = useDispatch();
-
-  // console.log(followers);
   const authorized = useSelector((state) => state.users.authorized);
   if (!authorized) {
     return <h1>Loading....</h1>;

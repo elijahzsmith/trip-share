@@ -31,9 +31,11 @@ function OtherUserProfile() {
   const authorizedOther = useSelector((state) => state.otherUsers.authorized);
   useEffect(() => {
     dispatch(fetchOneOtherUser(locate.state.id));
-    dispatch(fetchFollows(locate.state.id));
+    dispatch(fetchFollows());
+    // dispatch(fetchFollows(locate.state.id));
   }, []);
-  const otherUser = useSelector((state) => state.otherUsers.entities);
+  // const otherUser = useSelector((state) => state.otherUsers.entities);
+  // const followedState = useSelector((state) => state.follows.followed);
   if (!authorized) {
     return <h1>Loading....</h1>;
   }
@@ -43,9 +45,17 @@ function OtherUserProfile() {
 
   const followersArr = mainUser.followers;
 
-  const followButton = () => {
-    return followersArr.some((el) => {
-      return el.username === user.username;
+  const userFollowers = followers.filter((follow) => {
+    return follow.followee.id === user.id;
+  });
+
+  const userFollowing = followers.filter((follow) => {
+    return follow.follower.id === user.id;
+  });
+
+  const followButtonTwo = () => {
+    return userFollowers.some((el) => {
+      return el.follower.username === mainUser.username;
     });
   };
 
@@ -57,31 +67,17 @@ function OtherUserProfile() {
       : null;
 
   const handleDelete = () => {
-    const followToDelete = followers.find(
-      (follow) =>
-        follow.followee.id === otherUser.id &&
-        follow.follower.id === mainUser.id
-    );
+    const followToDelete = followers.find((follow) => {
+      return (
+        follow.followee.id === user.id && follow.follower.id === mainUser.id
+      );
+    });
     dispatch(unfollow(followToDelete.id));
   };
 
   const handleAdd = () => {
-    setFollowData({ followee_id: user.id, follower_id: mainUser.id });
-    console.log(
-      "user: ",
-      user,
-      "mainUser: ",
-      mainUser,
-      "followdata1: ",
-      followData
-    );
-    // dispatch(addFollow(followData));
-    finishAdd();
-  };
-  const finishAdd = () => {
-    // setFollowData({ followee_id: mainUser.id, follower_id: user.id });
-    console.log("followdata2: ", followData);
-    dispatch(addFollow(followData));
+    const followObj = { followee_id: user.id, follower_id: mainUser.id };
+    dispatch(addFollow(followObj));
   };
 
   return (
@@ -89,25 +85,22 @@ function OtherUserProfile() {
       OtherUserProfile
       <h1>{name}</h1>
       <Button onClick={() => history.push(`/otherfollowers/${user.id}`)}>
-        Followers: {user.followers.length}
+        Followers: {userFollowers.length}
       </Button>
       <Button onClick={() => history.push(`/otherfollowing/${user.id}`)}>
-        Following: {user.followees.length}
+        Following: {userFollowing.length}
       </Button>
-      {
-        user.username === mainUser.username ? null : (
-          <>
-            {followButton() ? (
-              <Button variant="warning" onClick={() => handleDelete()}>
-                Unfollow
-              </Button>
-            ) : (
-              <Button onClick={() => handleAdd()}>Follow</Button>
-            )}{" "}
-          </>
-        )
-        // <Button>{followButton() ? "Unfollow" : "Follow"}</Button>
-      }
+      {user.username === mainUser.username ? null : (
+        <>
+          {followButtonTwo() ? (
+            <Button variant="warning" onClick={() => handleDelete()}>
+              Unfollow
+            </Button>
+          ) : (
+            <Button onClick={() => handleAdd()}>Follow</Button>
+          )}{" "}
+        </>
+      )}
       <Row xs={1} sm={2} md={3} lg={4}>
         {renderTheirTrips}
       </Row>

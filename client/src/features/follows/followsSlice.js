@@ -10,6 +10,7 @@ export const fetchFollows = createAsyncThunk("follows/fetchFollows", () => {
 });
 
 export const addFollow = createAsyncThunk("follows/addFollow", (followData) => {
+  console.log(followData);
   return fetch(`/follows`, {
     method: "POST",
     headers: {
@@ -26,7 +27,10 @@ export const addFollow = createAsyncThunk("follows/addFollow", (followData) => {
 });
 
 export const unfollow = createAsyncThunk("follows/unfollow", (id) => {
-  return fetch(`/follows/${id}`, { method: "DELETE" }).then(() => id);
+  return fetch(`/follows/${id}`, { method: "DELETE" }).then(() => {
+    console.log(id);
+    return id;
+  });
 });
 
 const followsSlice = createSlice({
@@ -59,7 +63,9 @@ const followsSlice = createSlice({
       state.status = "loading";
     },
     [unfollow.fulfilled](state, action) {
-      state.entities.filter((follow) => action.payload !== follow.id);
+      state.entities = state.entities.filter(
+        (follow) => action.payload !== follow.id
+      );
       state.status = "idle";
     },
   },
