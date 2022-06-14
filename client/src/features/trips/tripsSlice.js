@@ -49,7 +49,7 @@ export const postTrip = createAsyncThunk("trips/postTrip", (formData) => {
 });
 
 export const deleteTrip = createAsyncThunk("trips/deleteTrip", (id) => {
-  return fetch(`/trips/${id}`, { method: "DELETE" });
+  return fetch(`/trips/${id}`, { method: "DELETE" }).then(() => id);
 });
 
 const tripsSlice = createSlice({
@@ -93,6 +93,15 @@ const tripsSlice = createSlice({
     },
     [postTrip.fulfilled](state, action) {
       state.entities.push(action.payload);
+      state.status = "idle";
+    },
+    [deleteTrip.pending](state) {
+      state.status = "loading";
+    },
+    [deleteTrip.fulfilled](state, action) {
+      state.entities = state.entities
+        .filter((trip) => action.payload.id !== trip.id)
+        .push(action.payload);
       state.status = "idle";
     },
   },

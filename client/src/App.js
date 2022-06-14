@@ -28,11 +28,7 @@ function App() {
 
   useEffect(() => {
     dispatch(setUser());
-    // dispatch(fetchComments());
   }, []);
-
-  // const comments = useSelector((state) => state.comments.entities);
-  // console.log(comments);
 
   return (
     <div className="App">

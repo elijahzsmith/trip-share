@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
@@ -6,19 +6,21 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+
 import { addFavorite, unfavorite } from "../features/favorites/favoritesSlice";
 import { addComment } from "../features/comments/commentsSlice";
 
 function FavItem({ trip }) {
-  const [iconState, setIconState] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const mainUser = useSelector((state) => state.users.entities);
+  ////
+  ////
+  ////
   const favoritesArray = useSelector((state) => state.favorites.entities);
-  const thisUser = useSelector((state) => state.otherUsers.entities);
 
   const [commentData, setCommentData] = useState({
     content: "",
@@ -29,8 +31,16 @@ function FavItem({ trip }) {
     return <h1>Loading...</h1>;
   }
 
-  const { location, photo_url, description, user, favorites, comments } = trip;
-  console.log(trip);
+  const {
+    location,
+    photo_url,
+    description,
+    user,
+    favorites,
+    comments,
+    user_id,
+  } = trip;
+  // console.log(trip, user_id);
 
   const handleAddFavorite = () => {
     const favoriteObj = {
@@ -55,10 +65,10 @@ function FavItem({ trip }) {
     setShowForm(false);
   };
 
-  const favoritesCount = favoritesArray.filter(
-    (favorite) =>
-      favorite.trip.user_id === thisUser.id && favorite.trip.id === trip.id
-  );
+  const favoritesCount = favoritesArray.filter((favorite) => {
+    return favorite.trip.id === trip.id;
+    // return favorite.trip.user_id === user.id && favorite.trip.id === trip.id;
+  });
 
   const handleRemoveFavorite = () => {
     const favoriteToRemove = favoritesCount.find(
@@ -79,7 +89,6 @@ function FavItem({ trip }) {
           role="button"
           className="h-75"
         />
-        {/* {renderIcon()} */}
         <Card.Body>
           <Card.Title className="text-center">{location}</Card.Title>
           <h6 onClick={() => history.push(`/profile/${user.id}`, user)}>
@@ -90,7 +99,11 @@ function FavItem({ trip }) {
               : null}
           </h6>
           <p onClick={() => setShowComments(false)}>
-            Favorites: {favorites.length}
+            {/* ////
+            ////
+            ////
+            //// */}
+            Favorites: {favoritesCount.length}
           </p>
           {showForm ? (
             <form onSubmit={(e) => handleAddComment(e)}>
@@ -123,7 +136,9 @@ function FavItem({ trip }) {
           <Container className="ms-2">
             <Row>
               <Col className="d-flex justify-content-center">
-                {mainUser.username === user.username ? null : showForm ? (
+                {mainUser.username === user.username ? (
+                  <h5 onClick={() => history.push("/mytrips")}>Your Post</h5>
+                ) : showForm ? (
                   <Button onClick={() => setShowForm((showForm) => !showForm)}>
                     Close Comment Form
                   </Button>
@@ -135,12 +150,10 @@ function FavItem({ trip }) {
                     >
                       comment
                     </Button>
-                    {/* <Button
-                        variant="warning"
-                        onClick={() => handleAddFavorite()}
-                      >
-                        favorite
-                      </Button> */}
+                    {/* ////
+            ////
+            ////
+            //// */}
                     {!favoriteButton ? (
                       <Button
                         variant="warning"
@@ -170,23 +183,3 @@ function FavItem({ trip }) {
 }
 
 export default FavItem;
-// function renderIcon() {
-//   switch (iconState) {
-//     case "Ongoing": {
-//       return (
-//         <Card.ImgOverlay
-//           className="d-flex flex-column align-items-end h-75"
-//           onClick={() => history.push(`/details/${trip.id}`, trip)}
-//           role="button"
-//         >
-//           <div className="mt-0 bg-white rounded p-1">
-//             <i className="bi bi-hourglass-split text-yellow h3"></i>
-//           </div>
-//         </Card.ImgOverlay>
-//       );
-//     }
-//     default: {
-//       return null;
-//     }
-//   }
-// }

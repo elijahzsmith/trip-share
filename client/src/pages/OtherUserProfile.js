@@ -58,7 +58,7 @@ function OtherUserProfile() {
       return el.follower.username === mainUser.username;
     });
   };
-  console.log(locate.state);
+  // console.log(locate.state);
   const renderTheirTrips =
     otherUsersTrips && otherUsersTrips.length >= 1
       ? otherUsersTrips
