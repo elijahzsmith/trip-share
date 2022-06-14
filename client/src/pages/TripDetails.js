@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
-import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
 
 function TripDetails() {
   let locate = useLocation();
@@ -13,10 +12,11 @@ function TripDetails() {
 
   const { photo_url, location, description, user_id, comments, favorites } =
     locate.state;
+  console.log(locate.state);
+  // console.log(comments);
 
-  useEffect(() => {
-    dispatch(fetchOneOtherUser(user_id));
-  }, []);
+  // const tripsState = useSelector((state) => state.trips.entities);
+  // console.log(tripsState);
 
   const thisUserAuth = useSelector((state) => state.otherUsers.authenticated);
 
@@ -25,7 +25,8 @@ function TripDetails() {
   }
 
   const thisUser = useSelector((state) => state.otherUsers.entities);
-  console.log(favorites);
+  console.log("favorites: ", favorites);
+  console.log("comments: ", comments);
 
   return (
     <Container className="">
@@ -57,16 +58,21 @@ function TripDetails() {
       </Row>
       <h2>Favorites: {favorites.length >= 1 ? favorites.length : 0}</h2>
       {favorites
-        ? favorites.map((favorite) => (
-            <p key={favorite.id}>{favorite.user.name}</p>
-          ))
+        ? favorites.map((favorite) => {
+            return <p key={favorite.id}>{favorite.user.name}</p>;
+          })
         : null}
       <Row className="mt-4 mx-auto" style={{ maxWidth: 1000 }}>
-        <h2>Comments: {comments.length >= 1 ? comments.length : 0}</h2>
+        <h2>
+          Comments: {comments && comments.length >= 1 ? comments.length : 0}
+        </h2>
         <ul>
           {comments
             ? comments.map((comment) => (
-                <li key={comment.id}>{comment.content}</li>
+                <li key={comment.id}>
+                  {/* `${comment.user.username}: */}
+                  {comment.content}`
+                </li>
               ))
             : null}
         </ul>
@@ -81,3 +87,22 @@ function TripDetails() {
 }
 // changed from listingdetails
 export default TripDetails;
+
+// const thisFavorite = favoritesState.find((favorite) => {
+//   return favorite.trip.id === locate.state.id;
+//   // console.log((favorite) => favorite.trip.id === locate.state.id);
+//   //
+// });
+// console.log(thisFavorite);
+// console.log(locate.state.id, "vs", thisFavorite.trip.id);
+// const thisFavorite = favoritesState.find((favorite) => {
+//   return favorite.trip.id === locate.state.id;
+//   // console.log((favorite) => favorite.trip.id === locate.state.id);
+//   //
+// });
+// console.log(thisFavorite);
+// console.log(locate.state.id, "vs", thisFavorite.trip.id);
+
+// useEffect(() => {
+//   dispatch(fetchOneOtherUser(user_id));
+// }, []);

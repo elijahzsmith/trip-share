@@ -2,7 +2,7 @@ class FavoritesController < ApplicationController
     # before_action :authorize_user, except: [:create]
 
     def index
-        render json: Favorite.all, status: :ok
+        render json: Favorite.all, include: :users, status: :ok
     end
  
     def show

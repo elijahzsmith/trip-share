@@ -31,17 +31,17 @@ puts "seeding follows..."
 puts "Done seeding follows!"
 
 puts "seeding trips..."
-    t1 = Trip.create(user_id: elijah.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t2 = Trip.create(user_id: elijah.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t3 = Trip.create(user_id: elijah.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t4 = Trip.create(user_id: jacob.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t5 = Trip.create(user_id: mark.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t6 = Trip.create(user_id: mark.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t7 = Trip.create(user_id: elijah.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t8 = Trip.create(user_id: rahaf.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t9 = Trip.create(user_id: elizabeth.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t10 = Trip.create(user_id: u6.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
-    t11 = Trip.create(user_id: elizabeth.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image)
+    t1 = Trip.create(user_id: elijah.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['city']))
+    t2 = Trip.create(user_id: elijah.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['place']))
+    t3 = Trip.create(user_id: elijah.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['location']))
+    t4 = Trip.create(user_id: jacob.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['state']))
+    t5 = Trip.create(user_id: mark.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['country']))
+    t6 = Trip.create(user_id: mark.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['forest']))
+    t7 = Trip.create(user_id: elijah.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['nature']))
+    t8 = Trip.create(user_id: rahaf.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['world']))
+    t9 = Trip.create(user_id: elizabeth.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['animal']))
+    t10 = Trip.create(user_id: u6.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['destination']))
+    t11 = Trip.create(user_id: elizabeth.id, location: Faker::Address.city, description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), photo_url: Faker::LoremFlickr.image(search_terms: ['land']))
     # t1 = Trip.create(user_id: elijah.id)
     # t2 = Trip.create(user_id: elijah.id)
     # t3 = Trip.create(user_id: elijah.id)
@@ -69,7 +69,7 @@ puts "seeding favorites..."
     Favorite.create(user_id: elizabeth.id, trip_id: t2.id)
 puts "Done seeding favorites!"
 
-puts "seeding favorites..."
+puts "seeding comments..."
     Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: elijah.id, trip_id: t1.id)
     Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: elijah.id, trip_id: t2.id)
     Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: rahaf.id, trip_id: t2.id)
@@ -81,4 +81,4 @@ puts "seeding favorites..."
     Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: elizabeth.id, trip_id: t1.id)
     Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: u6.id, trip_id: t10.id)
     Comment.create(content: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 8), user_id: elizabeth.id, trip_id: t2.id)
-puts "Done seeding favorites!"
+puts "Done seeding comments!"

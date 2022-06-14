@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -19,6 +19,7 @@ function OtherUsersTripItem({ trip }) {
     // user_id,
     // favorites,
   } = trip;
+  console.log(trip);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -39,12 +40,10 @@ function OtherUsersTripItem({ trip }) {
   };
 
   const favoritesCount = favoritesArray.filter((favorite) => {
-    // console.log("otherUser", favorite.trip.user_id);
     return (
       favorite.trip.user_id === thisUser.id && favorite.trip.id === trip.id
     );
   });
-  // console.log("otherUser", thisUser);
 
   const handleRemoveFavorite = () => {
     const favoriteToRemove = favoritesCount.find(
@@ -53,7 +52,9 @@ function OtherUsersTripItem({ trip }) {
     dispatch(unfavorite(favoriteToRemove.id));
   };
 
-  const favoriteButton = favoritesCount.some((el) => el.trip.id === trip.id);
+  const favoriteButton = favoritesCount.some(
+    (el) => el.user.username === mainUser.username
+  );
 
   return (
     <Col>

@@ -4,6 +4,7 @@ import { Switch, Route, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./features/users/usersSlice";
 import { fetchComments } from "./features/comments/commentsSlice";
+import { fetchFavorites } from "./features/favorites/favoritesSlice";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
@@ -28,6 +29,7 @@ function App() {
 
   useEffect(() => {
     dispatch(setUser());
+    dispatch(fetchFavorites());
   }, []);
 
   return (

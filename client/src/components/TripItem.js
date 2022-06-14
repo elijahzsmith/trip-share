@@ -77,7 +77,10 @@ function FavItem({ trip }) {
     dispatch(unfavorite(favoriteToRemove.id));
   };
 
-  const favoriteButton = favoritesCount.some((el) => el.trip.id === trip.id);
+  // const favoriteButton = favoritesCount.some((el) => el.trip.id === trip.id);
+  const favoriteButton = favoritesCount.some(
+    (el) => el.user.username === mainUser.username
+  );
 
   return (
     <Col>
