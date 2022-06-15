@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Button from "react-bootstrap/esm/Button";
@@ -8,7 +8,7 @@ import Form from "react-bootstrap/esm/Form";
 import { createSignup } from "../features/users/usersSlice";
 
 function Signup() {
-  const [error, setError] = useState([]);
+  const [error, setError] = useState();
   const [signUpData, setSignUpData] = useState({
     name: "",
     username: "",
@@ -20,10 +20,17 @@ function Signup() {
 
   const history = useHistory();
   const dispatch = useDispatch();
+  const authorized = useSelector((state) => state.users.authorized);
+
+  useEffect(() => {
+    if (authorized) {
+      history.push("/");
+    }
+  }, [authorized, history]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createSignup(signUpData, history));
+    dispatch(createSignup(signUpData, history, setError));
     setSignUpData({
       name: "",
       username: "",
@@ -41,6 +48,7 @@ function Signup() {
       [key]: e.target.value,
     });
   };
+  console.log(error);
 
   return (
     <Container fluid>
@@ -124,11 +132,13 @@ function Signup() {
               </Button>
             </Row>
 
-            {error ? (
-              <Row className="text-danger text-center">
-                <strong>{error}</strong>
-              </Row>
-            ) : null}
+            {error
+              ? error.map((err) => (
+                  <Row className="text-danger text-center">
+                    <strong>{err}</strong>
+                  </Row>
+                ))
+              : null}
           </Form>
         </Row>
 

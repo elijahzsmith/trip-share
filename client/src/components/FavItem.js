@@ -9,40 +9,27 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 function FavItem({ fav }) {
-  //   const [iconState, setIconState] = useState(null);
+  const mainUser = useSelector((state) => state.users.entities);
+  const mainUsersFavorites = useSelector(
+    (state) => state.users.entities.favorites
+  );
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { location, photo_url, description } = fav.trip;
+  const { id, location, photo_url, description, favorites } = fav;
+  console.log(favorites);
+  const yourFavoriteForThisPost = favorites.filter(
+    (favorite) => favorite.user.id === mainUser.id && favorite.trip.id === id
+  );
 
-  //   function renderIcon() {
-  //     switch (iconState) {
-  //       case "Ongoing": {
-  //         return (
-  //           <Card.ImgOverlay
-  //             className="d-flex flex-column align-items-end h-75"
-  //             // onClick={() => handleCardClick(id, fav.listing)}
-  //             role="button"
-  //           >
-  //             <div className="mt-0 bg-white rounded p-1">
-  //               <i className="bi bi-hourglass-split text-yellow h3"></i>
-  //             </div>
-  //           </Card.ImgOverlay>
-  //         );
-  //       }
-  //       default: {
-  //         return null;
-  //       }
-  //     }
-  //   }
-
+  // const { id, location, photo_url, description } = fav.trip;
   return (
     <Col>
       <Card className="h-100">
         <Card.Img
           src={photo_url}
           alt="listing"
-          //   onClick={() => handleCardClick(id, fav.listing)}
+          onClick={() => history.push(`/details/${fav.id}`, fav)}
           role="button"
           className="h-75"
         />
@@ -58,7 +45,10 @@ function FavItem({ fav }) {
                 <Button
                   variant="warning"
                   // onClick={() => console.log(fav.id)}
-                  onClick={() => dispatch(unfavorite(fav.id))}
+                  //find the favorite id not the trip id
+                  onClick={() =>
+                    dispatch(unfavorite(yourFavoriteForThisPost[0].id))
+                  }
                 >
                   {" "}
                   Remove Favorite{" "}
@@ -73,3 +63,24 @@ function FavItem({ fav }) {
 }
 
 export default FavItem;
+
+//   function renderIcon() {
+//     switch (iconState) {
+//       case "Ongoing": {
+//         return (
+//           <Card.ImgOverlay
+//             className="d-flex flex-column align-items-end h-75"
+//             // onClick={() => handleCardClick(id, fav.listing)}
+//             role="button"
+//           >
+//             <div className="mt-0 bg-white rounded p-1">
+//               <i className="bi bi-hourglass-split text-yellow h3"></i>
+//             </div>
+//           </Card.ImgOverlay>
+//         );
+//       }
+//       default: {
+//         return null;
+//       }
+//     }
+//   }

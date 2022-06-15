@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import Row from "react-bootstrap/Row";
 import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
+import otherUsersSlice, {
+  fetchOneOtherUser,
+} from "../features/users/otherUsersSlice";
 import {
   fetchFollows,
   addFollow,
@@ -26,6 +28,7 @@ function OtherUserProfile() {
   const otherUsersTrips = useSelector(
     (state) => state.otherUsers.entities.trips
   );
+  const blah = useSelector((state) => state.trips.entities);
 
   const authorized = useSelector((state) => state.users.authorized);
   const authorizedOther = useSelector((state) => state.otherUsers.authorized);
@@ -34,6 +37,15 @@ function OtherUserProfile() {
     dispatch(fetchFollows());
     // dispatch(fetchFollows(locate.state.id));
   }, []);
+  const comparison = blah.filter((trip) => trip.user.id === user.id);
+  console.log(
+    "otherUsersTrips: ",
+    otherUsersTrips,
+    "vs",
+    "comparison: ",
+    comparison
+  );
+  console.log(locate.state);
   // const otherUser = useSelector((state) => state.otherUsers.entities);
   // const followedState = useSelector((state) => state.follows.followed);
   if (!authorized) {
@@ -62,6 +74,7 @@ function OtherUserProfile() {
   const renderTheirTrips =
     otherUsersTrips && otherUsersTrips.length >= 1
       ? otherUsersTrips
+          // comparison vs. otherUsersTrips
           // locate.state.trips
           .map((trip) => <OtherUsersTripItem key={trip.id} trip={trip} />)
       : null;

@@ -94,6 +94,13 @@ function EditTripPostForm() {
             ) : null}
 
             <Row className="d-flex justify-content-center mb-2">
+              <Button
+                variant="warning"
+                onClick={() => history.push("/mytrips")}
+                className="w-25"
+              >
+                Exit Edit Post Form
+              </Button>
               <Button variant="primary" type="submit" className="w-25">
                 Save Changes
               </Button>

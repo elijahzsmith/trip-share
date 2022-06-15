@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/esm/Container";
@@ -10,8 +10,9 @@ import { fetchLogin } from "../features/users/usersSlice";
 function Login() {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const authorized = useSelector((state) => state.users.authorized);
 
-  // const [error, setError] = useState([]);
+  const [error, setError] = useState();
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -21,9 +22,15 @@ function Login() {
     password: passwordInput,
   };
 
+  useEffect(() => {
+    if (authorized) {
+      history.push("/");
+    }
+  }, [authorized, history]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(fetchLogin(user, history));
+    dispatch(fetchLogin(user, history, setError));
   };
 
   return (
@@ -64,11 +71,11 @@ function Login() {
               </Button>
             </Row>
 
-            {/* {error ? (
+            {error ? (
               <Row className="text-danger text-center">
                 <strong>{error}</strong>
               </Row>
-            ) : null} */}
+            ) : null}
           </Form>
         </Row>
 

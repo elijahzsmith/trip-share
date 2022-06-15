@@ -27,6 +27,11 @@ function FavItem({ trip }) {
     user_id: "",
     trip_id: trip.id,
   });
+  // const [commentData, setCommentData] = useState({
+  //   content: "",
+  //   user_id: "",
+  //   trip_id: trip.id,
+  // });
   if (!mainUser) {
     return <h1>Loading...</h1>;
   }
@@ -53,15 +58,15 @@ function FavItem({ trip }) {
   const handleChange = (e) => {
     setCommentData({ ...commentData, [e.target.name]: e.target.value });
   };
-
   const handleAddComment = (e) => {
     e.preventDefault();
-    setCommentData({
-      content: e.target.value,
+    console.log(mainUser);
+    const commentObj = {
+      content: commentData.content,
       user_id: mainUser.id,
       trip_id: trip.id,
-    });
-    dispatch(addComment(commentData));
+    };
+    dispatch(addComment(commentObj));
     setShowForm(false);
   };
 

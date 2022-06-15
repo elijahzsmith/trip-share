@@ -10,7 +10,7 @@ export const setUser = createAsyncThunk("users/setUser", () => {
 
 export const createSignup = createAsyncThunk(
   "users/createSignup",
-  (user, history) => {
+  (user, history, setError) => {
     return fetch("/signup", {
       method: "POST",
       headers: {
@@ -26,7 +26,10 @@ export const createSignup = createAsyncThunk(
           return user;
         });
       } else {
-        return res.json().then((err) => console.log(err));
+        return res.json().then((err) => {
+          // console.log(err);
+          setError(err);
+        });
       }
     });
   }
@@ -58,9 +61,7 @@ export const handleUpdate = createAsyncThunk(
 
 export const fetchLogin = createAsyncThunk(
   "users/fetchLogin",
-  (user, history) => {
-    console.log(history);
-
+  (user, history, setError) => {
     return fetch("/login", {
       method: "POST",
       headers: {
@@ -68,33 +69,28 @@ export const fetchLogin = createAsyncThunk(
         Accept: "application/json",
       },
       body: JSON.stringify(user),
-    }) // add if res.ok
-      .then((res) => {
-        if (res.ok) {
-          return res.json().then((user) => {
-            // history.push("/");
-          });
-        } else {
-          return res.json((error) => console.log(error));
-        }
-      });
-    // .then((res) => res.json())
-    // .then((user) => {
-    //   // history.push("/");
-    //   return user;
-    // });
+    }).then((res) => {
+      if (res.ok) {
+        return res.json().then((user) => {
+          return user;
+        });
+      } else {
+        return res.json((error) => setError(error));
+      }
+    });
   }
 );
 
 export const createLogout = createAsyncThunk(
-  "users/handleLogout",
+  "users/createLogout",
   (history) => {
     console.log(history);
     return fetch("/logout", { method: "DELETE" }).then((res) => {
       if (res.ok) {
-        return res.headers;
+        history.push("/login");
+        return [];
       }
-      // history.push("/login");
+      //   // history.push("/login");
     });
   }
 );
@@ -106,38 +102,34 @@ const usersSlice = createSlice({
     status: "idle",
     authorized: false,
   },
-  reducers: {
-    handleSignup(state, action) {
-      state.entities = action.payload;
-    },
-    handleLogin(state, action) {
-      state.entities.push(action.payload);
-    },
-    handleAuth(state, action) {
-      state.entities = action.payload;
-    },
-    handleLogout(state, action) {
-      state.entities = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [fetchLogin.pending](state) {
       state.status = "loading";
     },
     [fetchLogin.fulfilled](state, action) {
       state.entities = action.payload;
-      console.log("hi");
+      console.log(action.payload);
       state.status = "idle";
-      state.authorized = true;
+      // state.authorized = true;
+      if (action.payload.error) {
+        state.authorized = false;
+      } else {
+        state.authorized = true;
+      }
     },
     [createSignup.pending](state) {
       state.status = "loading";
     },
     [createSignup.fulfilled](state, action) {
       state.entities = action.payload;
-      console.log(action.payload);
       state.status = "idle";
-      state.authorized = true;
+      // state.authorized = true;
+      if (action.payload.error) {
+        state.authorized = false;
+      } else {
+        state.authorized = true;
+      }
     },
     [createLogout.pending](state) {
       state.status = "loading";
@@ -161,6 +153,7 @@ const usersSlice = createSlice({
     [setUser.fulfilled](state, action) {
       state.entities = action.payload;
       state.status = "idle";
+      console.log(action.payload);
       if (action.payload) {
         state.authorized = true;
       } else {
@@ -170,7 +163,19 @@ const usersSlice = createSlice({
   },
 });
 
-export const { handleSignup, handleLogin, handleLogout, handleAuth } =
-  usersSlice.actions;
+export const { handleSignup, handleLogin, handleAuth } = usersSlice.actions;
 
 export default usersSlice.reducer;
+
+// handleSignup(state, action) {
+//   state.entities = action.payload;
+// },
+// handleLogin(state, action) {
+//   state.entities.push(action.payload);
+// },
+// handleAuth(state, action) {
+//   state.entities = action.payload;
+// },
+// handleLogout(state, action) {
+//   state.entities = action.payload;
+// },

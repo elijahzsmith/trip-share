@@ -1,32 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
+import { fetchAllOtherUsers } from "../features/users/otherUsersSlice";
 
 function TripDetails() {
   let locate = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { photo_url, location, description, user_id, comments, favorites } =
+  const { photo_url, location, description, comments, favorites, user } =
     locate.state;
   console.log(locate.state);
-  // console.log(comments);
-
-  // const tripsState = useSelector((state) => state.trips.entities);
-  // console.log(tripsState);
 
   const thisUserAuth = useSelector((state) => state.otherUsers.authenticated);
+  const mainUser = useSelector((state) => state.users.entities);
+  // const allOtherUsers = useSelector((state) => state.otherUsers.e);
 
   if (!thisUserAuth) {
     <h1>Loading....</h1>;
   }
-
-  const thisUser = useSelector((state) => state.otherUsers.entities);
-  console.log("favorites: ", favorites);
-  console.log("comments: ", comments);
 
   return (
     <Container className="">
@@ -38,9 +33,26 @@ function TripDetails() {
           <h1>{location}</h1>
         </Col>
         <Col className="text-md-end text-center my-auto text-secondary">
-          <h2 onClick={() => history.push(`/profile/${thisUser.id}`, thisUser)}>
-            {thisUser.name}
-          </h2>
+          {user.id !== mainUser.id ? (
+            <h2
+              onClick={() =>
+                history.push(`/profile/${locate.state.user_id}`, user)
+              }
+            >
+              {user ? user.name : null}
+            </h2>
+          ) : (
+            <h2 onClick={() => history.push(`/profile`, user)}>
+              {user ? user.name : null}
+            </h2>
+          )}
+          {/* <h2
+            onClick={() =>
+              history.push(`/profile/${locate.state.user_id}`, user)
+            }
+          >
+            {user ? user.name : null}
+          </h2> */}
         </Col>
       </Row>
 
@@ -59,7 +71,16 @@ function TripDetails() {
       <h2>Favorites: {favorites.length >= 1 ? favorites.length : 0}</h2>
       {favorites
         ? favorites.map((favorite) => {
-            return <p key={favorite.id}>{favorite.user.name}</p>;
+            return (
+              <p
+                key={favorite.id}
+                onClick={() =>
+                  history.push(`/profile/${favorite.user.id}`, favorite.user)
+                }
+              >
+                {favorite.user ? favorite.user.name : null}
+              </p>
+            );
           })
         : null}
       <Row className="mt-4 mx-auto" style={{ maxWidth: 1000 }}>
@@ -70,8 +91,19 @@ function TripDetails() {
           {comments
             ? comments.map((comment) => (
                 <li key={comment.id}>
-                  {/* `${comment.user.username}: */}
-                  {comment.content}`
+                  {comment.user ? (
+                    <strong
+                      onClick={() =>
+                        history.push(
+                          `/profile/${comment.user.id}`,
+                          comment.user
+                        )
+                      }
+                    >
+                      {comment.user.username}
+                    </strong>
+                  ) : null}
+                  : {comment.content}
                 </li>
               ))
             : null}

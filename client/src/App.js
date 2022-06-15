@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./features/users/usersSlice";
 import { fetchComments } from "./features/comments/commentsSlice";
 import { fetchFavorites } from "./features/favorites/favoritesSlice";
+///////////////
+import { fetchAllOtherUsers } from "./features/users/otherUsersSlice";
+import { fetchTrips } from "./features/trips/tripsSlice";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
@@ -26,10 +29,13 @@ import EditTripPostForm from "./pages/EditTripPostForm";
 
 function App() {
   const dispatch = useDispatch();
+  // const favorites = useSelector((state) => state.favorites.entities);
 
   useEffect(() => {
     dispatch(setUser());
     dispatch(fetchFavorites());
+    /////////
+    // dispatch(fetchAllOtherUsers());
   }, []);
 
   return (
