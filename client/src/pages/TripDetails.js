@@ -32,7 +32,7 @@ function TripDetails() {
         <Col className="col-md-8 text-md-start col-12 text-center my-auto ">
           <h1>{location}</h1>
         </Col>
-        <Col className="text-md-end text-center my-auto text-secondary">
+        <Col className="text-md-end text-center my-auto text-success">
           {user.id !== mainUser.id ? (
             <h2
               onClick={() =>

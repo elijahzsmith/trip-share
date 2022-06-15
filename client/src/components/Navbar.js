@@ -21,7 +21,14 @@ function NavBar() {
   return (
     <div>
       {currUser ? (
-        <Navbar bg="primary" variant="dark" expand="md" sticky="top">
+        <Navbar
+          // bg="primary"
+          bg="nav-bar"
+          // bg="nav-bar2"
+          variant="dark"
+          expand="md"
+          sticky="top"
+        >
           <Container>
             <Navbar.Brand href="/" className="fs-2">
               TripShare
@@ -62,7 +69,13 @@ function NavBar() {
           </Container>
         </Navbar>
       ) : (
-        <Navbar bg="primary" variant="dark" expand="md" sticky="top">
+        <Navbar
+          // bg="primary"
+          bg="nav-bar2"
+          variant="dark"
+          expand="md"
+          sticky="top"
+        >
           <Container>
             <Navbar.Brand href="/" className="fs-2">
               TripShare

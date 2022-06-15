@@ -2,17 +2,26 @@
 
 $primary: #37927a;
 $secondary: #ef9d9e;
-$warning: #7d3636;
+$warning: #c0392b;
+$favorite: #e74c3c;
 $success: #05bdfa;
+$turquoise: #1abc9c;
 $btn-close-color: white;
+$nav-bar: #34495e;
+$nav-bar2: #2c3e50;
 
 $theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
   "warning": $warning,
   "success": $success,
+  "turquoise": $turquoise,
+  "favorite": $favorite,
+  "nav-bar": $nav-bar,
+  "nav-bar2": $nav-bar2,
+
   //   "yellow": #fad02c,
-  //   "green": #81b622,,
+  //   "green": #81b622,,,,,,,,,,,
 );
 
 @import "../node_modules/bootstrap/scss/functions";

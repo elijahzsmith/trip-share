@@ -153,7 +153,7 @@ function FavItem({ trip }) {
                 ) : (
                   <>
                     <Button
-                      variant="primary"
+                      variant="turquoise"
                       onClick={() => setShowForm((showForm) => !showForm)}
                     >
                       comment
