@@ -19,7 +19,7 @@ function OtherUsersTripItem({ trip }) {
     // user_id,
     // favorites,
   } = trip;
-  console.log(trip);
+  // console.log("trip otherUser: ", trip);
   const history = useHistory();
   const dispatch = useDispatch();
 

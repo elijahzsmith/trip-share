@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+// import NavLink from react router instead
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -36,8 +37,18 @@ function NavBar() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
-                <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/profile">My Profile</Nav.Link>
+                <Nav.Link
+                  // href="/"
+                  onClick={() => history.push("/")}
+                >
+                  Home
+                </Nav.Link>
+                <Nav.Link
+                  // href="/profile"
+                  onClick={() => history.push("/profile")}
+                >
+                  My Profile
+                </Nav.Link>
                 {/* <Nav.Link href="/mytrips">My Trips</Nav.Link>
                 <Nav.Link href="/posttrip">Post a Trip</Nav.Link> */}
                 <Nav.Link
@@ -48,16 +59,36 @@ function NavBar() {
                 </Nav.Link>
                 {/* <Nav.Link href="/login">Login/Signup</Nav.Link> */}
                 <NavDropdown title="More" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="/profile">
+                  <NavDropdown.Item
+                    // href="/profile"
+                    onClick={() => history.push("/profile")}
+                  >
+                    {" "}
                     Account Details
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="/about">About Us</NavDropdown.Item>
-                  <NavDropdown.Item href="/mytrips">My Trips</NavDropdown.Item>
-                  <NavDropdown.Item href="/posttrip">
+                  <NavDropdown.Item
+                    // href="/about"
+                    onClick={() => history.push("/about")}
+                  >
+                    About Us
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    // href="/mytrips"
+                    onClick={() => history.push("/mytrips")}
+                  >
+                    My Trips
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    // href="/posttrip"
+                    onClick={() => history.push("/posttrip")}
+                  >
                     Post a Trip
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="/login">
+                  <NavDropdown.Item
+                    href="/login"
+                    onClick={() => history.push("/login")}
+                  >
                     Login/Signup
                   </NavDropdown.Item>
                   <NavDropdown.Item onClick={() => dispatchLogout()}>

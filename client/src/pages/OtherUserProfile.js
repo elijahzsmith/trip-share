@@ -10,6 +10,7 @@ import {
   addFollow,
   unfollow,
 } from "../features/follows/followsSlice";
+import { fetchTrips } from "../features/trips/tripsSlice";
 import OtherUsersTripItem from "../components/OtherUsersTripItem";
 import Button from "react-bootstrap/Button";
 
@@ -28,6 +29,15 @@ function OtherUserProfile() {
   const otherUsersTrips = useSelector(
     (state) => state.otherUsers.entities.trips
   );
+  const tripsState = useSelector((state) => state.trips.entities);
+  const thisUsersTrips = tripsState.filter((trip) => trip.user_id === user.id);
+  console.log(
+    "otherUsersTrips: ",
+    otherUsersTrips,
+    "vs: ",
+    "tripsState: ",
+    thisUsersTrips
+  );
   const blah = useSelector((state) => state.trips.entities);
 
   const authorized = useSelector((state) => state.users.authorized);
@@ -35,17 +45,17 @@ function OtherUserProfile() {
   useEffect(() => {
     dispatch(fetchOneOtherUser(locate.state.id));
     dispatch(fetchFollows());
-    // dispatch(fetchFollows(locate.state.id));
+    dispatch(fetchTrips());
   }, []);
   const comparison = blah.filter((trip) => trip.user.id === user.id);
-  console.log(
-    "otherUsersTrips: ",
-    otherUsersTrips,
-    "vs",
-    "comparison: ",
-    comparison
-  );
-  console.log(locate.state);
+  // console.log(
+  //   "otherUsersTrips: ",
+  //   otherUsersTrips,
+  //   "vs",
+  //   "comparison: ",
+  //   comparison
+  // );
+  // console.log(locate.state);
   // const otherUser = useSelector((state) => state.otherUsers.entities);
   // const followedState = useSelector((state) => state.follows.followed);
   if (!authorized) {
@@ -71,9 +81,16 @@ function OtherUserProfile() {
     });
   };
   // console.log(locate.state);
+  // const renderTheirTrips =
+  //   otherUsersTrips && otherUsersTrips.length >= 1
+  //     ? otherUsersTrips
+  //         // comparison vs. otherUsersTrips
+  //         // locate.state.trips
+  //         .map((trip) => <OtherUsersTripItem key={trip.id} trip={trip} />)
+  //     : null;
   const renderTheirTrips =
-    otherUsersTrips && otherUsersTrips.length >= 1
-      ? otherUsersTrips
+    otherUsersTrips && otherUsersTrips.length >= 1 && thisUsersTrips
+      ? thisUsersTrips
           // comparison vs. otherUsersTrips
           // locate.state.trips
           .map((trip) => <OtherUsersTripItem key={trip.id} trip={trip} />)

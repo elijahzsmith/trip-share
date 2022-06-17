@@ -4,6 +4,7 @@ export const fetchComments = createAsyncThunk("comments/fetchComments", () => {
   return fetch("/comments")
     .then((res) => res.json())
     .then((comments) => {
+      console.log(comments);
       return comments;
     });
 });
@@ -41,7 +42,10 @@ export const addComment = createAsyncThunk(
 export const removeComment = createAsyncThunk(
   "comments/removeComment",
   (id) => {
-    return fetch(`/favorites/${id}`, { method: "DELETE" });
+    return fetch(`/comments/${id}`, { method: "DELETE" }).then(() => {
+      console.log(id)
+      return id;
+    });
   }
 );
 
@@ -67,8 +71,12 @@ const commentsSlice = createSlice({
     [removeComment.pending](state) {
       state.status = "loading";
     },
-    [removeComment.fulfilled](state) {
-      state.entities = [];
+    [removeComment.fulfilled](state, action) {
+      // state.entities = [];
+      state.entities = state.entities.filter(
+        (comment) => action.payload !== comment.id
+      );
+      console.log("fulfilled");
       state.status = "idle";
     },
     [addComment.pending](state) {
@@ -84,7 +92,10 @@ const commentsSlice = createSlice({
       state.status = "loading";
     },
     [fetchComments.fulfilled](state, action) {
-      state.entities.push(action.payload);
+      // state.entities = [];
+      state.entities = action.payload;
+      //
+      // state.entities.push(action.payload);
       //   console.log("fulfilled: ", action.payload);
       state.status = "idle";
     },
@@ -92,7 +103,8 @@ const commentsSlice = createSlice({
       state.status = "loading";
     },
     [fetchOneComment.fulfilled](state, action) {
-      state.entities.push(action.payload);
+      state.entities = action.payload;
+      // state.entities = state.entities.push(action.payload);
       //   console.log("fulfilled: ", action.payload);
       state.status = "idle";
     },

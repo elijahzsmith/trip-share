@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import FavItem from "../components/FavItem";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchTrips } from "../features/trips/tripsSlice";
@@ -13,43 +13,18 @@ import Button from "react-bootstrap/esm/Button";
 
 function Favorites() {
   const favorites = useSelector((state) => state.favorites.entities);
-  // const favorites = useSelector((state) => state.users.entities.favorites);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchTrips());
   }, [favorites]);
 
-  //THIS WAY DOESNT UPDATE IN REAL TIME AND NO DETAILS LINK BUT IT DOES ALLOW FOR EASY DELETION
-  // const renderFavorites = favorites
-  //   ? favorites.map((fav) => <FavItem key={fav.id} fav={fav} />)
-  //   : null;
-
   const mainUser = useSelector((state) => state.users.entities);
 
   const tripsState = useSelector((state) => state.trips.entities);
-  console.log(tripsState);
 
   const favoritesArr = tripsState.filter((favorite) =>
     favorite.favorites.some((el) => el.user.id === mainUser.id)
   );
-
-  // const favoritesArr = tripsState.filter(
-  //   (favorite) => favorite.user.id === mainUser.id
-  // );
-  // console.log(
-  //   "favoritesUser: ",
-  //   favoritesUser,
-  //   "vs",
-  //   "tripsState: ",
-  //   favoritesArr,
-
-  //   "tripsState: ",
-  //   tripsState
-  // );
-
-  // const renderFavorites = favoritesArr
-  //   ? mainUser.favorites.map((fav) => <FavItem key={fav.id} fav={fav} />)
-  //   : null;
 
   const renderFavorites =
     favoritesArr && mainUser

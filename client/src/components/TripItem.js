@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
@@ -7,19 +7,25 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
-import { addFavorite, unfavorite } from "../features/favorites/favoritesSlice";
-import { addComment } from "../features/comments/commentsSlice";
+import {
+  addFavorite,
+  unfavorite,
+  allComments,
+} from "../features/favorites/favoritesSlice";
+import {
+  fetchComments,
+  addComment,
+  removeComment,
+} from "../features/comments/commentsSlice";
 
-function FavItem({ trip }) {
+function FavItem({ trip, allComments }) {
   const [showForm, setShowForm] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const mainUser = useSelector((state) => state.users.entities);
-  ////
-  ////
-  ////
+
   const favoritesArray = useSelector((state) => state.favorites.entities);
 
   const [commentData, setCommentData] = useState({
@@ -27,16 +33,13 @@ function FavItem({ trip }) {
     user_id: "",
     trip_id: trip.id,
   });
-  // const [commentData, setCommentData] = useState({
-  //   content: "",
-  //   user_id: "",
-  //   trip_id: trip.id,
-  // });
+
   if (!mainUser) {
     return <h1>Loading...</h1>;
   }
 
   const {
+    id,
     location,
     photo_url,
     description,
@@ -45,7 +48,12 @@ function FavItem({ trip }) {
     comments,
     user_id,
   } = trip;
-  // console.log(trip, user_id);
+
+  const filteredComments = allComments.filter((comment) => {
+    return comment.trip.id === id;
+  });
+
+  // console.log("trip home: ", trip);
 
   const handleAddFavorite = () => {
     const favoriteObj = {
@@ -60,7 +68,6 @@ function FavItem({ trip }) {
   };
   const handleAddComment = (e) => {
     e.preventDefault();
-    console.log(mainUser);
     const commentObj = {
       content: commentData.content,
       user_id: mainUser.id,
@@ -72,7 +79,6 @@ function FavItem({ trip }) {
 
   const favoritesCount = favoritesArray.filter((favorite) => {
     return favorite.trip.id === trip.id;
-    // return favorite.trip.user_id === user.id && favorite.trip.id === trip.id;
   });
 
   const handleRemoveFavorite = () => {
@@ -82,7 +88,6 @@ function FavItem({ trip }) {
     dispatch(unfavorite(favoriteToRemove.id));
   };
 
-  // const favoriteButton = favoritesCount.some((el) => el.trip.id === trip.id);
   const favoriteButton = favoritesCount.some(
     (el) => el.user.username === mainUser.username
   );
@@ -107,10 +112,6 @@ function FavItem({ trip }) {
               : null}
           </h6>
           <p onClick={() => setShowComments(false)}>
-            {/* ////
-            ////
-            ////
-            //// */}
             Favorites: {favoritesCount.length}
           </p>
           {showForm ? (
@@ -128,14 +129,31 @@ function FavItem({ trip }) {
               <p
                 onClick={() => setShowComments((showComments) => !showComments)}
               >
-                Comments: {comments.length}
+                Comments:{" "}
+                {filteredComments ? `${filteredComments.length}` : "Loading"}
               </p>
-              {showComments && comments.length >= 1
-                ? comments.map((comment) => {
+              {showComments && filteredComments.length >= 1
+                ? filteredComments.map((comment) => {
+                    console.log(comment);
                     return (
-                      <li key={comment.id}>
-                        {comment.content.substring(0, 8)}...
-                      </li>
+                      <>
+                        <li key={comment.id}>
+                          {comment.content}...
+                          {comment.user.id === mainUser.id ? (
+                            <button
+                              key={comment.id}
+                              onClick={() =>
+                                dispatch(removeComment(comment.id))
+                              }
+                            >
+                              X
+                            </button>
+                          ) : null}
+                        </li>
+                        {/* {comment.user.id === mainUser.id ? (
+                          <button>X</button>
+                        ) : null} */}
+                      </>
                     );
                   })
                 : null}
