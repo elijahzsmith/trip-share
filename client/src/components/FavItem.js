@@ -51,7 +51,7 @@ function FavItem({ fav }) {
                   }
                 >
                   {" "}
-                  Remove Favorite{" "}
+                  Remove Favorite <i class="bi bi-heart-fill"></i>
                 </Button>
               </Col>
             </Row>

@@ -20,15 +20,14 @@ export const createSignup = createAsyncThunk(
       body: JSON.stringify(user),
     }).then((res) => {
       if (res.ok) {
-        console.log("signup response: ", res);
+        // history.push("/");
         return res.json().then((user) => {
-          history.push("/");
           return user;
         });
       } else {
         return res.json().then((err) => {
-          // console.log(err);
           setError(err);
+          console.log("error: ", err);
         });
       }
     });
@@ -37,7 +36,7 @@ export const createSignup = createAsyncThunk(
 
 export const handleUpdate = createAsyncThunk(
   "users/handleUpdate",
-  (formData) => {
+  (formData, history) => {
     return fetch(`/users/${formData.id}`, {
       method: "PATCH",
       headers: {
@@ -48,6 +47,7 @@ export const handleUpdate = createAsyncThunk(
     }).then((res) => {
       if (res.ok) {
         console.log("update response: ", res);
+        history.push("/profile");
         return res.json().then((user) => {
           console.log(user);
           return user;
@@ -71,6 +71,7 @@ export const fetchLogin = createAsyncThunk(
       body: JSON.stringify(user),
     }).then((res) => {
       if (res.ok) {
+        // history.push("/");
         return res.json().then((user) => {
           return user;
         });
@@ -109,9 +110,7 @@ const usersSlice = createSlice({
     },
     [fetchLogin.fulfilled](state, action) {
       state.entities = action.payload;
-      console.log(action.payload);
       state.status = "idle";
-      // state.authorized = true;
       if (action.payload.error) {
         state.authorized = false;
       } else {
@@ -124,7 +123,6 @@ const usersSlice = createSlice({
     [createSignup.fulfilled](state, action) {
       state.entities = action.payload;
       state.status = "idle";
-      // state.authorized = true;
       if (action.payload.error) {
         state.authorized = false;
       } else {
@@ -153,7 +151,7 @@ const usersSlice = createSlice({
     [setUser.fulfilled](state, action) {
       state.entities = action.payload;
       state.status = "idle";
-      console.log(action.payload);
+      // console.log(action.payload);
       if (action.payload) {
         state.authorized = true;
       } else {

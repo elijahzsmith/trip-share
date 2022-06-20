@@ -28,19 +28,6 @@ function Signup() {
     }
   }, [authorized, history]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createSignup(signUpData, history, setError));
-    setSignUpData({
-      name: "",
-      username: "",
-      email: "",
-      password: "",
-      age: "",
-      profile_picture: "",
-    });
-  };
-
   const handleChange = (e) => {
     const key = e.target.name;
     setSignUpData({
@@ -48,7 +35,22 @@ function Signup() {
       [key]: e.target.value,
     });
   };
-  console.log(error);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createSignup(signUpData, history, setError));
+    // setSignUpData({
+    //   name: "",
+    //   username: "",
+    //   email: "",
+    //   password: "",
+    //   age: "",
+    //   profile_picture: "",
+    // });
+    // history.push("/");
+  };
+
+  // console.log("error in signup", error);
 
   return (
     <Container fluid>
@@ -67,7 +69,7 @@ function Signup() {
                 type="text"
                 placeholder="Name..."
                 onChange={handleChange}
-                // value={usernameInput}
+                value={signUpData.name}
                 name="name"
               />
             </Form.Group>
@@ -78,7 +80,7 @@ function Signup() {
                 type="text"
                 placeholder="Username..."
                 onChange={handleChange}
-                // value={signUpData.password}
+                value={signUpData.username}
                 name="username"
               />
             </Form.Group>
@@ -91,7 +93,7 @@ function Signup() {
                 type="text"
                 placeholder="email@gmail.com..."
                 onChange={handleChange}
-                // value={signUpData.password}
+                value={signUpData.email}
                 name="email"
               />
             </Form.Group>
@@ -131,15 +133,14 @@ function Signup() {
                 Create Account
               </Button>
             </Row>
-
-            {error
-              ? error.map((err) => (
-                  <Row className="text-danger text-center">
-                    <strong>{err}</strong>
-                  </Row>
-                ))
-              : null}
           </Form>
+          {error
+            ? error.errors.map((err) => (
+                <Row className="text-danger text-center">
+                  <strong>{err}</strong>
+                </Row>
+              ))
+            : null}
         </Row>
 
         <Row className="text-center">

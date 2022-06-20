@@ -1,27 +1,93 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
-import { fetchAllOtherUsers } from "../features/users/otherUsersSlice";
+import Button from "react-bootstrap/Button";
+
+import { addFavorite, unfavorite } from "../features/favorites/favoritesSlice";
+import {
+  fetchComments,
+  addComment,
+  removeComment,
+} from "../features/comments/commentsSlice";
 
 function TripDetails() {
   let locate = useLocation();
-  const dispatch = useDispatch();
   const history = useHistory();
+  const [showComments, setShowComments] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
 
-  const { photo_url, location, description, comments, favorites, user } =
+  const { id, photo_url, location, description, comments, favorites, user } =
     locate.state;
-  console.log(locate.state);
 
   const thisUserAuth = useSelector((state) => state.otherUsers.authenticated);
   const mainUser = useSelector((state) => state.users.entities);
-  // const allOtherUsers = useSelector((state) => state.otherUsers.e);
+  const allComments = useSelector((state) => state.comments.entities);
 
   if (!thisUserAuth) {
     <h1>Loading....</h1>;
   }
+  if (!allComments) {
+    <h1>Loading....</h1>;
+  }
+  const favoritesArray = useSelector((state) => state.favorites.entities);
+
+  const favoritesCount = favoritesArray.filter((favorite) => {
+    return favorite.trip.id === locate.state.id;
+  });
+
+  const favoriteButton = favoritesCount.some(
+    (el) => el.user.username === mainUser.username
+  );
+
+  const [showForm, setShowForm] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const [commentData, setCommentData] = useState({
+    content: "",
+    user_id: "",
+    trip_id: locate.state.id,
+  });
+
+  if (!mainUser) {
+    return <h1>Loading...</h1>;
+  }
+
+  const filteredComments = allComments.filter((comment) => {
+    return comment.trip.id === id;
+  });
+
+  const handleAddFavorite = () => {
+    const favoriteObj = {
+      user_id: mainUser.id,
+      trip_id: locate.state.id,
+    };
+    dispatch(addFavorite(favoriteObj));
+  };
+
+  const handleChange = (e) => {
+    setCommentData({ ...commentData, [e.target.name]: e.target.value });
+  };
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    const commentObj = {
+      content: commentData.content,
+      user_id: mainUser.id,
+      trip_id: locate.state.id,
+    };
+    dispatch(addComment(commentObj));
+    setShowForm(false);
+  };
+
+  const handleRemoveFavorite = () => {
+    const favoriteToRemove = favoritesCount.find(
+      (favorite) => favorite.user.id === mainUser.id
+    );
+    dispatch(unfavorite(favoriteToRemove.id));
+  };
 
   return (
     <Container className="">
@@ -46,13 +112,6 @@ function TripDetails() {
               {user ? user.name : null}
             </h2>
           )}
-          {/* <h2
-            onClick={() =>
-              history.push(`/profile/${locate.state.user_id}`, user)
-            }
-          >
-            {user ? user.name : null}
-          </h2> */}
         </Col>
       </Row>
 
@@ -63,78 +122,83 @@ function TripDetails() {
           style={{ maxHeight: 700, maxWidth: 1000 }}
         />
       </Row>
-
       <Row className="mt-4 mx-auto" style={{ maxWidth: 1000 }}>
+        <Col>
+          <h5
+            onClick={() => setShowFavorites((showFavorites) => !showFavorites)}
+          >
+            Favorites: {favorites.length >= 1 ? favorites.length : 0}
+          </h5>
+
+          {showFavorites && favorites
+            ? favorites.map((favorite) => {
+                return (
+                  <p
+                    key={favorite.id}
+                    onClick={() =>
+                      history.push(
+                        `/profile/${favorite.user.id}`,
+                        favorite.user
+                      )
+                    }
+                  >
+                    {favorite.user ? favorite.user.name : null}
+                  </p>
+                );
+              })
+            : null}
+          {locate.state.user_id !== mainUser.id ? (
+            !favoriteButton ? (
+              <Button variant="warning" onClick={() => handleAddFavorite()}>
+                {" "}
+                <i className="bi bi-heart"></i>
+              </Button>
+            ) : (
+              <Button variant="warning" onClick={() => handleRemoveFavorite()}>
+                {" "}
+                <i className="bi bi-heart-fill"></i>{" "}
+              </Button>
+            )
+          ) : null}
+        </Col>
+        <Col>
+          <h5 onClick={() => setShowComments((showComments) => !showComments)}>
+            Comments: {comments && comments.length >= 1 ? comments.length : 0}
+          </h5>
+          <ul>
+            {showComments && comments
+              ? // {showComments && comments && filteredComments
+                // filteredComments.map((comment) => (
+                comments.map((comment) => (
+                  <li key={comment.id}>
+                    {comment.user ? (
+                      <strong
+                        onClick={() =>
+                          history.push(
+                            `/profile/${comment.user.id}`,
+                            comment.user
+                          )
+                        }
+                      >
+                        {comment.user.username}
+                      </strong>
+                    ) : null}
+                    : {comment.content}
+                  </li>
+                ))
+              : null}
+          </ul>
+        </Col>
+      </Row>
+      <Row className="mt-0 mx-auto" style={{ maxWidth: 1000 }}>
         <h2>Content:</h2>
         <p>{description}</p>
       </Row>
-      <h2>Favorites: {favorites.length >= 1 ? favorites.length : 0}</h2>
-      {favorites
-        ? favorites.map((favorite) => {
-            return (
-              <p
-                key={favorite.id}
-                onClick={() =>
-                  history.push(`/profile/${favorite.user.id}`, favorite.user)
-                }
-              >
-                {favorite.user ? favorite.user.name : null}
-              </p>
-            );
-          })
-        : null}
-      <Row className="mt-4 mx-auto" style={{ maxWidth: 1000 }}>
-        <h2>
-          Comments: {comments && comments.length >= 1 ? comments.length : 0}
-        </h2>
-        <ul>
-          {comments
-            ? comments.map((comment) => (
-                <li key={comment.id}>
-                  {comment.user ? (
-                    <strong
-                      onClick={() =>
-                        history.push(
-                          `/profile/${comment.user.id}`,
-                          comment.user
-                        )
-                      }
-                    >
-                      {comment.user.username}
-                    </strong>
-                  ) : null}
-                  : {comment.content}
-                </li>
-              ))
-            : null}
-        </ul>
-      </Row>
       <Row className="d-flex align-items-around mx-auto mb-3">
-        <Col className="my-auto text-center">
-          {/* <h2 className="my-auto">Time Left:</h2> */}
-        </Col>
+        <Col className="my-auto text-center"></Col>
       </Row>
     </Container>
   );
 }
-// changed from listingdetails
+
 export default TripDetails;
-
-// const thisFavorite = favoritesState.find((favorite) => {
-//   return favorite.trip.id === locate.state.id;
-//   // console.log((favorite) => favorite.trip.id === locate.state.id);
-//   //
-// });
-// console.log(thisFavorite);
-// console.log(locate.state.id, "vs", thisFavorite.trip.id);
-// const thisFavorite = favoritesState.find((favorite) => {
-//   return favorite.trip.id === locate.state.id;
-//   // console.log((favorite) => favorite.trip.id === locate.state.id);
-//   //
-// });
-// console.log(thisFavorite);
-// console.log(locate.state.id, "vs", thisFavorite.trip.id);
-
-// useEffect(() => {
-//   dispatch(fetchOneOtherUser(user_id));
-// }, []);

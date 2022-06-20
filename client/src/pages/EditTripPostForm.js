@@ -15,13 +15,14 @@ function EditTripPostForm() {
   let thisTrip = locate.state;
 
   const user = useSelector((state) => state.users.entities);
+  // const allTrips = useSelector((state) => state.trips.entities);
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchOneTrip(thisTrip.id));
-  }, []);
+  // useEffect(() => {
+  //   // dispatch(fetchOneTrip(thisTrip.id));
+  // }, []);
   const thisTripState = useSelector((state) => state.trips.entities);
-  console.log(thisTripState.id, "vs", thisTrip.id);
+  console.log(thisTripState, "vs", thisTrip.id);
 
   const history = useHistory();
 
@@ -41,6 +42,7 @@ function EditTripPostForm() {
   const handleEditPost = (e) => {
     e.preventDefault();
     dispatch(editTrip(formData));
+    history.push("/mytrips");
   };
 
   return (

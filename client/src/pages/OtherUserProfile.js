@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import otherUsersSlice, {
-  fetchOneOtherUser,
-} from "../features/users/otherUsersSlice";
+import { fetchOneOtherUser } from "../features/users/otherUsersSlice";
 import {
   fetchFollows,
   addFollow,
@@ -13,32 +11,22 @@ import {
 import { fetchTrips } from "../features/trips/tripsSlice";
 import OtherUsersTripItem from "../components/OtherUsersTripItem";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/esm/Container";
+import Col from "react-bootstrap/Col";
 
 function OtherUserProfile() {
   let locate = useLocation();
-  // const { name } = locate.state;
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.otherUsers.entities);
   const mainUser = useSelector((state) => state.users.entities);
   const followers = useSelector((state) => state.follows.entities);
-  const [followData, setFollowData] = useState({
-    followee_id: user.id,
-    follower_id: mainUser.id,
-  });
+
   const otherUsersTrips = useSelector(
     (state) => state.otherUsers.entities.trips
   );
   const tripsState = useSelector((state) => state.trips.entities);
   const thisUsersTrips = tripsState.filter((trip) => trip.user_id === user.id);
-  console.log(
-    "otherUsersTrips: ",
-    otherUsersTrips,
-    "vs: ",
-    "tripsState: ",
-    thisUsersTrips
-  );
-  const blah = useSelector((state) => state.trips.entities);
 
   const authorized = useSelector((state) => state.users.authorized);
   const authorizedOther = useSelector((state) => state.otherUsers.authorized);
@@ -47,25 +35,13 @@ function OtherUserProfile() {
     dispatch(fetchFollows());
     dispatch(fetchTrips());
   }, []);
-  const comparison = blah.filter((trip) => trip.user.id === user.id);
-  // console.log(
-  //   "otherUsersTrips: ",
-  //   otherUsersTrips,
-  //   "vs",
-  //   "comparison: ",
-  //   comparison
-  // );
-  // console.log(locate.state);
-  // const otherUser = useSelector((state) => state.otherUsers.entities);
-  // const followedState = useSelector((state) => state.follows.followed);
+
   if (!authorized) {
     return <h1>Loading....</h1>;
   }
   if (!authorizedOther) {
     return <h1>Loading....</h1>;
   }
-
-  const followersArr = mainUser.followers;
 
   const userFollowers = followers.filter((follow) => {
     return follow.followee.id === user.id;
@@ -80,20 +56,12 @@ function OtherUserProfile() {
       return el.follower.username === mainUser.username;
     });
   };
-  // console.log(locate.state);
-  // const renderTheirTrips =
-  //   otherUsersTrips && otherUsersTrips.length >= 1
-  //     ? otherUsersTrips
-  //         // comparison vs. otherUsersTrips
-  //         // locate.state.trips
-  //         .map((trip) => <OtherUsersTripItem key={trip.id} trip={trip} />)
-  //     : null;
+
   const renderTheirTrips =
     otherUsersTrips && otherUsersTrips.length >= 1 && thisUsersTrips
-      ? thisUsersTrips
-          // comparison vs. otherUsersTrips
-          // locate.state.trips
-          .map((trip) => <OtherUsersTripItem key={trip.id} trip={trip} />)
+      ? thisUsersTrips.map((trip) => (
+          <OtherUsersTripItem key={trip.id} trip={trip} />
+        ))
       : null;
 
   const handleDelete = () => {
@@ -111,30 +79,45 @@ function OtherUserProfile() {
   };
 
   return (
-    <div>
-      OtherUserProfile
-      <h1>{user.name}</h1>
-      <Button onClick={() => history.push(`/otherfollowers/${user.id}`)}>
-        Followers: {userFollowers.length}
-      </Button>
-      <Button onClick={() => history.push(`/otherfollowing/${user.id}`)}>
-        Following: {userFollowing.length}
-      </Button>
-      {user.username === mainUser.username ? null : (
-        <>
-          {followButtonTwo() ? (
-            <Button variant="warning" onClick={() => handleDelete()}>
-              Unfollow
+    <Container fluid>
+      <Container className="mx-auto mt-5">
+        <Row style={{ maxHeight: 200 }}>
+          <Col className="w-auto">
+            <h2>Name: {user.name}</h2>
+            <h3>Username: {user.username}</h3>
+            <Button onClick={() => history.push(`/otherfollowers/${user.id}`)}>
+              Followers: {userFollowers.length}
             </Button>
-          ) : (
-            <Button onClick={() => handleAdd()}>Follow</Button>
-          )}{" "}
-        </>
-      )}
-      <Row xs={1} sm={2} md={3} lg={4}>
-        {renderTheirTrips}
-      </Row>
-    </div>
+            <Button onClick={() => history.push(`/otherfollowing/${user.id}`)}>
+              Following: {userFollowing.length}
+            </Button>
+            {user.username === mainUser.username ? null : (
+              <>
+                {followButtonTwo() ? (
+                  <Button variant="warning" onClick={() => handleDelete()}>
+                    Unfollow
+                  </Button>
+                ) : (
+                  <Button onClick={() => handleAdd()}>Follow</Button>
+                )}{" "}
+              </>
+            )}
+          </Col>
+          <Col>
+            <img
+              src={user.profile_picture}
+              alt="profile"
+              className="h-50 rounded-circle"
+            ></img>
+          </Col>
+        </Row>
+        {/* <hr></hr>
+        <br></br> */}
+        <Row xs={1} sm={2} md={3} lg={4}>
+          {renderTheirTrips}
+        </Row>
+      </Container>
+    </Container>
   );
 }
 

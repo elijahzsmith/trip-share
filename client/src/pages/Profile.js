@@ -7,6 +7,7 @@ import { handleAuth } from "../features/users/usersSlice";
 import { fetchTrips } from "../features/trips/tripsSlice";
 import MyTripCard from "../components/MyTripCard";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -32,26 +33,65 @@ function Profile() {
   return (
     <Container fluid>
       <Container className="mx-auto mt-5">
-        <h1>Account Details</h1>
+        <h1>Your Profile</h1>
+        {/* <h1>Account Details</h1> */}
         <hr></hr>
-        <h2>Name: {currUser.name}</h2>
-        <h3>Username: {currUser.username}</h3>
-        <h6>Age: {currUser.age}</h6>
-        <Button className="me-2" onClick={() => history.push("/editprofile")}>
-          Edit Profile
-        </Button>
-        <Button className="me-2" onClick={() => history.push("/mytrips")}>
-          Your Trip Posts
-        </Button>
-        <Button className="me-2" onClick={() => history.push("/favorites")}>
-          Your Favorites
-        </Button>
-        <Button className="me-2" onClick={() => history.push("/following")}>
-          Following: {currUser.followees.length}
-        </Button>
-        <Button className="me-2" onClick={() => history.push("/followers")}>
-          Followers: {currUser.followers.length}
-        </Button>
+        <Row style={{ maxHeight: 200 }}>
+          <Col className="w-auto">
+            <h2>Name: {currUser.name}</h2>
+            <h3>Username: {currUser.username}</h3>
+            <h6>Age: {currUser.age}</h6>
+          </Col>
+          <Col>
+            <img
+              src={currUser.profile_picture}
+              alt="profile"
+              className="h-50 rounded-circle"
+            ></img>
+          </Col>
+        </Row>
+        <Row>
+          <Col
+          // className="pr-none"
+          >
+            <Button
+              className="me-2"
+              onClick={() => history.push("/editprofile")}
+            >
+              Edit Profile
+            </Button>
+          </Col>
+          <Col
+          // className="pr-none"
+          >
+            <Button className="me-2" onClick={() => history.push("/mytrips")}>
+              Your Trip Posts
+            </Button>
+          </Col>
+          <Col
+          // className="pr-none"
+          >
+            <Button className="me-2" onClick={() => history.push("/favorites")}>
+              Your Favorites
+            </Button>
+          </Col>
+
+          <Col className="pr-none">
+            <Button className="me-2" onClick={() => history.push("/following")}>
+              Following: {currUser.followees.length}
+            </Button>
+          </Col>
+          <Col
+          // className="pr-none"
+          >
+            <Button className="me-2" onClick={() => history.push("/followers")}>
+              Followers: {currUser.followers.length}
+            </Button>
+          </Col>
+        </Row>
+        <br></br>
+        <hr></hr>
+        {/* <br></br> */}
       </Container>
       <Container>
         <Row xs={1} sm={2} md={3} lg={4}>

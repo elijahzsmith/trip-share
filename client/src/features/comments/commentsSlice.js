@@ -4,7 +4,7 @@ export const fetchComments = createAsyncThunk("comments/fetchComments", () => {
   return fetch("/comments")
     .then((res) => res.json())
     .then((comments) => {
-      console.log(comments);
+      // console.log(comments);
       return comments;
     });
 });
@@ -43,7 +43,7 @@ export const removeComment = createAsyncThunk(
   "comments/removeComment",
   (id) => {
     return fetch(`/comments/${id}`, { method: "DELETE" }).then(() => {
-      console.log(id)
+      console.log(id);
       return id;
     });
   }

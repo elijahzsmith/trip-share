@@ -33,7 +33,7 @@ function PostTripForm() {
     if (!userAuth) {
       <h1>Loading...</h1>;
     }
-    dispatch(postTrip({ ...formData, user_id: user.id }));
+    dispatch(postTrip({ ...formData, user_id: user.id }, history));
   };
 
   return (

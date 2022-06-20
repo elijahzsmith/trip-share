@@ -21,10 +21,12 @@ import {
 function FavItem({ trip, allComments }) {
   const [showForm, setShowForm] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const mainUser = useSelector((state) => state.users.entities);
+  console.log("IUTIOH", allComments);
 
   const favoritesArray = useSelector((state) => state.favorites.entities);
 
@@ -52,8 +54,6 @@ function FavItem({ trip, allComments }) {
   const filteredComments = allComments.filter((comment) => {
     return comment.trip.id === id;
   });
-
-  // console.log("trip home: ", trip);
 
   const handleAddFavorite = () => {
     const favoriteObj = {
@@ -111,9 +111,23 @@ function FavItem({ trip, allComments }) {
                 : user.username
               : null}
           </h6>
-          <p onClick={() => setShowComments(false)}>
+          <h6
+            onClick={() => setShowFavorites((showFavorites) => !showFavorites)}
+          >
             Favorites: {favoritesCount.length}
-          </p>
+          </h6>
+
+          {showFavorites && favoritesCount.length >= 1
+            ? favoritesCount.map((favorite) => {
+                console.log(favorite);
+                return (
+                  <div key={favorite.id}>
+                    <li>{favorite.user.username}</li>
+                  </div>
+                );
+              })
+            : null}
+
           {showForm ? (
             <form onSubmit={(e) => handleAddComment(e)}>
               <input
@@ -122,22 +136,24 @@ function FavItem({ trip, allComments }) {
                 name="content"
                 onChange={(e) => handleChange(e)}
               ></input>
-              <button type="submit">Post Comment</button>
+              <button type="submit">
+                Post Comment <i className="bi bi-chat-text"></i>
+              </button>
             </form>
           ) : (
             <>
-              <p
+              <h6
                 onClick={() => setShowComments((showComments) => !showComments)}
               >
                 Comments:{" "}
                 {filteredComments ? `${filteredComments.length}` : "Loading"}
-              </p>
+              </h6>
               {showComments && filteredComments.length >= 1
                 ? filteredComments.map((comment) => {
-                    console.log(comment);
                     return (
-                      <>
-                        <li key={comment.id}>
+                      <div key={comment.id}>
+                        <li>
+                          <strong>{comment.user.username}:</strong>{" "}
                           {comment.content}...
                           {comment.user.id === mainUser.id ? (
                             <button
@@ -146,14 +162,11 @@ function FavItem({ trip, allComments }) {
                                 dispatch(removeComment(comment.id))
                               }
                             >
-                              X
+                              <i className="bi bi-trash"></i>
                             </button>
                           ) : null}
                         </li>
-                        {/* {comment.user.id === mainUser.id ? (
-                          <button>X</button>
-                        ) : null} */}
-                      </>
+                      </div>
                     );
                   })
                 : null}
@@ -174,19 +187,15 @@ function FavItem({ trip, allComments }) {
                       variant="turquoise"
                       onClick={() => setShowForm((showForm) => !showForm)}
                     >
-                      comment
+                      <i className="bi bi-chat-text"></i>
                     </Button>
-                    {/* ////
-            ////
-            ////
-            //// */}
                     {!favoriteButton ? (
                       <Button
                         variant="warning"
                         onClick={() => handleAddFavorite()}
                       >
                         {" "}
-                        Favorite{" "}
+                        <i className="bi bi-heart"></i>
                       </Button>
                     ) : (
                       <Button
@@ -194,7 +203,7 @@ function FavItem({ trip, allComments }) {
                         onClick={() => handleRemoveFavorite()}
                       >
                         {" "}
-                        Unfavorite{" "}
+                        <i className="bi bi-heart-fill"></i>{" "}
                       </Button>
                     )}
                   </>

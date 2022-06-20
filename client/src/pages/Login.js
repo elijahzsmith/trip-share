@@ -37,9 +37,11 @@ function Login() {
     <Container fluid>
       <Container className="mx-auto mt-5">
         <Row className="text-center">
-          <h2>Welcome Back</h2>
-          <h4>TripShare</h4>
-          <h1>Login</h1>
+          <h1>Welcome Back</h1>
+          <h2>TripShare</h2>
+          <h3>
+            <strong>Login</strong>
+          </h3>
         </Row>
 
         <Row className="mb-5">
@@ -65,7 +67,8 @@ function Login() {
                 name="password"
               />
             </Form.Group>
-            <Row className="d-flex justify-content-center mb-2">
+            <Row className="d-flex justify-content-center">
+              {/* <Row className="d-flex justify-content-center mb-2"> */}
               <Button variant="primary" type="submit" className="w-25">
                 Login
               </Button>
@@ -78,18 +81,29 @@ function Login() {
             ) : null}
           </Form>
         </Row>
+        {/* </Row> */}
 
         <Row className="text-center">
           <h4>Don't have an account?</h4>
         </Row>
 
-        <Row>
+        <Row className="text-center">
           <Button
             onClick={() => history.push("/signup")}
             className="w-25 mx-auto"
+            variant="warning"
           >
             Sign Up
           </Button>
+        </Row>
+        <Row className="text-center">
+          <h5>
+            Join{" "}
+            <strong>
+              <em>the</em>
+            </strong>{" "}
+            Travel Network
+          </h5>
         </Row>
       </Container>
     </Container>

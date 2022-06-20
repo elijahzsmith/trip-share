@@ -32,21 +32,32 @@ export const editTrip = createAsyncThunk("trips/editTrip", (formData) => {
     });
 });
 
-export const postTrip = createAsyncThunk("trips/postTrip", (formData) => {
-  console.log("formData: ", formData);
-  return fetch(`/trips`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
-    .then((res) => res.json())
-    .then((trip) => {
-      return trip;
+export const postTrip = createAsyncThunk(
+  "trips/postTrip",
+  (formData, history, setError) => {
+    console.log("history: ", history);
+    return fetch(`/trips`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+    }).then((res) => {
+      if (res.ok) {
+        res.json().then((trip) => {
+          console.log("trip: ", trip);
+          history.push("/mytrips");
+          return trip;
+        });
+      } else {
+        return res.json().then((err) => {
+          setError(err);
+        });
+      }
     });
-});
+  }
+);
 
 export const deleteTrip = createAsyncThunk("trips/deleteTrip", (id) => {
   return fetch(`/trips/${id}`, { method: "DELETE" }).then(() => id);
@@ -78,7 +89,13 @@ const tripsSlice = createSlice({
       state.status = "loading";
     },
     [editTrip.fulfilled](state, action) {
-      state.entities = action.payload;
+      // state.entities = action.payload;
+      const filteredState = state.entities.filter(
+        (trip) => trip.id !== action.payload.id
+      );
+
+      state.entities = [...filteredState, action.payload];
+      // state.entities = [...state.entities, ([action.payload]: action.payload)];
       state.status = "idle";
     },
     [fetchOneTrip.pending](state) {
@@ -92,16 +109,17 @@ const tripsSlice = createSlice({
       state.status = "loading";
     },
     [postTrip.fulfilled](state, action) {
-      state.entities.push(action.payload);
+      state.entities = state.entities.push(action.payload);
       state.status = "idle";
     },
     [deleteTrip.pending](state) {
       state.status = "loading";
     },
     [deleteTrip.fulfilled](state, action) {
-      state.entities = state.entities
-        .filter((trip) => action.payload.id !== trip.id)
-        .push(action.payload);
+      const afterDelete = state.entities.filter(
+        (trip) => action.payload !== trip.id
+      );
+      state.entities = afterDelete;
       state.status = "idle";
     },
   },
@@ -110,52 +128,3 @@ const tripsSlice = createSlice({
 export const { tripAdded } = tripsSlice.actions;
 
 export default tripsSlice.reducer;
-
-// THE NON TOOLKIT WAY
-
-// export function fetchTrips() {
-//   return function (dispatch) {
-//     dispatch({ type: "trips/tripsLoading" });
-//     fetch("/trips")
-//       .then((res) => res.json())
-//       .then((trips) => {
-//         console.log("trips tripsSlice: ", trips);
-//         dispatch({
-//           type: "trips/tripsLoaded",
-//           payload: trips,
-//         });
-//       });
-//   };
-// }
-
-// const tripsSlice = createSlice({
-
-//     name: "trips",
-//     initialState = {
-//           entities: [], //array of trips
-//           status: "idle", //loading status for fetch
-//         }
-// })
-// // const initialState = {
-// //   name: "trips",
-// //   entities: [], //array of trips
-// //   status: "idle", //loading status for fetch
-// // };
-
-// export default function tripsReducer(state = initialState, action) {
-//   switch (action.type) {
-//     case "trips/tripsLoaded":
-//       return {
-//         ...state,
-//         status: "idle",
-//         entities: action.payload,
-//       };
-//     case "trips/tripsLoading":
-//       return {
-//         ...state,
-//         status: "loading",
-//       };
-//     default:
-//       return state;
-//   }
-// }

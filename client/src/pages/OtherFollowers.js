@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 function OtherFollowers() {
   const history = useHistory();
   const followers = useSelector((state) => state.otherUsers.entities.followers);
-  const mainUser = useSelector((state) => state.users.entities.followees);
+  const mainUser = useSelector((state) => state.users.entities);
 
   const user = useSelector((state) => state.otherUsers.entities);
 
@@ -19,7 +19,9 @@ function OtherFollowers() {
 
   return (
     <div>
-      {user.name} has: {followers.length} followers
+      <h2>
+        {user.name} has: {followers.length} followers
+      </h2>
       {followers.map((follower) => {
         return follower.username !== mainUser.username ? (
           <li

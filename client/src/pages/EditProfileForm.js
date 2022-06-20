@@ -27,7 +27,7 @@ function EditProfileForm() {
 
   const handleEditProfile = (e) => {
     e.preventDefault();
-    dispatch(handleUpdate(formData));
+    dispatch(handleUpdate(formData, history));
     history.push("/profile");
   };
 

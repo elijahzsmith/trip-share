@@ -35,17 +35,16 @@ function MyTripCard({ trip }) {
               <Col className="d-flex justify-content-center">
                 <Button
                   variant="primary"
-                  //   onClick={() => handleYourCardClick(id, listing)}
                   onClick={() => history.push(`/edittrip/${id}`, trip)}
                 >
                   {" "}
-                  Edit Post{" "}
+                  <i className="bi bi-pencil-square"></i>
                 </Button>
               </Col>
               <Col className="d-flex justify-content-center">
                 <Button variant="warning" onClick={() => handleDelete(id)}>
                   {" "}
-                  Delete Post{" "}
+                  <i className="bi bi-trash"></i>
                 </Button>
               </Col>
             </Row>

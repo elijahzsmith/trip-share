@@ -6,7 +6,7 @@ function OtherFollowing() {
   const history = useHistory();
   const followees = useSelector((state) => state.otherUsers.entities.followees);
   const user = useSelector((state) => state.otherUsers.entities);
-  const mainUser = useSelector((state) => state.users.entities.followees);
+  const mainUser = useSelector((state) => state.users.entities);
 
   const authorized = useSelector((state) => state.users.authorized);
   if (!authorized) {
@@ -15,7 +15,9 @@ function OtherFollowing() {
 
   return (
     <div>
-      {user.name}'s Following: {followees.length}
+      <h1>
+        {user.name}'s Following: {followees.length}
+      </h1>
       {followees.map((followee) => {
         return followee.username !== mainUser.username ? (
           <li

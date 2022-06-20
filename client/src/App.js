@@ -26,22 +26,37 @@ import Followers from "./pages/Followers";
 import OtherFollowers from "./pages/OtherFollowers";
 import OtherUserProfile from "./pages/OtherUserProfile";
 import EditTripPostForm from "./pages/EditTripPostForm";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   const dispatch = useDispatch();
-  // const favorites = useSelector((state) => state.favorites.entities);
+  const authorized = useSelector((state) => state.users.authorized);
 
   useEffect(() => {
     dispatch(setUser());
     dispatch(fetchFavorites());
-    /////////
-    // dispatch(fetchAllOtherUsers());
   }, []);
+
+  if (!authorized) {
+    return (
+      <Switch>
+        <Route exact path="/">
+          <LandingPage />
+        </Route>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/signup">
+          <Signup />
+        </Route>
+      </Switch>
+    );
+  }
 
   return (
     <div className="App">
-      <Navbar />
-      <Switch>
+      <Navbar className="fixed-top" />
+      <Switch className="fluid">
         <Route exact path="/">
           <Home />
         </Route>
