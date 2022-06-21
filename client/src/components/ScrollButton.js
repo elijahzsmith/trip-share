@@ -6,9 +6,9 @@ const ScrollButton = () => {
 
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
-    if (scrolled > 300) {
+    if (scrolled > 200) {
       setVisible(true);
-    } else if (scrolled <= 300) {
+    } else if (scrolled <= 200) {
       setVisible(false);
     }
   };
@@ -23,7 +23,10 @@ const ScrollButton = () => {
   window.addEventListener("scroll", toggleVisible);
 
   return (
-    <Button style={{ display: visible ? "inline" : "none" }}>
+    <Button
+      className="scroll-button"
+      style={{ display: visible ? "inline" : "none" }}
+    >
       <i
         className="bi bi-arrow-up"
         onClick={scrollToTop}

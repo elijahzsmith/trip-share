@@ -28,12 +28,39 @@ $theme-colors: (
   // "nav-bar": $nav-bar,
   // "nav-bar2": $nav-bar2,
   //   "yellow": #fad02c,
-  //   "green": #81b622,,,,,,,,,,,,,,,,,,
+  //   "green": #81b622,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 );
 
 ul {
   list-style-type: none;
 }
+
+@media screen and (max-width: 667px) {
+  #profile-details {
+    display: flex;
+    // flex-flow: "column";
+    // align-items: "center";
+    border: 5px solid red;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    img {
+      max-width: 175px;
+      max-height: 175px;
+    }
+  }
+}
+
+.scroll-button {
+  position: fixed;
+  left: 90%;
+  top: 90%;
+  z-index: 999;
+}
+
+// style={{
+//   justifyContent: "space-between",
+//   display: "flex",
+// }}
 
 // body {
 //   padding-top: 60px;

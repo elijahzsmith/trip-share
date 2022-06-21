@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 import {
   addFavorite,
@@ -17,16 +18,17 @@ import {
   addComment,
   removeComment,
 } from "../features/comments/commentsSlice";
-
-function FavItem({ trip, allComments }) {
+// changed from FavItem (  ????  )
+function TripItem({ trip, allComments, setAlert }) {
   const [showForm, setShowForm] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
+  // const [alert, setAlert] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const mainUser = useSelector((state) => state.users.entities);
-  console.log("IUTIOH", allComments);
+  // console.log("IUTIOH", allComments);
 
   const favoritesArray = useSelector((state) => state.favorites.entities);
 
@@ -81,7 +83,7 @@ function FavItem({ trip, allComments }) {
     return favorite.trip.id === trip.id;
   });
 
-  const handleRemoveFavorite = () => {
+  const handleRemoveFavorite = ({ setAlert }) => {
     const favoriteToRemove = favoritesCount.find(
       (favorite) => favorite.user.id === mainUser.id
     );
@@ -91,6 +93,28 @@ function FavItem({ trip, allComments }) {
   const favoriteButton = favoritesCount.some(
     (el) => el.user.username === mainUser.username
   );
+
+  // function renderAlert() {
+  //   return (
+  //     <Modal show={alert} onHide={() => setAlert(false)}>
+  //       <Modal.Header className="bg-dark text-white" closeButton>
+  //         <Modal.Title >Log In or Sign Up</Modal.Title>
+  //       </Modal.Header>
+  //       <Modal.Body>
+  //         You must be logged in to enter a raffle. Click one of the options below to get raffle ready. Or click away to continue browsing as a guest.
+  //       </Modal.Body>
+  //       <Modal.Footer>
+  //         <Button variant="primary" onClick={() => history.push('/login')}>
+  //           Login
+  //         </Button>
+  //         <Button variant="secondary" className="text-white" onClick={() => history.push('/signup')}>
+  //           Sign Up
+  //         </Button>
+  //       </Modal.Footer>
+  //     </Modal>
+  //   )
+
+  // }
 
   return (
     <Col>
@@ -162,7 +186,7 @@ function FavItem({ trip, allComments }) {
                                 dispatch(removeComment(comment.id))
                               }
                             >
-                              <i className="bi bi-trash"></i>
+                              <i className="bi bi-trash" onClick={setAlert}></i>
                             </button>
                           ) : null}
                         </li>
@@ -217,4 +241,5 @@ function FavItem({ trip, allComments }) {
   );
 }
 
-export default FavItem;
+// changed from FavItem (  ????  )
+export default TripItem;

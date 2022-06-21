@@ -36,26 +36,45 @@ function Profile() {
         <h1>Your Profile</h1>
         {/* <h1>Account Details</h1> */}
         <hr></hr>
-        <Row style={{ maxHeight: 200 }}>
+        <Row
+          id="profile-details"
+          style={{
+            // display: "flex",
+            // flexFlow: "column",
+
+            maxHeight: 200,
+          }}
+        >
           <Col className="w-auto">
             <h2>Name: {currUser.name}</h2>
             <h3>Username: {currUser.username}</h3>
             <h6>Age: {currUser.age}</h6>
           </Col>
-          <Col>
+          <Col
+            // className="d-flex jc-center  ai-center"
+            style={{
+              display: "flex",
+              flexFlow: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <img
               src={currUser.profile_picture}
               alt="profile"
               className="h-50 rounded-circle"
+              // className="h-75 w-75 rounded-circle"
             ></img>
           </Col>
         </Row>
+
         <Row>
           <Col
           // className="pr-none"
           >
             <Button
               className="me-2"
+              variant="turquoise"
               onClick={() => history.push("/editprofile")}
             >
               Edit Profile
@@ -64,27 +83,43 @@ function Profile() {
           <Col
           // className="pr-none"
           >
-            <Button className="me-2" onClick={() => history.push("/mytrips")}>
-              Your Trip Posts
+            <Button
+              className="me-2"
+              variant="turquoise"
+              onClick={() => history.push("/mytrips")}
+            >
+              Your Posts
             </Button>
           </Col>
           <Col
           // className="pr-none"
           >
-            <Button className="me-2" onClick={() => history.push("/favorites")}>
+            <Button
+              className="me-2"
+              variant="turquoise"
+              onClick={() => history.push("/favorites")}
+            >
               Your Favorites
             </Button>
           </Col>
 
           <Col className="pr-none">
-            <Button className="me-2" onClick={() => history.push("/following")}>
+            <Button
+              className="me-2"
+              variant="turquoise"
+              onClick={() => history.push("/following")}
+            >
               Following: {currUser.followees.length}
             </Button>
           </Col>
           <Col
           // className="pr-none"
           >
-            <Button className="me-2" onClick={() => history.push("/followers")}>
+            <Button
+              className="me-2"
+              variant="turquoise"
+              onClick={() => history.push("/followers")}
+            >
               Followers: {currUser.followers.length}
             </Button>
           </Col>
