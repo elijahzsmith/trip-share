@@ -45,9 +45,9 @@ export const postTrip = createAsyncThunk(
       body: JSON.stringify(formData),
     }).then((res) => {
       if (res.ok) {
+        history.push("/mytrips");
         res.json().then((trip) => {
           console.log("trip: ", trip);
-          history.push("/mytrips");
           return trip;
         });
       } else {

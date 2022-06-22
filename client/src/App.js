@@ -23,6 +23,7 @@ import OtherFollowers from "./pages/OtherFollowers";
 import OtherUserProfile from "./pages/OtherUserProfile";
 import EditTripPostForm from "./pages/EditTripPostForm";
 import LandingPage from "./pages/LandingPage";
+import ScrollButton from "./components/ScrollButton";
 
 function App() {
   const dispatch = useDispatch();
@@ -104,6 +105,7 @@ function App() {
           <About />
         </Route>
       </Switch>
+      <ScrollButton />
     </div>
   );
 }

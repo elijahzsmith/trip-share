@@ -7,11 +7,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 
 import { addFavorite, unfavorite } from "../features/favorites/favoritesSlice";
-import {
-  fetchComments,
-  addComment,
-  removeComment,
-} from "../features/comments/commentsSlice";
+// import { addComment } from "../features/comments/commentsSlice";
 
 function TripDetails() {
   let locate = useLocation();
@@ -19,7 +15,7 @@ function TripDetails() {
   const [showComments, setShowComments] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
 
-  const { id, photo_url, location, description, comments, favorites, user } =
+  const { photo_url, location, description, comments, favorites, user } =
     locate.state;
 
   const thisUserAuth = useSelector((state) => state.otherUsers.authenticated);
@@ -42,7 +38,7 @@ function TripDetails() {
     (el) => el.user.username === mainUser.username
   );
 
-  const [showForm, setShowForm] = useState(false);
+  // const [showForm, setShowForm] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -56,9 +52,9 @@ function TripDetails() {
     return <h1>Loading...</h1>;
   }
 
-  const filteredComments = allComments.filter((comment) => {
-    return comment.trip.id === id;
-  });
+  // const filteredComments = allComments.filter((comment) => {
+  //   return comment.trip.id === id;
+  // });
 
   const handleAddFavorite = () => {
     const favoriteObj = {
@@ -68,19 +64,19 @@ function TripDetails() {
     dispatch(addFavorite(favoriteObj));
   };
 
-  const handleChange = (e) => {
-    setCommentData({ ...commentData, [e.target.name]: e.target.value });
-  };
-  const handleAddComment = (e) => {
-    e.preventDefault();
-    const commentObj = {
-      content: commentData.content,
-      user_id: mainUser.id,
-      trip_id: locate.state.id,
-    };
-    dispatch(addComment(commentObj));
-    setShowForm(false);
-  };
+  // const handleChange = (e) => {
+  //   setCommentData({ ...commentData, [e.target.name]: e.target.value });
+  // };
+  // const handleAddComment = (e) => {
+  //   e.preventDefault();
+  //   const commentObj = {
+  //     content: commentData.content,
+  //     user_id: mainUser.id,
+  //     trip_id: locate.state.id,
+  //   };
+  //   dispatch(addComment(commentObj));
+  //   setShowForm(false);
+  // };
 
   const handleRemoveFavorite = () => {
     const favoriteToRemove = favoritesCount.find(
@@ -135,19 +131,21 @@ function TripDetails() {
                 return (
                   <p
                     key={favorite.id}
-                    onClick={() =>
-                      history.push(
-                        `/profile/${favorite.user.id}`,
-                        favorite.user
-                      )
-                    }
+                    onClick={() => {
+                      favorite.user.id !== mainUser.id
+                        ? history.push(
+                            `/profile/${favorite.user.id}`,
+                            favorite.user
+                          )
+                        : history.push(`/profile`);
+                    }}
                   >
                     {favorite.user ? favorite.user.name : null}
                   </p>
                 );
               })
             : null}
-          {locate.state.user_id !== mainUser.id ? (
+          {/* {locate.state.user_id !== mainUser.id ? (
             !favoriteButton ? (
               <Button variant="warning" onClick={() => handleAddFavorite()}>
                 {" "}
@@ -159,7 +157,7 @@ function TripDetails() {
                 <i className="bi bi-heart-fill"></i>{" "}
               </Button>
             )
-          ) : null}
+          ) : null} */}
         </Col>
         <Col>
           <h5 onClick={() => setShowComments((showComments) => !showComments)}>
@@ -167,18 +165,18 @@ function TripDetails() {
           </h5>
           <ul>
             {showComments && comments
-              ? // {showComments && comments && filteredComments
-                // filteredComments.map((comment) => (
-                comments.map((comment) => (
+              ? comments.map((comment) => (
                   <li key={comment.id}>
                     {comment.user ? (
                       <strong
-                        onClick={() =>
-                          history.push(
-                            `/profile/${comment.user.id}`,
-                            comment.user
-                          )
-                        }
+                        onClick={() => {
+                          comment.user.id !== mainUser.id
+                            ? history.push(
+                                `/profile/${comment.user.id}`,
+                                comment.user
+                              )
+                            : history.push(`/profile`);
+                        }}
                       >
                         {comment.user.username}
                       </strong>

@@ -78,7 +78,7 @@ function OtherUsersTripItem({ trip }) {
                 {!favoriteButton ? (
                   <Button variant="warning" onClick={() => handleAddFavorite()}>
                     {" "}
-                    Favorite{" "}
+                    <i class="bi bi-heart"></i>
                   </Button>
                 ) : (
                   <Button
@@ -86,7 +86,7 @@ function OtherUsersTripItem({ trip }) {
                     onClick={() => handleRemoveFavorite()}
                   >
                     {" "}
-                    Unfavorite{" "}
+                    <i class="bi bi-heart-fill"></i>
                   </Button>
                 )}
               </Col>

@@ -10,6 +10,9 @@ import { fetchLogin } from "../features/users/usersSlice";
 function Login() {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  //
+  const [passwordConfirmationInput, setPasswordConfirmationInput] =
+    useState("");
   const authorized = useSelector((state) => state.users.authorized);
   const errors = useSelector((state) => state.users.errors);
 
@@ -19,6 +22,8 @@ function Login() {
   const user = {
     username: usernameInput,
     password: passwordInput,
+    //
+    password_confirmation: passwordConfirmationInput,
   };
 
   useEffect(() => {
@@ -64,6 +69,16 @@ function Login() {
                 onChange={(e) => setPasswordInput(e.target.value)}
                 value={passwordInput}
                 name="password"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password Confirmation</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password Confirmation"
+                onChange={(e) => setPasswordConfirmationInput(e.target.value)}
+                value={passwordConfirmationInput}
+                name="password_confirmation"
               />
             </Form.Group>
             <Row className="d-flex justify-content-center">

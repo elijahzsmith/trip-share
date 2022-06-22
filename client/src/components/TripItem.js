@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
@@ -6,19 +6,10 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 
-import {
-  addFavorite,
-  unfavorite,
-  allComments,
-} from "../features/favorites/favoritesSlice";
-import {
-  fetchComments,
-  addComment,
-  removeComment,
-} from "../features/comments/commentsSlice";
-function TripItem({ trip, allComments, setAlert }) {
+import { addFavorite, unfavorite } from "../features/favorites/favoritesSlice";
+import { addComment, removeComment } from "../features/comments/commentsSlice";
+function TripItem({ trip, allComments }) {
   const [showForm, setShowForm] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
@@ -39,18 +30,10 @@ function TripItem({ trip, allComments, setAlert }) {
     return <h1>Loading...</h1>;
   }
 
-  const {
-    id,
-    location,
-    photo_url,
-    description,
-    user,
-    favorites,
-    comments,
-    user_id,
-  } = trip;
+  const { id, location, photo_url, user } = trip;
 
   const filteredComments = allComments.filter((comment) => {
+    console.log(comment);
     return comment.trip.id === id;
   });
 
@@ -80,7 +63,7 @@ function TripItem({ trip, allComments, setAlert }) {
     return favorite.trip.id === trip.id;
   });
 
-  const handleRemoveFavorite = ({ setAlert }) => {
+  const handleRemoveFavorite = () => {
     const favoriteToRemove = favoritesCount.find(
       (favorite) => favorite.user.id === mainUser.id
     );
@@ -120,16 +103,26 @@ function TripItem({ trip, allComments, setAlert }) {
             ? favoritesCount.map((favorite) => {
                 return (
                   <div key={favorite.id}>
-                    <li
-                      onClick={() =>
-                        history.push(
-                          `/profile/${favorite.user.id}`,
-                          favorite.user
-                        )
-                      }
-                    >
-                      {favorite.user.username}
-                    </li>
+                    {favorite.user.id !== mainUser.id ? (
+                      <li>
+                        <strong
+                          onClick={() =>
+                            history.push(
+                              `/profile/${favorite.user.id}`,
+                              favorite.user
+                            )
+                          }
+                        >
+                          {favorite.user.username}
+                        </strong>
+                      </li>
+                    ) : (
+                      <li>
+                        <strong onClick={() => history.push(`/profile`)}>
+                          {favorite.user.username}
+                        </strong>
+                      </li>
+                    )}
                   </div>
                 );
               })
@@ -143,9 +136,9 @@ function TripItem({ trip, allComments, setAlert }) {
                 name="content"
                 onChange={(e) => handleChange(e)}
               ></input>
-              <button type="submit">
+              <Button type="submit" variant="turquoise">
                 Post Comment <i className="bi bi-chat-text"></i>
-              </button>
+              </Button>
             </form>
           ) : (
             <>
@@ -160,16 +153,22 @@ function TripItem({ trip, allComments, setAlert }) {
                     return (
                       <div key={comment.id}>
                         <li>
-                          <strong
-                            onClick={() =>
-                              history.push(
-                                `/profile/${comment.user.id}`,
-                                comment.user
-                              )
-                            }
-                          >
-                            {comment.user.username}:
-                          </strong>{" "}
+                          {comment.user.id !== mainUser.id ? (
+                            <strong
+                              onClick={() =>
+                                history.push(
+                                  `/profile/${comment.user.id}`,
+                                  comment.user
+                                )
+                              }
+                            >
+                              {comment.user.username}:
+                            </strong>
+                          ) : (
+                            <strong onClick={() => history.push(`/profile`)}>
+                              {comment.user.username}:
+                            </strong>
+                          )}
                           {comment.content}...
                           {comment.user.id === mainUser.id ? (
                             <button
@@ -178,7 +177,7 @@ function TripItem({ trip, allComments, setAlert }) {
                                 dispatch(removeComment(comment.id))
                               }
                             >
-                              <i className="bi bi-trash" onClick={setAlert}></i>
+                              <i className="bi bi-trash"></i>
                             </button>
                           ) : null}
                         </li>

@@ -9,12 +9,9 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/esm/Col";
-import ScrollButton from "../components/ScrollButton";
-import Modal from "react-bootstrap/Modal";
 
 function Home() {
   const [filterPosts, setFilterPosts] = useState(false);
-  const [alert, setAlert] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.users.entities);
@@ -67,45 +64,12 @@ function Home() {
 
   const renderTripsFromFollowing = selectTripsFromFollowing
     ? selectTripsFromFollowing.map((trip) => (
-        <TripItem
-          key={trip.id}
-          trip={trip}
-          allComments={allComments}
-          setAlert={setAlert}
-        />
+        <TripItem key={trip.id} trip={trip} allComments={allComments} />
       ))
     : null;
 
-  function renderAlert() {
-    return (
-      <Modal show={alert} onHide={() => setAlert(false)}>
-        <Modal.Header className="bg-dark text-white" closeButton>
-          <Modal.Title>Log In or Sign Up</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          You must be logged in to enter a raffle. Click one of the options
-          below to get raffle ready. Or click away to continue browsing as a
-          guest.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={() => history.push("/login")}>
-            Login
-          </Button>
-          <Button
-            variant="secondary"
-            className="text-white"
-            onClick={() => history.push("/signup")}
-          >
-            Sign Up
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
   return (
     <Container fluid>
-      {renderAlert()}
       <Row className="d-flex justify-content-end my-2">
         <Col className="mx-auto h-100 my-2">
           <div>
@@ -148,7 +112,6 @@ function Home() {
           </div>
         </Col>
       </Row>
-      <ScrollButton />
     </Container>
   );
 }

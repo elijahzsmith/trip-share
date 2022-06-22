@@ -9,18 +9,16 @@ import MyTripCard from "../components/MyTripCard";
 function MyTrips() {
   const dispatch = useDispatch();
 
+  const mainUser = useSelector((state) => state.users.entities);
+  const allTrips = useSelector((state) => state.trips.entities);
   useEffect(() => {
     dispatch(fetchTrips());
     dispatch(setUser());
-  }, []);
-
-  const mainUser = useSelector((state) => state.users.entities);
-  const allTrips = useSelector((state) => state.trips.entities);
+  }, [allTrips]);
 
   if (!allTrips) {
     return <h1>Loading...</h1>;
   }
-  console.log(allTrips);
 
   const yourTrips = allTrips.filter((trip) => trip.user.id === mainUser.id);
 

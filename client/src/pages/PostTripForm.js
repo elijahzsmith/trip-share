@@ -34,6 +34,7 @@ function PostTripForm() {
       <h1>Loading...</h1>;
     }
     dispatch(postTrip({ ...formData, user_id: user.id }, history));
+    history.push("/mytrips");
   };
 
   return (

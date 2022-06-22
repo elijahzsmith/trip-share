@@ -126,6 +126,7 @@ const usersSlice = createSlice({
       state.entities = action.payload;
       state.status = "idle";
       state.authorized = false;
+      state.errors = [];
     },
     [handleUpdate.pending](state) {
       state.status = "loading";

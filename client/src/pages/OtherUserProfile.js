@@ -95,10 +95,12 @@ function OtherUserProfile() {
               <>
                 {followButtonTwo() ? (
                   <Button variant="warning" onClick={() => handleDelete()}>
-                    Unfollow
+                    <i class="bi bi-person-fill"></i>
                   </Button>
                 ) : (
-                  <Button onClick={() => handleAdd()}>Follow</Button>
+                  <Button onClick={() => handleAdd()}>
+                    <i class="bi bi-person"></i>
+                  </Button>
                 )}{" "}
               </>
             )}

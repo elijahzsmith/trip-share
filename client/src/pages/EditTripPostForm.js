@@ -14,15 +14,7 @@ function EditTripPostForm() {
   let locate = useLocation();
   let thisTrip = locate.state;
 
-  const user = useSelector((state) => state.users.entities);
-  // const allTrips = useSelector((state) => state.trips.entities);
-
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   // dispatch(fetchOneTrip(thisTrip.id));
-  // }, []);
-  const thisTripState = useSelector((state) => state.trips.entities);
-  console.log(thisTripState, "vs", thisTrip.id);
 
   const history = useHistory();
 
