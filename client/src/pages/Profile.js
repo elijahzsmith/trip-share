@@ -34,17 +34,8 @@ function Profile() {
     <Container fluid>
       <Container className="mx-auto mt-5">
         <h1>Your Profile</h1>
-        {/* <h1>Account Details</h1> */}
         <hr></hr>
-        <Row
-          id="profile-details"
-          style={{
-            // display: "flex",
-            // flexFlow: "column",
-
-            maxHeight: 200,
-          }}
-        >
+        <Row id="profile-details" style={{ maxHeight: 200 }}>
           <Col className="w-auto">
             <h2>Name: {currUser.name}</h2>
             <h3>Username: {currUser.username}</h3>

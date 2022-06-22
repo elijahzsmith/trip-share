@@ -11,8 +11,7 @@ function Login() {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const authorized = useSelector((state) => state.users.authorized);
-
-  const [error, setError] = useState();
+  const errors = useSelector((state) => state.users.errors);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -26,11 +25,11 @@ function Login() {
     if (authorized) {
       history.push("/");
     }
-  }, [authorized, history]);
+  }, [authorized, history, errors]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(fetchLogin(user, history, setError));
+    dispatch(fetchLogin(user, history));
   };
 
   return (
@@ -68,20 +67,22 @@ function Login() {
               />
             </Form.Group>
             <Row className="d-flex justify-content-center">
-              {/* <Row className="d-flex justify-content-center mb-2"> */}
               <Button variant="primary" type="submit" className="w-25">
                 Login
               </Button>
             </Row>
 
-            {error ? (
+            {errors.length > 0 ? (
               <Row className="text-danger text-center">
-                <strong>{error}</strong>
+                {errors.map((error) => (
+                  <p key={error.error}>
+                    <strong>{error.error}</strong>
+                  </p>
+                ))}
               </Row>
             ) : null}
           </Form>
         </Row>
-        {/* </Row> */}
 
         <Row className="text-center">
           <h4>Don't have an account?</h4>

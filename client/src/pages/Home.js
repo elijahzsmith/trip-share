@@ -10,10 +10,6 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/esm/Col";
 import ScrollButton from "../components/ScrollButton";
-// import ButtonGroup from "react-bootstrap/esm/ButtonGroup";
-// import InputGroup from "react-bootstrap/InputGroup";
-// import FormControl from "react-bootstrap/FormControl";
-// import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
 
 function Home() {
@@ -158,37 +154,3 @@ function Home() {
 }
 
 export default Home;
-
-{
-  /* {filterPosts ? (
-              <Row className="d-flex justify-content-end my-2">
-                <Col className="mx-auto h-100 my-2">
-                  <InputGroup>
-                    <FormControl
-                      placeholder="Search TripShare..."
-                      aria-label="Search"
-                      aria-describedby="basic-addon2"
-                      name="search"
-                      //   value={currSearch}
-                      //   onChange={(e) => setCurrSearch(e.target.value)}
-                    />
-                    <Dropdown as={ButtonGroup}>
-                      <Button
-                        variant="turquoise"
-                        onClick={() => setFilterPosts(false)}
-                      >
-                        {filterPosts ? (
-                          <i className="bi bi-people"></i>
-                        ) : (
-                          <>
-                            <i class="bi bi-people-fill"></i>
-                            <label>Following</label>
-                          </>
-                        )}
-                      </Button>
-                    </Dropdown>
-                  </InputGroup>
-                </Col>
-              </Row>
-            ) : null} */
-}

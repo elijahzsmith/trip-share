@@ -8,31 +8,24 @@ export const setUser = createAsyncThunk("users/setUser", () => {
   });
 });
 
-export const createSignup = createAsyncThunk(
-  "users/createSignup",
-  (user, history, setError) => {
-    return fetch("/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(user),
-    }).then((res) => {
-      if (res.ok) {
-        // history.push("/");
-        return res.json().then((user) => {
-          return user;
-        });
-      } else {
-        return res.json().then((err) => {
-          setError(err);
-          console.log("error: ", err);
-        });
-      }
-    });
-  }
-);
+export const createSignup = createAsyncThunk("users/createSignup", (user) => {
+  return fetch("/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(user),
+  }).then((res) => {
+    if (res.ok) {
+      return res.json().then((user) => {
+        return user;
+      });
+    } else {
+      return res.json().then((err) => err);
+    }
+  });
+});
 
 export const handleUpdate = createAsyncThunk(
   "users/handleUpdate",
@@ -53,45 +46,39 @@ export const handleUpdate = createAsyncThunk(
           return user;
         });
       } else {
-        return res.json().then((err) => console.log(err));
+        return res.json().then((err) => err);
       }
     });
   }
 );
 
-export const fetchLogin = createAsyncThunk(
-  "users/fetchLogin",
-  (user, history, setError) => {
-    return fetch("/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(user),
-    }).then((res) => {
-      if (res.ok) {
-        // history.push("/");
-        return res.json().then((user) => {
-          return user;
-        });
-      } else {
-        return res.json((error) => setError(error));
-      }
-    });
-  }
-);
+export const fetchLogin = createAsyncThunk("users/fetchLogin", (user) => {
+  return fetch("/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(user),
+  }).then((res) => {
+    if (res.ok) {
+      return res.json().then((user) => {
+        return user;
+      });
+    } else {
+      return res.json((error) => error);
+    }
+  });
+});
 
 export const createLogout = createAsyncThunk(
   "users/createLogout",
   (history) => {
-    console.log(history);
     return fetch("/logout", { method: "DELETE" }).then((res) => {
       if (res.ok) {
         history.push("/login");
         return [];
       }
-      //   // history.push("/login");
     });
   }
 );
@@ -102,6 +89,7 @@ const usersSlice = createSlice({
     entities: [],
     status: "idle",
     authorized: false,
+    errors: [],
   },
   reducers: {},
   extraReducers: {
@@ -113,6 +101,7 @@ const usersSlice = createSlice({
       state.status = "idle";
       if (action.payload.error) {
         state.authorized = false;
+        state.errors.push(action.payload);
       } else {
         state.authorized = true;
       }
@@ -123,8 +112,9 @@ const usersSlice = createSlice({
     [createSignup.fulfilled](state, action) {
       state.entities = action.payload;
       state.status = "idle";
-      if (action.payload.error) {
+      if (action.payload.errors) {
         state.authorized = false;
+        state.errors = action.payload;
       } else {
         state.authorized = true;
       }
@@ -141,7 +131,6 @@ const usersSlice = createSlice({
       state.status = "loading";
     },
     [handleUpdate.fulfilled](state, action) {
-      console.log(action.payload);
       state.entities = action.payload;
       state.status = "idle";
     },
@@ -151,7 +140,6 @@ const usersSlice = createSlice({
     [setUser.fulfilled](state, action) {
       state.entities = action.payload;
       state.status = "idle";
-      // console.log(action.payload);
       if (action.payload) {
         state.authorized = true;
       } else {
@@ -164,16 +152,3 @@ const usersSlice = createSlice({
 export const { handleSignup, handleLogin, handleAuth } = usersSlice.actions;
 
 export default usersSlice.reducer;
-
-// handleSignup(state, action) {
-//   state.entities = action.payload;
-// },
-// handleLogin(state, action) {
-//   state.entities.push(action.payload);
-// },
-// handleAuth(state, action) {
-//   state.entities = action.payload;
-// },
-// handleLogout(state, action) {
-//   state.entities = action.payload;
-// },

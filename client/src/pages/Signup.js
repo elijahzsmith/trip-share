@@ -8,7 +8,6 @@ import Form from "react-bootstrap/esm/Form";
 import { createSignup } from "../features/users/usersSlice";
 
 function Signup() {
-  const [error, setError] = useState();
   const [signUpData, setSignUpData] = useState({
     name: "",
     username: "",
@@ -21,12 +20,13 @@ function Signup() {
   const history = useHistory();
   const dispatch = useDispatch();
   const authorized = useSelector((state) => state.users.authorized);
+  const errors = useSelector((state) => state.users.errors);
 
   useEffect(() => {
     if (authorized) {
       history.push("/");
     }
-  }, [authorized, history]);
+  }, [authorized, history, errors]);
 
   const handleChange = (e) => {
     const key = e.target.name;
@@ -38,19 +38,8 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createSignup(signUpData, history, setError));
-    // setSignUpData({
-    //   name: "",
-    //   username: "",
-    //   email: "",
-    //   password: "",
-    //   age: "",
-    //   profile_picture: "",
-    // });
-    // history.push("/");
+    dispatch(createSignup(signUpData, history));
   };
-
-  // console.log("error in signup", error);
 
   return (
     <Container fluid>
@@ -84,9 +73,7 @@ function Signup() {
                 name="username"
               />
             </Form.Group>
-            {/* IEUIOHFOIUHEOIUHE */}
-            {/* IEUIOHFOIUHEOIUHE */}
-            {/* IEUIOHFOIUHEOIUHE */}
+
             <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -134,13 +121,15 @@ function Signup() {
               </Button>
             </Row>
           </Form>
-          {error
-            ? error.errors.map((err) => (
-                <Row className="text-danger text-center">
-                  <strong>{err}</strong>
-                </Row>
-              ))
-            : null}
+          {errors.errors ? (
+            <Row className="text-danger text-center">
+              {errors.errors.map((error) => (
+                <p key={error}>
+                  <strong>{error}</strong>
+                </p>
+              ))}
+            </Row>
+          ) : null}
         </Row>
 
         <Row className="text-center">

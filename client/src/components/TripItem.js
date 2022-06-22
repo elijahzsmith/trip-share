@@ -18,17 +18,14 @@ import {
   addComment,
   removeComment,
 } from "../features/comments/commentsSlice";
-// changed from FavItem (  ????  )
 function TripItem({ trip, allComments, setAlert }) {
   const [showForm, setShowForm] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
-  // const [alert, setAlert] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const mainUser = useSelector((state) => state.users.entities);
-  // console.log("IUTIOH", allComments);
 
   const favoritesArray = useSelector((state) => state.favorites.entities);
 
@@ -94,28 +91,6 @@ function TripItem({ trip, allComments, setAlert }) {
     (el) => el.user.username === mainUser.username
   );
 
-  // function renderAlert() {
-  //   return (
-  //     <Modal show={alert} onHide={() => setAlert(false)}>
-  //       <Modal.Header className="bg-dark text-white" closeButton>
-  //         <Modal.Title >Log In or Sign Up</Modal.Title>
-  //       </Modal.Header>
-  //       <Modal.Body>
-  //         You must be logged in to enter a raffle. Click one of the options below to get raffle ready. Or click away to continue browsing as a guest.
-  //       </Modal.Body>
-  //       <Modal.Footer>
-  //         <Button variant="primary" onClick={() => history.push('/login')}>
-  //           Login
-  //         </Button>
-  //         <Button variant="secondary" className="text-white" onClick={() => history.push('/signup')}>
-  //           Sign Up
-  //         </Button>
-  //       </Modal.Footer>
-  //     </Modal>
-  //   )
-
-  // }
-
   return (
     <Col>
       <Card className="h-100">
@@ -143,10 +118,18 @@ function TripItem({ trip, allComments, setAlert }) {
 
           {showFavorites && favoritesCount.length >= 1
             ? favoritesCount.map((favorite) => {
-                console.log(favorite);
                 return (
                   <div key={favorite.id}>
-                    <li>{favorite.user.username}</li>
+                    <li
+                      onClick={() =>
+                        history.push(
+                          `/profile/${favorite.user.id}`,
+                          favorite.user
+                        )
+                      }
+                    >
+                      {favorite.user.username}
+                    </li>
                   </div>
                 );
               })
@@ -177,7 +160,16 @@ function TripItem({ trip, allComments, setAlert }) {
                     return (
                       <div key={comment.id}>
                         <li>
-                          <strong>{comment.user.username}:</strong>{" "}
+                          <strong
+                            onClick={() =>
+                              history.push(
+                                `/profile/${comment.user.id}`,
+                                comment.user
+                              )
+                            }
+                          >
+                            {comment.user.username}:
+                          </strong>{" "}
                           {comment.content}...
                           {comment.user.id === mainUser.id ? (
                             <button
@@ -241,5 +233,4 @@ function TripItem({ trip, allComments, setAlert }) {
   );
 }
 
-// changed from FavItem (  ????  )
 export default TripItem;
