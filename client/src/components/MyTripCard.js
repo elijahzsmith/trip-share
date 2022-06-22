@@ -34,7 +34,7 @@ function MyTripCard({ trip }) {
             <Row>
               <Col className="d-flex justify-content-center">
                 <Button
-                  variant="primary"
+                  variant="turquoise"
                   onClick={() => history.push(`/edittrip/${id}`, trip)}
                 >
                   {" "}
@@ -51,7 +51,6 @@ function MyTripCard({ trip }) {
           </Container>
         </Card.Body>
       </Card>
-      {/* )} */}
     </Col>
   );
 }

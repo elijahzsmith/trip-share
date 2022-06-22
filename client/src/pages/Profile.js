@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/esm/Container";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { handleAuth } from "../features/users/usersSlice";
+import { fetchFollows } from "../features/follows/followsSlice";
 import { fetchTrips } from "../features/trips/tripsSlice";
 import MyTripCard from "../components/MyTripCard";
 import Row from "react-bootstrap/Row";
@@ -16,8 +16,18 @@ function Profile() {
   const authorized = useSelector((state) => state.users.authorized);
   useEffect(() => {
     dispatch(fetchTrips());
+    dispatch(fetchFollows());
   }, []);
+
   const allTrips = useSelector((state) => state.trips.entities);
+  const allFollows = useSelector((state) => state.follows.entities);
+
+  const yourFollowing = allFollows.filter(
+    (follow) => follow.follower.id === currUser.id
+  );
+  const yourFollowers = allFollows.filter(
+    (follow) => follow.followee.id === currUser.id
+  );
 
   if (!authorized) {
     return <h1>Login...</h1>;
@@ -42,7 +52,6 @@ function Profile() {
             <h6>Age: {currUser.age}</h6>
           </Col>
           <Col
-            // className="d-flex jc-center  ai-center"
             style={{
               display: "flex",
               flexFlow: "column",
@@ -54,40 +63,36 @@ function Profile() {
               src={currUser.profile_picture}
               alt="profile"
               className="h-50 rounded-circle"
-              // className="h-75 w-75 rounded-circle"
             ></img>
           </Col>
         </Row>
 
         <Row>
-          <Col
-          // className="pr-none"
-          >
+          <Col>
             <Button
               className="me-2"
-              variant="turquoise"
+              // variant="turquoise"
+              variant="primary"
               onClick={() => history.push("/editprofile")}
             >
               Edit Profile
             </Button>
           </Col>
-          <Col
-          // className="pr-none"
-          >
+          <Col>
             <Button
               className="me-2"
-              variant="turquoise"
+              // variant="turquoise"
+              variant="primary"
               onClick={() => history.push("/mytrips")}
             >
               Your Posts
             </Button>
           </Col>
-          <Col
-          // className="pr-none"
-          >
+          <Col>
             <Button
               className="me-2"
-              variant="turquoise"
+              // variant="turquoise"
+              variant="primary"
               onClick={() => history.push("/favorites")}
             >
               Your Favorites
@@ -100,24 +105,21 @@ function Profile() {
               variant="turquoise"
               onClick={() => history.push("/following")}
             >
-              Following: {currUser.followees.length}
+              Following: {yourFollowing.length}
             </Button>
           </Col>
-          <Col
-          // className="pr-none"
-          >
+          <Col>
             <Button
               className="me-2"
               variant="turquoise"
               onClick={() => history.push("/followers")}
             >
-              Followers: {currUser.followers.length}
+              Followers: {yourFollowers.length}
             </Button>
           </Col>
         </Row>
         <br></br>
         <hr></hr>
-        {/* <br></br> */}
       </Container>
       <Container>
         <Row xs={1} sm={2} md={3} lg={4}>

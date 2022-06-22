@@ -25,6 +25,7 @@ const ScrollButton = () => {
   return (
     <Button
       className="scroll-button"
+      variant="warning"
       onClick={scrollToTop}
       style={{ display: visible ? "inline" : "none" }}
     >

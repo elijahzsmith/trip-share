@@ -1,20 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../features/users/usersSlice";
 import { fetchTrips } from "../features/trips/tripsSlice";
 import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/esm/Container";
 import MyTripCard from "../components/MyTripCard";
 
 function MyTrips() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const [showButton, setShowButton] = useState(false);
 
   const mainUser = useSelector((state) => state.users.entities);
   const allTrips = useSelector((state) => state.trips.entities);
   useEffect(() => {
     dispatch(fetchTrips());
-    dispatch(setUser());
-  }, [allTrips]);
+    // dispatch(setUser());
+  }, []);
+  // }, [allTrips]);
 
   if (!allTrips) {
     return <h1>Loading...</h1>;
@@ -37,7 +42,14 @@ function MyTrips() {
   return (
     <Container fluid>
       <Row className="text-center mt-5 mb-3">
-        <h1>My Trips</h1>
+        <h1 onClick={() => setShowButton((showButton) => !showButton)}>
+          My Trips
+        </h1>
+        {showButton ? (
+          <Button onClick={() => history.push("/profile")}>
+            Go to Profile
+          </Button>
+        ) : null}
       </Row>
 
       <Row xs={1} sm={2} md={3} lg={4}>

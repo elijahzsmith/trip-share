@@ -10,7 +10,6 @@ import { fetchLogin } from "../features/users/usersSlice";
 function Login() {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  //
   const [passwordConfirmationInput, setPasswordConfirmationInput] =
     useState("");
   const authorized = useSelector((state) => state.users.authorized);
@@ -22,7 +21,6 @@ function Login() {
   const user = {
     username: usernameInput,
     password: passwordInput,
-    //
     password_confirmation: passwordConfirmationInput,
   };
 

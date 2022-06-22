@@ -85,10 +85,17 @@ function OtherUserProfile() {
           <Col className="w-auto">
             <h2>Name: {user.name}</h2>
             <h3>Username: {user.username}</h3>
-            <Button onClick={() => history.push(`/otherfollowers/${user.id}`)}>
+            <hr></hr>
+            <Button
+              variant="turquoise"
+              onClick={() => history.push(`/otherfollowers/${user.id}`)}
+            >
               Followers: {userFollowers.length}
             </Button>
-            <Button onClick={() => history.push(`/otherfollowing/${user.id}`)}>
+            <Button
+              variant="turquoise"
+              onClick={() => history.push(`/otherfollowing/${user.id}`)}
+            >
               Following: {userFollowing.length}
             </Button>
             {user.username === mainUser.username ? null : (
@@ -113,6 +120,7 @@ function OtherUserProfile() {
             ></img>
           </Col>
         </Row>
+        <hr></hr>
         <Row xs={1} sm={2} md={3} lg={4}>
           {renderTheirTrips}
         </Row>

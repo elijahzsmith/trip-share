@@ -30,6 +30,7 @@ export const createSignup = createAsyncThunk("users/createSignup", (user) => {
 export const handleUpdate = createAsyncThunk(
   "users/handleUpdate",
   (formData, history) => {
+    // console.log("formdata in updata", formData);
     return fetch(`/users/${formData.id}`, {
       method: "PATCH",
       headers: {
@@ -40,13 +41,17 @@ export const handleUpdate = createAsyncThunk(
     }).then((res) => {
       if (res.ok) {
         console.log("update response: ", res);
-        history.push("/profile");
+        // history.push("/profile");
         return res.json().then((user) => {
-          console.log(user);
+          console.log("success");
           return user;
         });
       } else {
-        return res.json().then((err) => err);
+        console.log("failure");
+        return res.json().then((err) => {
+          // console.log("error in response", err);
+          return err;
+        });
       }
     });
   }
@@ -132,7 +137,14 @@ const usersSlice = createSlice({
       state.status = "loading";
     },
     [handleUpdate.fulfilled](state, action) {
-      state.entities = action.payload;
+      if (action.payload.errors) {
+        state.authorized = false;
+        state.errors = action.payload;
+      } else {
+        // state.entities = state.entities.push(action.payload);
+        state.entities = action.payload;
+        state.authorized = true;
+      }
       state.status = "idle";
     },
     [setUser.pending](state) {

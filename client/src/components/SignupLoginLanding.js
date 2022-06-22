@@ -19,7 +19,7 @@ function SignupLoginLanding() {
           <Card.Title className="text-center">{}</Card.Title>
           <Container className="ms-2">
             <Row>
-              <Col className="d-flex justify-content-center">
+              <Col className="d-flex flex-column justify-content-center">
                 <Button
                   variant="turquoise"
                   onClick={() => history.push("/login")}
@@ -27,7 +27,7 @@ function SignupLoginLanding() {
                   Login
                 </Button>
                 <Button
-                  variant="turquoise"
+                  // variant="turquoise"
                   onClick={() => history.push("/signup")}
                 >
                   Signup

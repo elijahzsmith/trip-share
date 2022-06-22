@@ -33,7 +33,6 @@ function TripItem({ trip, allComments }) {
   const { id, location, photo_url, user } = trip;
 
   const filteredComments = allComments.filter((comment) => {
-    console.log(comment);
     return comment.trip.id === id;
   });
 
@@ -202,7 +201,7 @@ function TripItem({ trip, allComments }) {
                       variant="turquoise"
                       onClick={() => setShowForm((showForm) => !showForm)}
                     >
-                      <i className="bi bi-chat-text"></i>
+                      Comment<i className="bi bi-chat-text"></i>
                     </Button>
                     {!favoriteButton ? (
                       <Button
@@ -210,7 +209,7 @@ function TripItem({ trip, allComments }) {
                         onClick={() => handleAddFavorite()}
                       >
                         {" "}
-                        <i className="bi bi-heart"></i>
+                        Favorite<i className="bi bi-heart"></i>
                       </Button>
                     ) : (
                       <Button
@@ -218,7 +217,7 @@ function TripItem({ trip, allComments }) {
                         onClick={() => handleRemoveFavorite()}
                       >
                         {" "}
-                        <i className="bi bi-heart-fill"></i>{" "}
+                        Unfavorite<i className="bi bi-heart-fill"></i>{" "}
                       </Button>
                     )}
                   </>

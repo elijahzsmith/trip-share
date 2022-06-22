@@ -94,9 +94,14 @@ function TripDetails() {
         <Col className="col-md-8 text-md-start col-12 text-center my-auto ">
           <h1>{location}</h1>
         </Col>
-        <Col className="text-md-end text-center my-auto text-success">
+        <Col
+          className="text-md-end text-center my-auto text-primary"
+          // text-primary
+          // text-success
+        >
           {user.id !== mainUser.id ? (
             <h2
+              // variant="primary"
               onClick={() =>
                 history.push(`/profile/${locate.state.user_id}`, user)
               }
@@ -104,7 +109,10 @@ function TripDetails() {
               {user ? user.name : null}
             </h2>
           ) : (
-            <h2 onClick={() => history.push(`/profile`, user)}>
+            <h2
+              // variant="primary"
+              onClick={() => history.push(`/profile`, user)}
+            >
               {user ? user.name : null}
             </h2>
           )}
