@@ -27,7 +27,6 @@ function SignupLoginLanding() {
                   Login
                 </Button>
                 <Button
-                  // variant="turquoise"
                   onClick={() => history.push("/signup")}
                 >
                   Signup

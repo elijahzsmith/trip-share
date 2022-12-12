@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { unfavorite } from "../features/favorites/favoritesSlice";
@@ -14,7 +14,7 @@ function FavItem({ fav }) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { id, location, photo_url, description, favorites } = fav;
+  const { id, location, photo_url, favorites } = fav;
 
   const yourFavoriteForThisPost = favorites.filter(
     (favorite) => favorite.user.id === mainUser.id && favorite.trip.id === id

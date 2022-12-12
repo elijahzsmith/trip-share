@@ -4,7 +4,6 @@ export const fetchComments = createAsyncThunk("comments/fetchComments", () => {
   return fetch("/comments")
     .then((res) => res.json())
     .then((comments) => {
-      // console.log(comments);
       return comments;
     });
 });

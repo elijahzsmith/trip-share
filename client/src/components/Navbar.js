@@ -14,7 +14,6 @@ function NavBar() {
 
   const dispatchLogout = () => {
     dispatch(createLogout(history));
-    // history.push("/login");
   };
 
   return (

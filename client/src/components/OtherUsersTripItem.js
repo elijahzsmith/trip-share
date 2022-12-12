@@ -13,13 +13,8 @@ function OtherUsersTripItem({ trip }) {
     id,
     location,
     photo_url,
-    // user,
-    // comments,
-    // description,
-    // user_id,
-    // favorites,
   } = trip;
-  // console.log("trip otherUser: ", trip);
+
   const history = useHistory();
   const dispatch = useDispatch();
 
