@@ -5,27 +5,15 @@ import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/esm/Form";
-import { handleUpdate } from "../features/users/usersSlice";
+import { handleUpdate, setUser } from "../features/users/usersSlice";
 
 function EditProfileForm() {
+  const [showButton, setShowButton] = useState(false);
   const user = useSelector((state) => state.users.entities);
   const errors = useSelector((state) => state.users.errors);
   const authorized = useSelector((state) => state.users.authorized);
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log("errors: TEST", errors);
-
-  // useEffect(() => {
-  //   if (!errors) {
-  //     history.push("/profile");
-  //   }
-  // }, [errors]);
-
-  // useEffect(() => {
-  //   if (!errors) {
-  //     history.push("/");
-  //   }
-  // }, [authorized, history, errors]);
 
   const [formData, setFormData] = useState({
     id: user.id,
@@ -46,9 +34,7 @@ function EditProfileForm() {
 
   const handleEditProfile = (e) => {
     e.preventDefault();
-    // console.log(formData);
-    dispatch(handleUpdate(formData, history));
-    history.push("/profile");
+    dispatch(handleUpdate({ formData, history }));
   };
 
   return (
@@ -56,6 +42,11 @@ function EditProfileForm() {
       <Container className="mx-auto mt-5">
         <Row className="text-center">
           <h1>Edit Profile</h1>
+          {showButton ? (
+            <Button onClick={() => history.push("/profile")}>
+              Return to Profile?
+            </Button>
+          ) : null}
         </Row>
 
         <Row className="mb-5">
@@ -112,6 +103,18 @@ function EditProfileForm() {
             </Form.Group>
 
             <Row className="d-flex justify-content-center mt-4">
+              {errors.errors ? (
+                <Row className="text-danger text-center">
+                  {errors.errors.map((error) => {
+                    console.log(errors, "and", error);
+                    return (
+                      <p>
+                        <strong>{error}</strong>
+                      </p>
+                    );
+                  })}
+                </Row>
+              ) : null}
               <Button variant="primary" type="submit" className="w-25">
                 Save Changes
               </Button>
@@ -128,8 +131,7 @@ function EditProfileForm() {
             Exit Edit Form
           </Button>
         </Row>
-        {/* {errors.length > 0 ? ( */}
-        {errors.errors ? (
+        {/* {errors.errors ? (
           <Row className="text-danger text-center">
             {errors.errors.map((error) => {
               console.log(errors, "and", error);
@@ -139,15 +141,6 @@ function EditProfileForm() {
                 </p>
               );
             })}
-          </Row>
-        ) : null}
-        {/* {errors.length > 0 ? (
-          <Row className="text-danger text-center">
-            {errors.map((error) => (
-              <p key={error.error}>
-                <strong>{error.error}</strong>
-              </p>
-            ))}
           </Row>
         ) : null} */}
       </Container>

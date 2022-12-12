@@ -1,11 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, unfavorite } from "../features/favorites/favoritesSlice";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, unfavorite } from "../features/favorites/favoritesSlice";
 import Button from "react-bootstrap/Button";
 
 function OtherUsersTripItem({ trip }) {

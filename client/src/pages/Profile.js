@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFollows } from "../features/follows/followsSlice";
 import { fetchTrips } from "../features/trips/tripsSlice";
+import { setUser } from "../features/users/usersSlice";
 import MyTripCard from "../components/MyTripCard";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -17,6 +18,7 @@ function Profile() {
   useEffect(() => {
     dispatch(fetchTrips());
     dispatch(fetchFollows());
+    dispatch(setUser());
   }, []);
 
   const allTrips = useSelector((state) => state.trips.entities);

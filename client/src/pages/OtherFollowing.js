@@ -18,7 +18,7 @@ function OtherFollowing() {
     if (followees.length > 1) {
       return `${followees.length} followers`;
     } else if (followees.length === 1) {
-      return `${followees.length} follower`;
+      return `${followees.length} user`;
     } else {
       return `no one`;
     }

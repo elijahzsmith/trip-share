@@ -29,8 +29,7 @@ export const createSignup = createAsyncThunk("users/createSignup", (user) => {
 
 export const handleUpdate = createAsyncThunk(
   "users/handleUpdate",
-  (formData, history) => {
-    // console.log("formdata in updata", formData);
+  ({ formData, history }) => {
     return fetch(`/users/${formData.id}`, {
       method: "PATCH",
       headers: {
@@ -40,16 +39,14 @@ export const handleUpdate = createAsyncThunk(
       body: JSON.stringify(formData),
     }).then((res) => {
       if (res.ok) {
-        console.log("update response: ", res);
-        // history.push("/profile");
+        console.log(history);
+        history.push("/profile");
         return res.json().then((user) => {
-          console.log("success");
           return user;
         });
       } else {
         console.log("failure");
         return res.json().then((err) => {
-          // console.log("error in response", err);
           return err;
         });
       }
@@ -81,6 +78,7 @@ export const createLogout = createAsyncThunk(
   (history) => {
     return fetch("/logout", { method: "DELETE" }).then((res) => {
       if (res.ok) {
+        console.log(history);
         history.push("/login");
         return [];
       }
@@ -137,15 +135,15 @@ const usersSlice = createSlice({
       state.status = "loading";
     },
     [handleUpdate.fulfilled](state, action) {
+      state.status = "idle";
       if (action.payload.errors) {
-        state.authorized = false;
+        state.errors = [];
         state.errors = action.payload;
       } else {
-        // state.entities = state.entities.push(action.payload);
         state.entities = action.payload;
+        state.errors = [];
         state.authorized = true;
       }
-      state.status = "idle";
     },
     [setUser.pending](state) {
       state.status = "loading";
@@ -155,6 +153,7 @@ const usersSlice = createSlice({
       state.status = "idle";
       if (action.payload) {
         state.authorized = true;
+        state.errors = [];
       } else {
         state.authorized = false;
       }

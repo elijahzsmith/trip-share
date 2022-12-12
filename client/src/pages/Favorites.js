@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import FavItem from "../components/FavItem";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchTrips } from "../features/trips/tripsSlice";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
+import Button from "react-bootstrap/Button";
 
 function Favorites() {
   const favorites = useSelector((state) => state.favorites.entities);
+  const [showButton, setShowButton] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   useEffect(() => {
     dispatch(fetchTrips());
   }, [favorites]);
@@ -28,7 +32,14 @@ function Favorites() {
   return (
     <Container fluid>
       <Row className="text-center mt-5">
-        <h1>Favorites</h1>
+        <h1 onClick={() => setShowButton((showButton) => !showButton)}>
+          Favorites
+        </h1>
+        {showButton ? (
+          <Button onClick={() => history.push("/profile")}>
+            Go to Profile
+          </Button>
+        ) : null}
       </Row>
       <hr></hr>
       <br></br>
