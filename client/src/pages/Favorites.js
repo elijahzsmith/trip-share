@@ -43,9 +43,23 @@ function Favorites() {
       </Row>
       <hr></hr>
       <br></br>
+      {renderFavorites.length > 0 ? (
       <Row xs={1} sm={2} md={3} lg={4}>
         {renderFavorites}
       </Row>
+      ) : (
+        <div>
+         <h1>No Favorites</h1>
+         {/* update the h3 from 'following' to 'explore' page, + 'view' to 'find' */}
+         <h3>Visit the following page to view posts!</h3> 
+         <Button onClick={() => {
+              history.push('/')
+              // consider goToExplorePage(true)
+            }}>
+              Home
+          </Button>
+        </div>
+      )}
     </Container>
   );
 }
